@@ -1,14 +1,26 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
-import { type VitePWAOptions } from "vite-plugin-pwa";
+import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// @ts-expect-error dede
 const pwaConfig: Partial<VitePWAOptions> = {
-  manifest: {},
+  manifest: {
+    name: "Fluorite",
+    short_name: "Fluorite",
+    description: "",
+    start_url: "",
+    display: "standalone",
+    orientation: "landscape-primary",
+    prefer_related_applications: false,
+    related_applications: [],
+    dir: "ltr",
+    lang: "en_US",
+    theme_color: "#000000",
+    icons: [],
+  },
+  disable: true,
 };
 
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), VitePWA(pwaConfig)],
 });
