@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { ChangeEvent } from "react";
 import {
   HiPlay,
@@ -32,9 +33,11 @@ interface ControlBarProps {
 }
 
 export default function ControlBar(props: ControlBarProps) {
+  const [isVolumeHovered, setIsVolumeHovered] = useState(false);
+
   return (
     <div
-      className={`absolute right-0 bottom-0 left-0 space-y-3 bg-gradient-to-t from-black/80 via-black/60 to-transparent p-4 text-white transition-all duration-300 ${
+      className={`absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent px-4 py-0 text-white transition-all duration-300 ${
         props.showControls
           ? "translate-y-0 opacity-100"
           : "translate-y-full opacity-0"
@@ -47,21 +50,20 @@ export default function ControlBar(props: ControlBarProps) {
         <span className="min-w-[40px] font-mono text-sm">
           {props.formatTime(props.currentTime)}
         </span>
-        <div className="flex-1">
-          <input
-            type="range"
-            min="0"
-            max={props.duration || 0}
-            value={props.currentTime}
-            onChange={props.onSeek}
-            onMouseDown={props.onSeekStart}
-            onMouseUp={props.onSeekEnd}
-            onTouchStart={props.onSeekStart}
-            onTouchEnd={props.onSeekEnd}
-            className="slider h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-600"
-            disabled={!props.videoSrc}
-          />
-        </div>
+        <input
+          type="range"
+          min="0"
+          max={props.duration || 0}
+          step="0.1"
+          value={props.currentTime}
+          onChange={props.onSeek}
+          onMouseDown={props.onSeekStart}
+          onMouseUp={props.onSeekEnd}
+          onTouchStart={props.onSeekStart}
+          onTouchEnd={props.onSeekEnd}
+          className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-600 focus:outline-none"
+          disabled={!props.videoSrc}
+        />
         <span className="min-w-[40px] font-mono text-sm">
           {props.formatTime(props.duration)}
         </span>
@@ -69,26 +71,34 @@ export default function ControlBar(props: ControlBarProps) {
 
       {/* Control Buttons */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center">
           {/* Play/Pause Button */}
           <button
             onClick={props.onTogglePlayPause}
             disabled={!props.videoSrc}
-            className="rounded-full p-2 transition-colors duration-200 hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-12 w-12 items-center justify-center rounded-full transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {props.isPlaying ? (
-              <HiPause className="h-6 w-6" />
+              <HiPause className="h-7 w-7" />
             ) : (
-              <HiPlay className="h-6 w-6" />
+              <HiPlay className="h-7 w-7" />
             )}
           </button>
 
           {/* Volume Controls */}
-          <div className="flex items-center space-x-2">
+          <div
+            className="relative flex items-center"
+            onMouseEnter={() => {
+              setIsVolumeHovered(true);
+            }}
+            onMouseLeave={() => {
+              setIsVolumeHovered(false);
+            }}
+          >
             <button
               onClick={props.onToggleMute}
               disabled={!props.videoSrc}
-              className="rounded-full p-2 transition-colors duration-200 hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-12 w-12 items-center justify-center rounded-full transition-colors duration-200 hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {props.isMuted || props.volume === 0 ? (
                 <HiSpeakerXMark className="h-5 w-5" />
@@ -96,16 +106,27 @@ export default function ControlBar(props: ControlBarProps) {
                 <HiSpeakerWave className="h-5 w-5" />
               )}
             </button>
-            <input
-              type="range"
-              min="0"
-              max="1"
-              step="0.1"
-              value={props.isMuted ? 0 : props.volume}
-              onChange={props.onVolumeChange}
-              disabled={!props.videoSrc}
-              className="slider h-1 w-20 cursor-pointer appearance-none rounded-lg bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50"
-            />
+            <div
+              className={`flex h-12 items-center justify-center overflow-hidden transition-all duration-300 ${
+                isVolumeHovered
+                  ? "ml-2 max-w-20 opacity-100"
+                  : "ml-0 max-w-0 opacity-0"
+              }`}
+            >
+              <input
+                type="range"
+                min="0"
+                max="1"
+                step="0.1"
+                value={props.isMuted ? 0 : props.volume}
+                onChange={props.onVolumeChange}
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                }}
+                disabled={!props.videoSrc}
+                className="h-2 w-20 cursor-pointer appearance-none rounded-lg bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50"
+              />
+            </div>
           </div>
         </div>
 
@@ -125,7 +146,7 @@ export default function ControlBar(props: ControlBarProps) {
             onClick={props.onOpenFile}
             className="flex items-center space-x-2 rounded-md bg-white/20 px-4 py-2 text-sm transition-colors duration-200 hover:bg-white/30"
           >
-            <HiFolderOpen className="h-4 w-4" />
+            <HiFolderOpen className="h-5 w-5" />
             <span>Open File</span>
           </button>
         </div>
