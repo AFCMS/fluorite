@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* Disable all focus outlines */
+*:focus {
+  outline: none !important;
+}
+
+*:focus-visible {
+  outline: none !important;
+}
