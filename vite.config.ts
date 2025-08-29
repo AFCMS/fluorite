@@ -8,7 +8,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
     name: "Fluorite",
     short_name: "Fluorite",
     description: "",
-    start_url: "",
+    start_url: "/",
     display: "standalone",
     orientation: "landscape-primary",
     prefer_related_applications: false,
