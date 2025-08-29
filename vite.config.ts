@@ -15,7 +15,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
     related_applications: [],
     dir: "ltr",
     lang: "en_US",
-    theme_color: "oklch(68.5% 0.169 237.323)",
+    theme_color: "#00a6f4",
     icons: [],
   },
 };
