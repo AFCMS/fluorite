@@ -104,6 +104,13 @@ function App() {
       } else if (e.key === "ArrowLeft") {
         e.preventDefault();
         videoPlayer.seekBy(-5);
+      } else if (e.key === " " || e.key === "Space" || e.code === "Space") {
+        // Avoid double toggle if focused on an actual button (space triggers click)
+        const targetTag = (e.target as HTMLElement).tagName;
+        if (targetTag !== "BUTTON") {
+          e.preventDefault();
+          videoPlayer.togglePlayPause();
+        }
       }
     };
     document.addEventListener("keydown", handleKey);
