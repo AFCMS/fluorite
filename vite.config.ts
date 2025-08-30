@@ -19,10 +19,12 @@ const pwaConfig: Partial<VitePWAOptions> = {
     icons: [],
   },
   pwaAssets: {
-    htmlPreset: "2023",
-    injectThemeColor: true,
-    includeHtmlHeadLinks: true,
+    preset: "minimal-2023",
     image: "./public/vite.svg",
+    htmlPreset: "2023",
+    includeHtmlHeadLinks: true,
+    overrideManifestIcons: true,
+    injectThemeColor: true,
   },
 };
 
