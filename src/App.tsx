@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { HiFilm } from "react-icons/hi2";
+
+import { useRegisterSW } from "virtual:pwa-register/react";
+
 import ControlBar from "./components/ControlBar";
 import { useVideoPlayer, useUIControls, useFileHandler } from "./hooks";
+
 import "./App.css";
 
 function App() {
@@ -81,6 +85,31 @@ function App() {
     };
   }, [videoPlayer]);
 
+  const { updateServiceWorker } = useRegisterSW({
+    immediate: true,
+    onNeedRefresh() {
+      void updateServiceWorker(true)
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err: unknown) => {
+          console.error("SW update failed", err);
+        });
+    },
+    onRegisteredSW(_swUrl, r) {
+      setInterval(
+        () => {
+          if (r && typeof r.update === "function") {
+            r.update().catch((err: unknown) => {
+              console.warn("SW periodic update check failed", err);
+            });
+          }
+        },
+        60 * 60 * 1000,
+      );
+    },
+  });
+
   return (
     <div
       className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 ${
@@ -158,6 +187,8 @@ function App() {
         onOpenFile={fileHandler.openFileDialog}
         formatTime={videoPlayer.formatTime}
       />
+
+      {/* SW update handled silently; add UI here if you want to notify users. */}
 
       {/* Drag Overlay */}
       {uiControls.isDragOver && (

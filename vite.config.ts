@@ -4,6 +4,12 @@ import tailwindcss from "@tailwindcss/vite";
 import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa";
 
 const pwaConfig: Partial<VitePWAOptions> = {
+  registerType: "autoUpdate",
+  strategies: "generateSW",
+  workbox: {
+    clientsClaim: true,
+    skipWaiting: true,
+  },
   manifest: {
     name: "Fluorite",
     short_name: "Fluorite",
