@@ -18,6 +18,12 @@ const pwaConfig: Partial<VitePWAOptions> = {
     theme_color: "#00a6f4",
     icons: [],
   },
+  pwaAssets: {
+    htmlPreset: "2023",
+    injectThemeColor: true,
+    includeHtmlHeadLinks: true,
+    image: "./public/vite.svg",
+  },
 };
 
 export default defineConfig({
