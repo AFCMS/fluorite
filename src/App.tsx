@@ -16,6 +16,9 @@ function App() {
     onVideoFile: (file: File) => {
       const url = URL.createObjectURL(file);
       videoPlayer.loadVideo(url);
+
+      const baseName = file.name.replace(/\.[^.]+$/, "");
+      document.title = baseName;
     },
     onDragStateChange: () => {
       // Drag state changes are handled directly in the component
@@ -48,6 +51,8 @@ function App() {
       const file = files[0];
       const url = URL.createObjectURL(file);
       videoPlayer.loadVideo(url);
+      const baseName = file.name.replace(/\.[^.]+$/, "");
+      document.title = baseName;
     }
   };
 
