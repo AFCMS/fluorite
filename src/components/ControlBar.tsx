@@ -61,6 +61,23 @@ export default function ControlBar(props: ControlBarProps) {
           onMouseUp={props.onSeekEnd}
           onTouchStart={props.onSeekStart}
           onTouchEnd={props.onSeekEnd}
+          onKeyDown={(e) => {
+            // Prevent arrow / home / end / page keys from moving the slider while focused
+            if (
+              [
+                "ArrowLeft",
+                "ArrowRight",
+                "ArrowUp",
+                "ArrowDown",
+                "Home",
+                "End",
+                "PageUp",
+                "PageDown",
+              ].includes(e.key)
+            ) {
+              e.preventDefault();
+            }
+          }}
           className="range-styled w-full"
           disabled={!props.videoSrc}
         />
