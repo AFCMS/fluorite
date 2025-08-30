@@ -98,8 +98,6 @@ function App() {
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (!videoPlayer.videoSrc) return;
-      if (["INPUT", "TEXTAREA"].includes((e.target as HTMLElement).tagName))
-        return;
       if (e.key === "ArrowRight") {
         e.preventDefault();
         videoPlayer.seekBy(5);
