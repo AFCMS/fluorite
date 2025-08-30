@@ -10,6 +10,7 @@ interface FileHandlerHook {
   handleDragLeave: (event: DragEvent) => void;
   handleDrop: (event: DragEvent) => void;
   openFileDialog: () => void;
+  processFile: (file: File) => void;
 }
 
 interface FileHandlerOptions {
@@ -95,5 +96,6 @@ export const useFileHandler = ({
     handleDragLeave,
     handleDrop,
     openFileDialog,
+    processFile: handleVideoFile,
   };
 };

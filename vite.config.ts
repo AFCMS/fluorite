@@ -23,6 +23,14 @@ const pwaConfig: Partial<VitePWAOptions> = {
     lang: "en",
     theme_color: "#000000",
     icons: [],
+    file_handlers: [
+      {
+        action: "./",
+        accept: {
+          "video/*": [".mp4", ".mkv", ".webm", ".mov", ".avi", ".flv", ".wmv"],
+        },
+      },
+    ],
   },
   pwaAssets: {
     preset: "minimal-2023",

@@ -56,6 +56,30 @@ function App() {
     }
   };
 
+  // File Handler
+  useEffect(() => {
+    if (window.launchQueue) {
+      window.launchQueue.setConsumer(async (launchParams) => {
+        if (launchParams.files?.length) {
+          // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+          const handles: FileSystemFileHandle[] = launchParams.files || [];
+          for (const handle of handles) {
+            // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+            if (handle.kind === "file") {
+              try {
+                const file = await handle.getFile();
+                fileHandler.processFile(file);
+              } catch (e) {
+                console.warn("Failed to load file from handle", e);
+              }
+              return;
+            }
+          }
+        }
+      });
+    }
+  }, [fileHandler]);
+
   // Auto-play when video loads
   useEffect(() => {
     if (videoPlayer.videoSrc && videoPlayer.videoRef.current) {
@@ -70,7 +94,7 @@ function App() {
     }
   }, [videoPlayer.videoSrc, videoPlayer.videoRef]);
 
-  // Keyboard shortcuts: Left/Right arrow seek ±5s
+  // Keyboard shortcuts: Left/Right arrow seek 5s
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (!videoPlayer.videoSrc) return;
@@ -90,6 +114,7 @@ function App() {
     };
   }, [videoPlayer]);
 
+  // Service Worker registration and update handling
   const { updateServiceWorker } = useRegisterSW({
     immediate: true,
     onNeedRefresh() {
