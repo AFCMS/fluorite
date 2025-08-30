@@ -11,5 +11,8 @@
     },
     "[javascript]": {
         "editor.tabSize": 2
+    },
+    "[tailwindcss]": {
+        "editor.tabSize": 2
     }
 }

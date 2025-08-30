@@ -1,0 +1,43 @@
+.range-styled {
+  --track-height: calc(var(--spacing) * 2);
+  --thumb-height: calc(var(--spacing) * 4);
+  --track-color: var(--color-sky-50);
+  --thumb-color: var(--color-sky-500);
+  appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.range-styled:disabled {
+  cursor: not-allowed;
+}
+
+.range-styled::-webkit-slider-runnable-track {
+  background-color: var(--track-color);
+  height: var(--track-height);
+  border-radius: var(--spacing);
+}
+
+.range-styled::-moz-range-track {
+  background-color: var(--track-color);
+  height: var(--track-height);
+  border-radius: var(--spacing);
+}
+
+.range-styled::-webkit-slider-thumb {
+  appearance: none;
+  background-color: var(--thumb-color);
+  width: var(--thumb-height);
+  height: var(--thumb-height);
+  border-radius: calc(infinity * 1px);
+  margin-top: calc((var(--track-height) / 2) - (var(--thumb-height) / 2));
+}
+
+.range-styled::-moz-range-thumb {
+  appearance: none;
+  background-color: var(--thumb-color);
+  width: var(--thumb-height);
+  height: var(--thumb-height);
+  border-radius: calc(infinity * 1px);
+  border: none;
+}

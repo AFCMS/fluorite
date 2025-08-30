@@ -61,7 +61,7 @@ export default function ControlBar(props: ControlBarProps) {
           onMouseUp={props.onSeekEnd}
           onTouchStart={props.onSeekStart}
           onTouchEnd={props.onSeekEnd}
-          className="h-2 w-full cursor-pointer appearance-none rounded-lg bg-gray-600 focus:outline-none"
+          className="range-styled w-full"
           disabled={!props.videoSrc}
         />
         <span className="min-w-[40px] font-mono text-sm">
@@ -124,7 +124,7 @@ export default function ControlBar(props: ControlBarProps) {
                   e.preventDefault();
                 }}
                 disabled={!props.videoSrc}
-                className="h-2 w-20 cursor-pointer appearance-none rounded-lg bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50"
+                className="range-styled w-20 overflow-visible"
               />
             </div>
           </div>
