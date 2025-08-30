@@ -61,6 +61,26 @@ function App() {
     }
   }, [videoPlayer.videoSrc, videoPlayer.videoRef]);
 
+  // Keyboard shortcuts: Left/Right arrow seek ±5s
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (!videoPlayer.videoSrc) return;
+      if (["INPUT", "TEXTAREA"].includes((e.target as HTMLElement).tagName))
+        return;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        videoPlayer.seekBy(5);
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        videoPlayer.seekBy(-5);
+      }
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [videoPlayer]);
+
   return (
     <div
       className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 ${

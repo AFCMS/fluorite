@@ -1,12 +1,12 @@
-import { useRef, useState, useCallback, useEffect } from 'react';
-import type { ChangeEvent } from 'react';
-import { 
-  getStoredVolume, 
-  getStoredMuteState, 
-  storeVolume, 
-  storeMuteState, 
-  formatTime 
-} from '../utils';
+import { useRef, useState, useCallback, useEffect } from "react";
+import type { ChangeEvent } from "react";
+import {
+  getStoredVolume,
+  getStoredMuteState,
+  storeVolume,
+  storeMuteState,
+  formatTime,
+} from "../utils";
 
 interface VideoState {
   isPlaying: boolean;
@@ -28,26 +28,27 @@ interface VideoPlayerHook extends VideoState {
   handleVolumeChange: (e: ChangeEvent<HTMLInputElement>) => void;
   toggleMute: () => void;
   loadVideo: (src: string) => void;
+  seekBy: (deltaSeconds: number) => void;
   // Utility methods
   formatTime: (time: number) => string;
 }
 
 export const useVideoPlayer = (): VideoPlayerHook => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  
+
   // Initialize volume and mute state from localStorage
   const [volume, setVolume] = useState(() => getStoredVolume());
   const [isMuted, setIsMuted] = useState(() => getStoredMuteState());
-  
+
   // Keep track of the last non-zero volume for unmuting
   const lastVolumeRef = useRef(volume > 0 ? volume : 1);
-  
+
   // Other video states
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
-  const [videoSrc, setVideoSrc] = useState<string>('');
+  const [videoSrc, setVideoSrc] = useState<string>("");
 
   // Apply stored volume and mute state when video loads
   useEffect(() => {
@@ -108,14 +109,14 @@ export const useVideoPlayer = (): VideoPlayerHook => {
       if (!isSeeking) {
         const newVolume = video.volume;
         const newMuted = video.muted || newVolume === 0;
-        
+
         setVolume(newVolume);
         setIsMuted(newMuted);
-        
+
         // Store the changes
         storeVolume(newVolume);
         storeMuteState(newMuted);
-        
+
         // Update last non-zero volume
         if (newVolume > 0) {
           lastVolumeRef.current = newVolume;
@@ -123,12 +124,12 @@ export const useVideoPlayer = (): VideoPlayerHook => {
       }
     };
 
-    video.addEventListener('loadedmetadata', handleLoadedMetadata);
-    video.addEventListener('timeupdate', handleTimeUpdate);
-    video.addEventListener('play', handlePlay);
-    video.addEventListener('pause', handlePause);
-    video.addEventListener('ended', handleEnded);
-    video.addEventListener('volumechange', handleVolumeChange);
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    video.addEventListener("play", handlePlay);
+    video.addEventListener("pause", handlePause);
+    video.addEventListener("ended", handleEnded);
+    video.addEventListener("volumechange", handleVolumeChange);
 
     // Start updating if video is already playing
     if (!video.paused && !video.ended) {
@@ -136,12 +137,12 @@ export const useVideoPlayer = (): VideoPlayerHook => {
     }
 
     return () => {
-      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      video.removeEventListener('timeupdate', handleTimeUpdate);
-      video.removeEventListener('play', handlePlay);
-      video.removeEventListener('pause', handlePause);
-      video.removeEventListener('ended', handleEnded);
-      video.removeEventListener('volumechange', handleVolumeChange);
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("timeupdate", handleTimeUpdate);
+      video.removeEventListener("play", handlePlay);
+      video.removeEventListener("pause", handlePause);
+      video.removeEventListener("ended", handleEnded);
+      video.removeEventListener("volumechange", handleVolumeChange);
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
@@ -175,28 +176,31 @@ export const useVideoPlayer = (): VideoPlayerHook => {
     setIsSeeking(false);
   }, []);
 
-  const handleVolumeChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const newVolume = parseFloat(e.target.value);
-    setVolume(newVolume);
-    storeVolume(newVolume);
-    
-    // Update last non-zero volume
-    if (newVolume > 0) {
-      lastVolumeRef.current = newVolume;
-    }
-    
-    if (videoRef.current) {
-      videoRef.current.volume = newVolume;
-      
-      if (newVolume === 0 && !isMuted) {
-        setIsMuted(true);
-        storeMuteState(true);
-      } else if (newVolume > 0 && isMuted) {
-        setIsMuted(false);
-        storeMuteState(false);
+  const handleVolumeChange = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      const newVolume = parseFloat(e.target.value);
+      setVolume(newVolume);
+      storeVolume(newVolume);
+
+      // Update last non-zero volume
+      if (newVolume > 0) {
+        lastVolumeRef.current = newVolume;
       }
-    }
-  }, [isMuted]);
+
+      if (videoRef.current) {
+        videoRef.current.volume = newVolume;
+
+        if (newVolume === 0 && !isMuted) {
+          setIsMuted(true);
+          storeMuteState(true);
+        } else if (newVolume > 0 && isMuted) {
+          setIsMuted(false);
+          storeMuteState(false);
+        }
+      }
+    },
+    [isMuted],
+  );
 
   const toggleMute = useCallback(() => {
     if (!videoRef.current) return;
@@ -212,7 +216,7 @@ export const useVideoPlayer = (): VideoPlayerHook => {
       // Unmuting: restore to last non-zero volume or current volume if it's > 0
       const volumeToRestore = volume > 0 ? volume : lastVolumeRef.current;
       videoRef.current.volume = volumeToRestore;
-      
+
       // Update the volume state if we're using the lastVolumeRef value
       if (volume === 0) {
         setVolume(volumeToRestore);
@@ -226,6 +230,17 @@ export const useVideoPlayer = (): VideoPlayerHook => {
     setIsPlaying(false);
     setCurrentTime(0);
     setDuration(0);
+  }, []);
+
+  const seekBy = useCallback((deltaSeconds: number) => {
+    const video = videoRef.current;
+    if (!video) return;
+    const target = Math.min(
+      Math.max(0, video.currentTime + deltaSeconds),
+      video.duration || Number.MAX_VALUE,
+    );
+    video.currentTime = target;
+    setCurrentTime(target);
   }, []);
 
   return {
@@ -246,6 +261,7 @@ export const useVideoPlayer = (): VideoPlayerHook => {
     handleVolumeChange,
     toggleMute,
     loadVideo,
+    seekBy,
     formatTime,
   };
 };
