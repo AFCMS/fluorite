@@ -7,15 +7,45 @@ import "./App.css";
 function App() {
   // Custom hooks for managing different aspects of the video player
   const videoPlayer = useVideoPlayer();
-  const uiControls = useUIControls(videoPlayer.isPlaying, videoPlayer.videoSrc);
 
   const fileHandler = useFileHandler({
     onVideoFile: (file: File) => {
       const url = URL.createObjectURL(file);
       videoPlayer.loadVideo(url);
     },
-    onDragStateChange: uiControls.setIsDragOver,
+    onDragStateChange: () => {
+      // Drag state changes are handled directly in the component
+    },
   });
+
+  const uiControls = useUIControls(
+    videoPlayer.isPlaying,
+    videoPlayer.videoSrc,
+    fileHandler.openFileDialog,
+  );
+
+  // Override the drag handlers to use uiControls
+  const handleDragOver = (event: React.DragEvent) => {
+    event.preventDefault();
+    uiControls.setIsDragOver(true);
+  };
+
+  const handleDragLeave = (event: React.DragEvent) => {
+    event.preventDefault();
+    uiControls.setIsDragOver(false);
+  };
+
+  const handleDrop = (event: React.DragEvent) => {
+    event.preventDefault();
+    uiControls.setIsDragOver(false);
+
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+      const file = files[0];
+      const url = URL.createObjectURL(file);
+      videoPlayer.loadVideo(url);
+    }
+  };
 
   // Auto-play when video loads
   useEffect(() => {
@@ -42,9 +72,9 @@ function App() {
           ? "cursor-none"
           : "cursor-default"
       }`}
-      onDragOver={fileHandler.handleDragOver}
-      onDragLeave={fileHandler.handleDragLeave}
-      onDrop={fileHandler.handleDrop}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
     >
       <input
         ref={fileHandler.fileInputRef}

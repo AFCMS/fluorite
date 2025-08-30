@@ -37,7 +37,7 @@ export default function ControlBar(props: ControlBarProps) {
 
   return (
     <div
-      className={`absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent px-4 py-0 text-white transition-all duration-300 ${
+      className={`absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent px-4 py-0 text-blue-100 transition-all duration-300 ${
         props.showControls
           ? "translate-y-0 opacity-100"
           : "translate-y-full opacity-0"
@@ -76,7 +76,7 @@ export default function ControlBar(props: ControlBarProps) {
           <button
             onClick={props.onTogglePlayPause}
             disabled={!props.videoSrc}
-            className="flex h-12 w-12 items-center justify-center rounded-full transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50"
+            className="button-styled h-12 w-12"
           >
             {props.isPlaying ? (
               <HiPause className="h-7 w-7" />
@@ -98,7 +98,7 @@ export default function ControlBar(props: ControlBarProps) {
             <button
               onClick={props.onToggleMute}
               disabled={!props.videoSrc}
-              className="flex h-12 w-12 items-center justify-center rounded-full transition-colors duration-200 hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+              className="button-styled h-12 w-12"
             >
               {props.isMuted || props.volume === 0 ? (
                 <HiSpeakerXMark className="h-5 w-5" />
@@ -130,10 +130,10 @@ export default function ControlBar(props: ControlBarProps) {
           </div>
         </div>
 
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center">
           <button
             onClick={props.onToggleFullscreen}
-            className="rounded-full p-2 transition-colors duration-200 hover:bg-white/20"
+            className="button-styled h-12 w-12"
             title={props.isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
           >
             {props.isFullscreen ? (
@@ -144,10 +144,9 @@ export default function ControlBar(props: ControlBarProps) {
           </button>
           <button
             onClick={props.onOpenFile}
-            className="flex items-center space-x-2 rounded-md bg-white/20 px-4 py-2 text-sm transition-colors duration-200 hover:bg-white/30"
+            className="button-styled h-12 w-12"
           >
             <HiFolderOpen className="h-5 w-5" />
-            <span>Open File</span>
           </button>
         </div>
       </div>

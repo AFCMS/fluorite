@@ -1,15 +1,14 @@
 .range-styled {
   --track-height: calc(var(--spacing) * 2);
   --thumb-height: calc(var(--spacing) * 4);
-  --track-color: var(--color-sky-50);
+  --track-color: var(--color-sky-100);
   --thumb-color: var(--color-sky-500);
   appearance: none;
   background-color: transparent;
   cursor: pointer;
-}
-
-.range-styled:disabled {
-  cursor: not-allowed;
+  &:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .range-styled::-webkit-slider-runnable-track {
@@ -40,4 +39,15 @@
   height: var(--thumb-height);
   border-radius: calc(infinity * 1px);
   border: none;
+}
+
+.button-styled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-sky-100);
+  @apply transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+  &:hover {
+    color: var(--color-sky-200);
+  }
 }

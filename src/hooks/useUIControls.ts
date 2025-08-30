@@ -14,6 +14,7 @@ interface UIControlsHook {
 export const useUIControls = (
   isPlaying: boolean,
   videoSrc: string,
+  onOpenFile?: () => void,
 ): UIControlsHook => {
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -102,6 +103,14 @@ export const useUIControls = (
         event.preventDefault();
         void toggleFullscreen();
       }
+      // Open file dialog with O key (when not in input fields)
+      if (
+        event.key === "o" &&
+        !["INPUT", "TEXTAREA"].includes((event.target as HTMLElement).tagName)
+      ) {
+        event.preventDefault();
+        onOpenFile?.();
+      }
       // Also support F11 (browser fullscreen)
       if (event.key === "F11") {
         event.preventDefault();
@@ -116,7 +125,7 @@ export const useUIControls = (
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [toggleFullscreen]);
+  }, [toggleFullscreen, onOpenFile]);
 
   const onMouseEnterControls = useCallback(() => {
     setShowControls(true);
