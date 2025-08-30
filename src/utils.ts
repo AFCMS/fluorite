@@ -1,7 +1,3 @@
-/**
- * Utility functions for the video player application
- */
-
 export const STORAGE_KEYS = {
   VOLUME: "videoPlayer.volume",
   IS_MUTED: "videoPlayer.isMuted",
@@ -9,9 +5,6 @@ export const STORAGE_KEYS = {
   PLAYBACK_RATE: "videoPlayer.playbackRate",
 } as const;
 
-/**
- * Safely get a value from localStorage with error handling
- */
 export const getFromStorage = (key: string, defaultValue = ""): string => {
   try {
     return localStorage.getItem(key) ?? defaultValue;
@@ -21,9 +14,6 @@ export const getFromStorage = (key: string, defaultValue = ""): string => {
   }
 };
 
-/**
- * Safely set a value in localStorage with error handling
- */
 export const setInStorage = (key: string, value: string): void => {
   try {
     localStorage.setItem(key, value);
@@ -32,9 +22,6 @@ export const setInStorage = (key: string, value: string): void => {
   }
 };
 
-/**
- * Get volume from localStorage with validation
- */
 export const getStoredVolume = (): number => {
   const stored = getFromStorage(STORAGE_KEYS.VOLUME);
   if (stored) {
@@ -44,39 +31,24 @@ export const getStoredVolume = (): number => {
   return 1; // Default volume
 };
 
-/**
- * Store volume in localStorage
- */
 export const storeVolume = (volume: number): void => {
   setInStorage(STORAGE_KEYS.VOLUME, volume.toString());
 };
 
-/**
- * Get mute state from localStorage
- */
 export const getStoredMuteState = (): boolean => {
   return getFromStorage(STORAGE_KEYS.IS_MUTED) === "true";
 };
 
-/**
- * Store mute state in localStorage
- */
 export const storeMuteState = (isMuted: boolean): void => {
   setInStorage(STORAGE_KEYS.IS_MUTED, isMuted.toString());
 };
 
-/**
- * Format time in MM:SS format
- */
 export const formatTime = (time: number): string => {
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
   return `${minutes.toString()}:${seconds.toString().padStart(2, "0")}`;
 };
 
-/**
- * Check if a file is a video file
- */
 export const isVideoFile = (file: File): boolean => {
   return file.type.startsWith("video/");
 };

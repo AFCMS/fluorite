@@ -174,22 +174,23 @@ function App() {
         />
       ) : (
         <div className="flex h-full w-full flex-col items-center justify-center text-white">
-          <div className="space-y-8 text-center">
+          <div
+            className="space-y-8 text-center"
+            onClick={fileHandler.openFileDialog}
+          >
             <div className="space-y-4">
               <div className="flex justify-center text-6xl">
-                <HiFilm className="h-16 w-16 text-blue-400" />
+                <img
+                  src="/vite.svg"
+                  className="h-16 w-16"
+                  alt="Fluorite logo"
+                />
               </div>
-              <h1 className="text-4xl font-bold">Video Player</h1>
+              <h1 className="text-4xl font-bold">Fluorite</h1>
               <p className="text-xl text-gray-300">
-                Drop a video file anywhere or click to select
+                Drop a video file anywhere or click here to open one
               </p>
             </div>
-            <button
-              onClick={fileHandler.openFileDialog}
-              className="rounded-lg bg-blue-600 px-8 py-4 text-lg font-medium text-white transition-colors duration-200 hover:bg-blue-700"
-            >
-              Select Video File
-            </button>
           </div>
         </div>
       )}
