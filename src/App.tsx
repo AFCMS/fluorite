@@ -186,7 +186,7 @@ function App() {
             <div className="space-y-4">
               <div className="flex justify-center text-6xl">
                 <img
-                  src="/vite.svg"
+                  src="/fluorite.svg"
                   className="h-16 w-16"
                   alt="Fluorite logo"
                 />

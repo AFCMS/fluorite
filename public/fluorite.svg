@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   sodipodi:docname="fluorite.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="false"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     showguides="true"
+     showgrid="true"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="-243.24473"
+     inkscape:cy="183.84776"
+     inkscape:window-width="2560"
+     inkscape:window-height="1371"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1"
+     guidecolor="#e50000"
+     guideopacity="0.6">
+    <sodipodi:guide
+       position="0,512"
+       orientation="0,512"
+       id="guide2"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="512,512"
+       orientation="512,0"
+       id="guide3"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="512,0"
+       orientation="0,-512"
+       id="guide4"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="0,0"
+       orientation="-512,0"
+       id="guide5"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="0,256"
+       orientation="0,1"
+       id="guide6"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(192,28,40)" />
+    <sodipodi:guide
+       position="256,512"
+       orientation="-1,0"
+       id="guide8"
+       inkscape:locked="false"
+       inkscape:label=""
+       inkscape:color="rgb(192,28,40)" />
+    <inkscape:grid
+       id="grid8"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1"
+       spacingy="1"
+       empcolor="#12e500"
+       empopacity="0.30196078"
+       color="#00e518"
+       opacity="0.14901961"
+       empspacing="2"
+       enabled="true"
+       visible="true"
+       dotted="false" />
+  </sodipodi:namedview>
+  <defs
+     id="defs1">
+    <linearGradient
+       id="linearGradient8"
+       inkscape:collect="always">
+      <stop
+         style="stop-color:#0076a5;stop-opacity:1;"
+         offset="0"
+         id="stop8" />
+      <stop
+         style="stop-color:#00a6f4;stop-opacity:1;"
+         offset="1"
+         id="stop9" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient8"
+       id="radialGradient9"
+       cx="470"
+       cy="470"
+       fx="470"
+       fy="470"
+       r="215"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(2.744186,7.5144638e-8,-6.2456223e-7,2.9302325,-860.76713,-948.20932)" />
+  </defs>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:url(#radialGradient9)"
+       id="rect1"
+       width="512"
+       height="512"
+       x="0"
+       y="0"
+       rx="75"
+       ry="75" />
+    <path
+       sodipodi:type="star"
+       style="fill:#f4f4f4;fill-opacity:1"
+       id="path9"
+       inkscape:flatsided="true"
+       sodipodi:sides="3"
+       sodipodi:cx="244"
+       sodipodi:cy="256"
+       sodipodi:r1="152"
+       sodipodi:r2="34.48188"
+       sodipodi:arg1="0"
+       sodipodi:arg2="1.0471975"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="M 396,256 168,387.63586 168,124.36414 Z"
+       inkscape:transform-center-x="-3.0468752"
+       inkscape:transform-center-y="0.50976607" />
+  </g>
+</svg>

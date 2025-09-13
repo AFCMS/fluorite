@@ -34,7 +34,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
   },
   pwaAssets: {
     preset: "minimal-2023",
-    image: "./public/vite.svg",
+    image: "./public/fluorite.svg",
     htmlPreset: "2023",
     includeHtmlHeadLinks: true,
     overrideManifestIcons: true,
