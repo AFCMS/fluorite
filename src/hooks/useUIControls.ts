@@ -4,9 +4,11 @@ interface UIControlsHook {
   showControls: boolean;
   isFullscreen: boolean;
   isDragOver: boolean;
+  showVideoInfo: boolean;
   toggleFullscreen: () => Promise<void>;
   setShowControls: (show: boolean) => void;
   setIsDragOver: (isDragOver: boolean) => void;
+  toggleVideoInfo: () => void;
   onMouseEnterControls: () => void;
   onMouseLeaveControls: () => void;
 }
@@ -19,6 +21,7 @@ export const useUIControls = (
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isDragOver, setIsDragOver] = useState(false);
+  const [showVideoInfo, setShowVideoInfo] = useState(false);
   const hideTimeoutRef = useRef<number | null>(null);
 
   // Control bar auto-hide functionality
@@ -111,6 +114,15 @@ export const useUIControls = (
         event.preventDefault();
         onOpenFile?.();
       }
+      // Show video info with I key (when not in input fields)
+      if (
+        event.key === "i" &&
+        videoSrc &&
+        !["INPUT", "TEXTAREA"].includes((event.target as HTMLElement).tagName)
+      ) {
+        event.preventDefault();
+        setShowVideoInfo(prev => !prev);
+      }
       // Also support F11 (browser fullscreen)
       if (event.key === "F11") {
         event.preventDefault();
@@ -125,7 +137,11 @@ export const useUIControls = (
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [toggleFullscreen, onOpenFile]);
+  }, [toggleFullscreen, onOpenFile, videoSrc]);
+
+  const toggleVideoInfo = useCallback(() => {
+    setShowVideoInfo(prev => !prev);
+  }, []);
 
   const onMouseEnterControls = useCallback(() => {
     setShowControls(true);
@@ -146,9 +162,11 @@ export const useUIControls = (
     showControls,
     isFullscreen,
     isDragOver,
+    showVideoInfo,
     toggleFullscreen,
     setShowControls,
     setIsDragOver,
+    toggleVideoInfo,
     onMouseEnterControls,
     onMouseLeaveControls,
   };

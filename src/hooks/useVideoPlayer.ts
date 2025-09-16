@@ -6,6 +6,8 @@ import {
   storeVolume,
   storeMuteState,
   formatTime,
+  extractVideoMetadata,
+  type VideoMetadata,
 } from "../utils";
 
 interface VideoState {
@@ -16,6 +18,8 @@ interface VideoState {
   isMuted: boolean;
   isSeeking: boolean;
   videoSrc: string;
+  videoMetadata: VideoMetadata | null;
+  currentFile: File | null;
 }
 
 interface VideoPlayerHook extends VideoState {
@@ -27,7 +31,7 @@ interface VideoPlayerHook extends VideoState {
   handleSeekEnd: () => void;
   handleVolumeChange: (e: ChangeEvent<HTMLInputElement>) => void;
   toggleMute: () => void;
-  loadVideo: (src: string) => void;
+  loadVideo: (src: string, file?: File) => void;
   seekBy: (deltaSeconds: number) => void;
   // Utility methods
   formatTime: (time: number) => string;
@@ -49,6 +53,8 @@ export const useVideoPlayer = (): VideoPlayerHook => {
   const [duration, setDuration] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
   const [videoSrc, setVideoSrc] = useState<string>("");
+  const [videoMetadata, setVideoMetadata] = useState<VideoMetadata | null>(null);
+  const [currentFile, setCurrentFile] = useState<File | null>(null);
 
   // Apply stored volume and mute state when video loads
   useEffect(() => {
@@ -76,6 +82,10 @@ export const useVideoPlayer = (): VideoPlayerHook => {
       setDuration(video.duration);
       // Apply stored volume settings
       video.volume = isMuted ? 0 : volume;
+      
+      // Extract and set video metadata
+      const metadata = extractVideoMetadata(video, currentFile ?? undefined);
+      setVideoMetadata(metadata);
     };
 
     const handleTimeUpdate = () => {
@@ -147,7 +157,7 @@ export const useVideoPlayer = (): VideoPlayerHook => {
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [videoSrc, isSeeking, volume, isMuted]);
+  }, [videoSrc, isSeeking, volume, isMuted, currentFile]);
 
   // Control methods
   const togglePlayPause = useCallback(() => {
@@ -225,11 +235,13 @@ export const useVideoPlayer = (): VideoPlayerHook => {
     }
   }, [isMuted, volume]);
 
-  const loadVideo = useCallback((src: string) => {
+  const loadVideo = useCallback((src: string, file?: File) => {
     setVideoSrc(src);
+    setCurrentFile(file ?? null);
     setIsPlaying(false);
     setCurrentTime(0);
     setDuration(0);
+    setVideoMetadata(null);
   }, []);
 
   const seekBy = useCallback((deltaSeconds: number) => {
@@ -253,6 +265,8 @@ export const useVideoPlayer = (): VideoPlayerHook => {
     isMuted,
     isSeeking,
     videoSrc,
+    videoMetadata,
+    currentFile,
     // Methods
     togglePlayPause,
     handleSeek,

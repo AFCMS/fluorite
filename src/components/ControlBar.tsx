@@ -8,6 +8,7 @@ import {
   HiFolderOpen,
   HiArrowsPointingOut,
   HiArrowsPointingIn,
+  HiInformationCircle,
 } from "react-icons/hi2";
 
 interface ControlBarProps {
@@ -28,6 +29,7 @@ interface ControlBarProps {
   onVolumeChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onToggleMute: () => void;
   onToggleFullscreen: () => void;
+  onToggleVideoInfo: () => void;
   onOpenFile: () => void;
   formatTime: (time: number) => string;
 }
@@ -148,6 +150,14 @@ export default function ControlBar(props: ControlBarProps) {
         </div>
 
         <div className="flex items-center">
+          <button
+            onClick={props.onToggleVideoInfo}
+            disabled={!props.videoSrc}
+            className="button-styled h-12 w-12"
+            title="Video Information"
+          >
+            <HiInformationCircle className="h-5 w-5" />
+          </button>
           <button
             onClick={props.onToggleFullscreen}
             className="button-styled h-12 w-12"
