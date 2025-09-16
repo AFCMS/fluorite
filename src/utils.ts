@@ -67,3 +67,75 @@ export const debounce = <T extends (...args: unknown[]) => unknown>(
     timeout = window.setTimeout(() => func(...args), wait);
   };
 };
+
+/**
+ * Video metadata information
+ */
+export interface VideoMetadata {
+  duration: number;
+  videoWidth: number;
+  videoHeight: number;
+  videoFrameRate?: number;
+  videoCodec?: string;
+  audioCodec?: string;
+  containerFormat?: string;
+  fileSize?: number;
+  fileName?: string;
+}
+
+/**
+ * Extract metadata from video element
+ */
+export const extractVideoMetadata = (video: HTMLVideoElement, file?: File): VideoMetadata => {
+  const metadata: VideoMetadata = {
+    duration: video.duration || 0,
+    videoWidth: video.videoWidth || 0,
+    videoHeight: video.videoHeight || 0,
+  };
+
+  // Add file-specific metadata if available
+  if (file) {
+    metadata.fileSize = file.size;
+    metadata.fileName = file.name;
+    
+    // Extract container format from file type or extension
+    if (file.type) {
+      metadata.containerFormat = file.type.replace('video/', '').toUpperCase();
+    } else {
+      const extension = file.name.split('.').pop()?.toLowerCase();
+      if (extension) {
+        metadata.containerFormat = extension.toUpperCase();
+      }
+    }
+  }
+
+  return metadata;
+};
+
+/**
+ * Format file size to human readable format
+ */
+export const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 Bytes';
+  
+  const k = 1024;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2)).toString()} ${sizes[i]}`;
+};
+
+/**
+ * Format resolution with aspect ratio
+ */
+export const formatResolution = (width: number, height: number): string => {
+  if (!width || !height) return 'Unknown';
+  
+  // Calculate aspect ratio
+  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
+  const divisor = gcd(width, height);
+  const aspectWidth = width / divisor;
+  const aspectHeight = height / divisor;
+  
+  return `${width.toString()}×${height.toString()} (${aspectWidth.toString()}:${aspectHeight.toString()})`;
+};

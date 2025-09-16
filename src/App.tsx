@@ -4,6 +4,7 @@ import { HiFilm } from "react-icons/hi2";
 import { useRegisterSW } from "virtual:pwa-register/react";
 
 import ControlBar from "./components/ControlBar";
+import VideoInfoOverlay from "./components/VideoInfoOverlay";
 import { useVideoPlayer, useUIControls, useFileHandler } from "./hooks";
 
 import "./App.css";
@@ -15,7 +16,7 @@ function App() {
   const fileHandler = useFileHandler({
     onVideoFile: (file: File) => {
       const url = URL.createObjectURL(file);
-      videoPlayer.loadVideo(url);
+      videoPlayer.loadVideo(url, file);
 
       const baseName = file.name.replace(/\.[^.]+$/, "");
       document.title = baseName;
@@ -50,7 +51,7 @@ function App() {
     if (files.length > 0) {
       const file = files[0];
       const url = URL.createObjectURL(file);
-      videoPlayer.loadVideo(url);
+      videoPlayer.loadVideo(url, file);
       const baseName = file.name.replace(/\.[^.]+$/, "");
       document.title = baseName;
     }
@@ -220,8 +221,16 @@ function App() {
         onToggleFullscreen={() => {
           void uiControls.toggleFullscreen();
         }}
+        onToggleVideoInfo={uiControls.toggleVideoInfo}
         onOpenFile={fileHandler.openFileDialog}
         formatTime={videoPlayer.formatTime}
+      />
+
+      {/* Video Info Overlay */}
+      <VideoInfoOverlay
+        isVisible={uiControls.showVideoInfo}
+        metadata={videoPlayer.videoMetadata}
+        onClose={uiControls.toggleVideoInfo}
       />
 
       {/* SW update handled silently; add UI here if you want to notify users. */}
