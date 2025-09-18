@@ -1,0 +1,297 @@
+import { useEffect, useRef } from "react";
+import { HiFilm } from "react-icons/hi2";
+
+import { useRegisterSW } from "virtual:pwa-register/react";
+
+import ControlBar from "./ControlBar";
+import {
+  useVideoActions,
+  useVideoUrl,
+  useVideoState,
+  useUIControls,
+} from "../hooks";
+import { isVideoFile } from "../utils";
+import { useSetAtom } from "jotai";
+import {
+  updateDurationAtom,
+  updateCurrentTimeAtom,
+  updatePlayStateAtom,
+  updateVolumeStateAtom,
+} from "../store/video";
+
+export default function VideoPlayerApp() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Get video context data
+  const videoActions = useVideoActions();
+  const videoUrl = useVideoUrl();
+  const videoState = useVideoState();
+  const uiControls = useUIControls();
+
+  // Manual atom setters for video state
+  const setDuration = useSetAtom(updateDurationAtom);
+  const setCurrentTime = useSetAtom(updateCurrentTimeAtom);
+  const setPlayState = useSetAtom(updatePlayStateAtom);
+  const setVolumeState = useSetAtom(updateVolumeStateAtom);
+
+  // Register the video element when it mounts and set up event listeners
+  useEffect(() => {
+    if (videoRef.current) {
+      videoActions.registerVideoElement(videoRef.current);
+
+      const video = videoRef.current;
+
+      // Set up event listeners manually
+      const handleLoadedMetadata = () => {
+        setDuration(video.duration);
+        console.log("Video metadata loaded, duration:", video.duration);
+      };
+
+      const handleTimeUpdate = () => {
+        setCurrentTime(video.currentTime);
+      };
+
+      const handlePlay = () => {
+        setPlayState(true);
+        console.log("Video play event");
+      };
+
+      const handlePause = () => {
+        setPlayState(false);
+        console.log("Video pause event");
+      };
+
+      const handleEnded = () => {
+        setPlayState(false);
+      };
+
+      const handleVolumeChange = () => {
+        setVolumeState({ volume: video.volume, muted: video.muted });
+      };
+
+      video.addEventListener("loadedmetadata", handleLoadedMetadata);
+      video.addEventListener("timeupdate", handleTimeUpdate);
+      video.addEventListener("play", handlePlay);
+      video.addEventListener("pause", handlePause);
+      video.addEventListener("ended", handleEnded);
+      video.addEventListener("volumechange", handleVolumeChange);
+
+      return () => {
+        video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+        video.removeEventListener("timeupdate", handleTimeUpdate);
+        video.removeEventListener("play", handlePlay);
+        video.removeEventListener("pause", handlePause);
+        video.removeEventListener("ended", handleEnded);
+        video.removeEventListener("volumechange", handleVolumeChange);
+      };
+    }
+  }, [videoActions, setDuration, setCurrentTime, setPlayState, setVolumeState]);
+
+  // File handling
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && isVideoFile(file)) {
+      videoActions.setVideoFile(file);
+      const baseName = file.name.replace(/\.[^.]+$/, "");
+      document.title = baseName;
+    }
+  };
+
+  const openFileDialog = () => {
+    fileInputRef.current?.click();
+  };
+
+  // Drag and drop handling
+  const handleDragOver = (event: React.DragEvent) => {
+    event.preventDefault();
+    uiControls.setIsDragOver(true);
+  };
+
+  const handleDragLeave = (event: React.DragEvent) => {
+    event.preventDefault();
+    uiControls.setIsDragOver(false);
+  };
+
+  const handleDrop = (event: React.DragEvent) => {
+    event.preventDefault();
+    uiControls.setIsDragOver(false);
+
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+      const file = files[0];
+      if (isVideoFile(file)) {
+        videoActions.setVideoFile(file);
+        const baseName = file.name.replace(/\.[^.]+$/, "");
+        document.title = baseName;
+      }
+    }
+  };
+
+  // File Handler for PWA
+  useEffect(() => {
+    if (window.launchQueue) {
+      window.launchQueue.setConsumer(async (launchParams) => {
+        if (launchParams.files?.length) {
+          const handles: FileSystemFileHandle[] = launchParams.files;
+          for (const handle of handles) {
+            try {
+              const file = await handle.getFile();
+              videoActions.setVideoFile(file);
+            } catch (e) {
+              console.warn("Failed to load file from handle", e);
+            }
+            return;
+          }
+        }
+      });
+    }
+  }, [videoActions]);
+
+  // Auto-play when video loads
+  useEffect(() => {
+    if (videoUrl && videoRef.current) {
+      const video = videoRef.current;
+      video.autoplay = true;
+      video
+        .play()
+        .then(() => {
+          // Video started playing automatically
+        })
+        .catch(console.error);
+    }
+  }, [videoUrl]);
+
+  // Keyboard shortcuts: Left/Right arrow seek 5s
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (!videoUrl) return;
+      if (e.key === "ArrowRight") {
+        e.preventDefault();
+        const video = videoRef.current;
+        if (video) {
+          const newTime = Math.min(video.currentTime + 5, video.duration);
+          videoActions.seekTo(newTime);
+        }
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        const video = videoRef.current;
+        if (video) {
+          const newTime = Math.max(video.currentTime - 5, 0);
+          videoActions.seekTo(newTime);
+        }
+      } else if (e.key === " " || e.key === "Space" || e.code === "Space") {
+        // Avoid double toggle if focused on an actual button (space triggers click)
+        const targetTag = (e.target as HTMLElement).tagName;
+        if (targetTag !== "BUTTON") {
+          e.preventDefault();
+          videoActions.togglePlayPause();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [videoActions, videoUrl]);
+
+  // Service Worker registration and update handling
+  const { updateServiceWorker } = useRegisterSW({
+    immediate: true,
+    onNeedRefresh() {
+      void updateServiceWorker(true)
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((err: unknown) => {
+          console.error("SW update failed", err);
+        });
+    },
+    onRegisteredSW(_swUrl, r) {
+      setInterval(
+        () => {
+          if (r && typeof r.update === "function") {
+            r.update().catch((err: unknown) => {
+              console.warn("SW periodic update check failed", err);
+            });
+          }
+        },
+        60 * 60 * 1000,
+      );
+    },
+  });
+
+  return (
+    <div
+      className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 ${
+        uiControls.isDragOver ? "bg-blue-900/20" : "bg-black"
+      } ${
+        videoUrl && videoState.isPlaying && !uiControls.showControls
+          ? "cursor-none"
+          : "cursor-default"
+      }`}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      <input
+        ref={fileInputRef}
+        type="file"
+        name="videoFile"
+        id="videoFile"
+        accept="video/*"
+        onChange={handleFileInput}
+        className="hidden"
+      />
+
+      {videoUrl ? (
+        <video
+          ref={videoRef}
+          src={videoUrl}
+          className="h-full w-full object-contain"
+          onClick={videoActions.togglePlayPause}
+        />
+      ) : (
+        <div className="flex h-full w-full flex-col items-center justify-center text-white">
+          <div className="space-y-8 text-center" onClick={openFileDialog}>
+            <div className="space-y-4">
+              <div className="flex justify-center text-6xl">
+                <img
+                  src="/fluorite.svg"
+                  className="h-16 w-16"
+                  alt="Fluorite logo"
+                />
+              </div>
+              <h1 className="text-4xl font-bold">Fluorite</h1>
+              <p className="text-xl text-gray-300">
+                Drop a video file anywhere or click here to open one
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <ControlBar
+        onToggleVideoInfo={() => {
+          // Video info overlay removed for simplicity
+        }}
+        onOpenFile={openFileDialog}
+      />
+
+      {/* Drag Overlay */}
+      {uiControls.isDragOver && (
+        <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-blue-500/20 backdrop-blur-sm">
+          <div className="rounded-2xl bg-blue-600 px-12 py-8 text-2xl font-medium text-white shadow-2xl">
+            <div className="space-y-2 text-center">
+              <div className="flex justify-center">
+                <HiFilm className="h-12 w-12" />
+              </div>
+              <p>Drop video file here</p>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
