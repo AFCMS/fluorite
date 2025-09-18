@@ -1,6 +1,6 @@
 # Fluorite PWA Video Player
 
-Fluorite is an elegant Progressive Web App (PWA) video player built with React, TypeScript, Vite, and Tailwind CSS. The application allows users to drag and drop video files or select them via file dialog for playback.
+Fluorite is an elegant Progressive Web App (PWA) video player built with React, Jotai, TypeScript, Vite, and Tailwind CSS. The application allows users to drag and drop video files or select them via file dialog for playback.
 
 **ALWAYS reference these instructions first and fallback to search or bash commands only when you encounter unexpected information that does not match the info here.**
 
@@ -9,43 +9,41 @@ Fluorite is an elegant Progressive Web App (PWA) video player built with React, 
 ### Bootstrap, Build, and Test the Repository
 
 **CRITICAL SETUP REQUIREMENT:**
-- Install pnpm globally first: `npm install -g pnpm`
+
 - This project REQUIRES pnpm as the package manager. Do NOT use npm or yarn.
 
 **Development Workflow:**
-1. Install dependencies: `pnpm install` (takes ~19 seconds first time, ~1.6 seconds cached)
-2. Run linting: `pnpm run lint` (takes ~3.7 seconds) 
-3. Build the project: `pnpm run build` (takes ~4.5 seconds - NEVER CANCEL, set timeout to 30+ seconds)
-4. Run development server: `pnpm run dev` (starts in ~520ms)
-5. Run preview server: `pnpm run preview` (for testing built application)
 
-**Timing Expectations:**
-- `pnpm install`: ~19 seconds (first time), ~1.6 seconds (cached) - NEVER CANCEL, set timeout to 300+ seconds
-- `pnpm run build`: ~4.5 seconds - NEVER CANCEL, set timeout to 30+ seconds  
-- `pnpm run lint`: ~3.7 seconds - set timeout to 60+ seconds
-- `pnpm run dev`: ~520ms startup time
-- TypeScript compilation: Included in build time above
+1. Install dependencies: `pnpm install`
+2. Run linting: `pnpm run lint` (run ESLint to ensure code quality)
+3. Build the project: `pnpm run build` (typecheck and build application, NEVER CANCEL, set timeout to 30+ seconds)
+4. Run development server: `pnpm run dev` (starts development server with hot reload)
+5. Run preview server: `pnpm run preview` (for serving built application)
 
 ### Running the Application
 
 **Development Mode:**
+
 - Start dev server: `pnpm run dev`
 - Access at: `http://localhost:5173/`
 - Includes hot module replacement and React DevTools support
 
 **Production Preview:**
+
 - Build first: `pnpm run build`
-- Start preview server: `pnpm run preview` 
+- Start preview server: `pnpm run preview`
 - Access at: `http://localhost:4173/`
 
 ## Code Quality and Formatting
 
 **Linting:**
+
 - Run ESLint: `pnpm run lint`
 - Configuration: `eslint.config.js` with TypeScript strict rules
 - ALWAYS run linting before committing changes
 
 **Formatting:**
+
 - Use Prettier: `npx prettier --write .` (no format script in package.json)
 - Configuration: `prettier.config.js` with Tailwind CSS plugin
 - Prettier will warn about `.vscode/settings.json`, `pnpm-lock.yaml`, and `pnpm-workspace.yaml` - this is expected
@@ -67,7 +65,7 @@ After making any changes, ALWAYS test these scenarios:
    - Verify video controls appear disabled until video is loaded
 
 3. **Build Validation:**
-   - Run `pnpm run build` successfully 
+   - Run `pnpm run build` successfully
    - Run `pnpm run preview` and verify application loads at `http://localhost:4173/`
    - Take screenshots of the running application to verify UI integrity
 
@@ -77,6 +75,7 @@ After making any changes, ALWAYS test these scenarios:
    - Verify PWA assets are generated properly
 
 **Build Artifacts:**
+
 - Output directory: `dist/`
 - Key files: `index.html`, CSS bundle, JS bundle, `manifest.webmanifest`, `sw.js`
 - PWA icons and assets are auto-generated
@@ -84,6 +83,7 @@ After making any changes, ALWAYS test these scenarios:
 ## Codebase Structure
 
 **Key Directories:**
+
 - `src/`: Main application code
   - `App.tsx`: Main application component
   - `main.tsx`: React application entry point
@@ -94,6 +94,7 @@ After making any changes, ALWAYS test these scenarios:
 - `dist/`: Build output (generated)
 
 **Configuration Files:**
+
 - `package.json`: Project dependencies and scripts
 - `vite.config.ts`: Vite build configuration with PWA plugin
 - `tsconfig.json`: TypeScript configuration (references other configs)
@@ -102,6 +103,7 @@ After making any changes, ALWAYS test these scenarios:
 - `prettier.config.js`: Prettier formatting configuration
 
 **Important Implementation Details:**
+
 - Uses custom hooks pattern for state management
 - File handling supports video formats: .mp4, .mkv, .webm, .mov, .avi, .flv, .wmv
 - PWA features include service worker, manifest, and file handling
@@ -111,9 +113,9 @@ After making any changes, ALWAYS test these scenarios:
 ## Common Commands Reference
 
 **Installation and Setup:**
+
 ```bash
-# First time setup
-npm install -g pnpm
+corepack enable pnpm   # Enable corepack for pnpm
 pnpm install
 
 # Development
@@ -123,11 +125,12 @@ pnpm run preview      # Preview built app (http://localhost:4173/)
 pnpm run lint         # Run ESLint
 
 # Formatting
-npx prettier --write .  # Format all files
-npx prettier --check .  # Check formatting
+pnpx prettier --write .  # Format all files
+pnpx prettier --check .  # Check formatting
 ```
 
 **Troubleshooting:**
+
 - If build fails: Ensure pnpm is installed globally
 - If TypeScript errors: Check `tsconfig.app.json` and `tsconfig.node.json`
 - If PWA features don't work: Check `vite.config.ts` PWA configuration
