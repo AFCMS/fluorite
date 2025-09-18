@@ -1,7 +1,9 @@
+import path from "node:path";
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa";
+import { viteStaticCopy } from "vite-plugin-static-copy";
 
 const pwaConfig: Partial<VitePWAOptions> = {
   registerType: "autoUpdate",
@@ -44,5 +46,23 @@ const pwaConfig: Partial<VitePWAOptions> = {
 };
 
 export default defineConfig({
-  plugins: [react(), tailwindcss(), VitePWA(pwaConfig)],
+  plugins: [
+    react(),
+    tailwindcss(),
+    VitePWA(pwaConfig),
+    viteStaticCopy({
+      targets: [
+        {
+          src: path.join(
+            import.meta.dirname,
+            "node_modules",
+            "mediainfo.js",
+            "dist",
+            "MediaInfoModule.wasm",
+          ),
+          dest: "",
+        },
+      ],
+    }),
+  ],
 });

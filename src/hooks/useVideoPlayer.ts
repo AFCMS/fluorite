@@ -5,10 +5,10 @@ import {
   getStoredMuteState,
   storeVolume,
   storeMuteState,
-  formatTime,
   extractVideoMetadata,
   type VideoMetadata,
 } from "../utils";
+import { formatTime } from "../utils/format";
 import { extractDetailedVideoMetadata } from "../utils/mediaInfo";
 
 interface VideoState {
@@ -54,7 +54,9 @@ export const useVideoPlayer = (): VideoPlayerHook => {
   const [duration, setDuration] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
   const [videoSrc, setVideoSrc] = useState<string>("");
-  const [videoMetadata, setVideoMetadata] = useState<VideoMetadata | null>(null);
+  const [videoMetadata, setVideoMetadata] = useState<VideoMetadata | null>(
+    null,
+  );
   const [currentFile, setCurrentFile] = useState<File | null>(null);
 
   // Apply stored volume and mute state when video loads
@@ -83,24 +85,30 @@ export const useVideoPlayer = (): VideoPlayerHook => {
       setDuration(video.duration);
       // Apply stored volume settings
       video.volume = isMuted ? 0 : volume;
-      
+
       // Extract basic metadata first (synchronous)
-      const basicMetadata = extractVideoMetadata(video, currentFile ?? undefined);
+      const basicMetadata = extractVideoMetadata(
+        video,
+        currentFile ?? undefined,
+      );
       setVideoMetadata(basicMetadata);
-      
+
       // Extract detailed metadata using MediaInfo (asynchronous)
       if (currentFile) {
         try {
-          const detailedMetadata = await extractDetailedVideoMetadata(currentFile);
-          
+          const detailedMetadata =
+            await extractDetailedVideoMetadata(currentFile);
+
           // Merge detailed metadata with basic metadata
           const mergedMetadata: VideoMetadata = {
             ...basicMetadata,
             // Override with detailed info when available
             duration: detailedMetadata.duration || basicMetadata.duration,
             videoWidth: detailedMetadata.videoWidth || basicMetadata.videoWidth,
-            videoHeight: detailedMetadata.videoHeight || basicMetadata.videoHeight,
-            containerFormat: detailedMetadata.containerFormat || basicMetadata.containerFormat,
+            videoHeight:
+              detailedMetadata.videoHeight || basicMetadata.videoHeight,
+            containerFormat:
+              detailedMetadata.containerFormat || basicMetadata.containerFormat,
             // Add detailed fields
             videoCodec: detailedMetadata.videoCodec,
             videoProfile: detailedMetadata.videoProfile,
@@ -115,10 +123,13 @@ export const useVideoPlayer = (): VideoPlayerHook => {
             creationTime: detailedMetadata.creationTime,
             encoder: detailedMetadata.encoder,
           };
-          
+
           setVideoMetadata(mergedMetadata);
         } catch (error) {
-          console.warn('Failed to extract detailed metadata, using basic metadata:', error);
+          console.warn(
+            "Failed to extract detailed metadata, using basic metadata:",
+            error,
+          );
         }
       }
     };

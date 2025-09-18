@@ -43,12 +43,6 @@ export const storeMuteState = (isMuted: boolean): void => {
   setInStorage(STORAGE_KEYS.IS_MUTED, isMuted.toString());
 };
 
-export const formatTime = (time: number): string => {
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
-  return `${minutes.toString()}:${seconds.toString().padStart(2, "0")}`;
-};
-
 export const isVideoFile = (file: File): boolean => {
   return file.type.startsWith("video/");
 };
@@ -96,7 +90,10 @@ export interface VideoMetadata {
 /**
  * Extract metadata from video element (basic fallback)
  */
-export const extractVideoMetadata = (video: HTMLVideoElement, file?: File): VideoMetadata => {
+export const extractVideoMetadata = (
+  video: HTMLVideoElement,
+  file?: File,
+): VideoMetadata => {
   const metadata: VideoMetadata = {
     duration: video.duration || 0,
     videoWidth: video.videoWidth || 0,
@@ -107,12 +104,12 @@ export const extractVideoMetadata = (video: HTMLVideoElement, file?: File): Vide
   if (file) {
     metadata.fileSize = file.size;
     metadata.fileName = file.name;
-    
+
     // Extract container format from file type or extension
     if (file.type) {
-      metadata.containerFormat = file.type.replace('video/', '').toUpperCase();
+      metadata.containerFormat = file.type.replace("video/", "").toUpperCase();
     } else {
-      const extension = file.name.split('.').pop()?.toLowerCase();
+      const extension = file.name.split(".").pop()?.toLowerCase();
       if (extension) {
         metadata.containerFormat = extension.toUpperCase();
       }
@@ -120,32 +117,4 @@ export const extractVideoMetadata = (video: HTMLVideoElement, file?: File): Vide
   }
 
   return metadata;
-};
-
-/**
- * Format file size to human readable format
- */
-export const formatFileSize = (bytes: number): string => {
-  if (bytes === 0) return '0 Bytes';
-  
-  const k = 1024;
-  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(2)).toString()} ${sizes[i]}`;
-};
-
-/**
- * Format resolution with aspect ratio
- */
-export const formatResolution = (width: number, height: number): string => {
-  if (!width || !height) return 'Unknown';
-  
-  // Calculate aspect ratio
-  const gcd = (a: number, b: number): number => (b === 0 ? a : gcd(b, a % b));
-  const divisor = gcd(width, height);
-  const aspectWidth = width / divisor;
-  const aspectHeight = height / divisor;
-  
-  return `${width.toString()}×${height.toString()} (${aspectWidth.toString()}:${aspectHeight.toString()})`;
 };

@@ -16,7 +16,7 @@ import {
   useVideoState,
   useUIControls,
 } from "../hooks";
-import { formatTime } from "../utils";
+import { formatTime } from "../utils/format";
 
 interface ControlBarProps {
   onOpenFile: () => void;

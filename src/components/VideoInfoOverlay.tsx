@@ -1,6 +1,12 @@
 import { HiXMark } from "react-icons/hi2";
-import { type VideoMetadata, formatFileSize, formatResolution, formatTime } from "../utils";
-import { formatBitrate, formatSampleRate } from "../utils/mediaInfo";
+import { type VideoMetadata } from "../utils";
+import {
+  formatFileSize,
+  formatResolution,
+  formatBitrate,
+  formatSampleRate,
+  formatTime,
+} from "../utils/format";
 
 interface VideoInfoOverlayProps {
   isVisible: boolean;
@@ -8,19 +14,31 @@ interface VideoInfoOverlayProps {
   onClose: () => void;
 }
 
-export default function VideoInfoOverlay({ isVisible, metadata, onClose }: VideoInfoOverlayProps) {
+export default function VideoInfoOverlay({
+  isVisible,
+  metadata,
+  onClose,
+}: VideoInfoOverlayProps) {
   if (!isVisible || !metadata) return null;
 
   const infoItems = [
     { label: "File Name", value: metadata.fileName ?? "Unknown" },
     { label: "Duration", value: formatTime(metadata.duration) },
-    { label: "Resolution", value: formatResolution(metadata.videoWidth, metadata.videoHeight) },
+    {
+      label: "Resolution",
+      value: formatResolution(metadata.videoWidth, metadata.videoHeight),
+    },
     { label: "Container Format", value: metadata.containerFormat ?? "Unknown" },
-    { label: "File Size", value: metadata.fileSize ? formatFileSize(metadata.fileSize) : "Unknown" },
+    {
+      label: "File Size",
+      value: metadata.fileSize ? formatFileSize(metadata.fileSize) : "Unknown",
+    },
   ];
 
   // Filter out unknown/empty values
-  const validInfoItems = infoItems.filter(item => item.value && item.value !== "Unknown");
+  const validInfoItems = infoItems.filter(
+    (item) => item.value && item.value !== "Unknown",
+  );
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
@@ -39,7 +57,10 @@ export default function VideoInfoOverlay({ isVisible, metadata, onClose }: Video
         {/* Information List */}
         <div className="space-y-4">
           {validInfoItems.map((item, index) => (
-            <div key={index} className="flex justify-between border-b border-gray-700 pb-2">
+            <div
+              key={index}
+              className="flex justify-between border-b border-gray-700 pb-2"
+            >
               <span className="text-gray-300">{item.label}:</span>
               <span className="font-medium text-white">{item.value}</span>
             </div>
@@ -47,14 +68,23 @@ export default function VideoInfoOverlay({ isVisible, metadata, onClose }: Video
         </div>
 
         {/* Additional technical info if available */}
-        {(metadata.videoCodec ?? metadata.audioCodec ?? metadata.videoBitrate ?? metadata.audioBitrate) && (
+        {(metadata.videoCodec ??
+          metadata.audioCodec ??
+          metadata.videoBitrate ??
+          metadata.audioBitrate) && (
           <div className="mt-6 space-y-2">
-            <h3 className="text-sm font-medium text-gray-300">Technical Details</h3>
+            <h3 className="text-sm font-medium text-gray-300">
+              Technical Details
+            </h3>
             <div className="space-y-2 text-sm">
               {metadata.videoCodec && (
                 <div className="flex justify-between">
                   <span className="text-gray-400">Video Codec:</span>
-                  <span>{metadata.videoProfile ? `${metadata.videoCodec} (${metadata.videoProfile})` : metadata.videoCodec}</span>
+                  <span>
+                    {metadata.videoProfile
+                      ? `${metadata.videoCodec} (${metadata.videoProfile})`
+                      : metadata.videoCodec}
+                  </span>
                 </div>
               )}
               {metadata.audioCodec && (
@@ -112,18 +142,27 @@ export default function VideoInfoOverlay({ isVisible, metadata, onClose }: Video
         {/* Encoding information */}
         {(metadata.encoder ?? metadata.creationTime) && (
           <div className="mt-6 space-y-2">
-            <h3 className="text-sm font-medium text-gray-300">Encoding Information</h3>
+            <h3 className="text-sm font-medium text-gray-300">
+              Encoding Information
+            </h3>
             <div className="space-y-2 text-sm">
               {metadata.encoder && (
                 <div className="flex justify-between">
                   <span className="text-gray-400">Encoder:</span>
-                  <span className="text-right max-w-48 truncate" title={metadata.encoder}>{metadata.encoder}</span>
+                  <span
+                    className="max-w-48 truncate text-right"
+                    title={metadata.encoder}
+                  >
+                    {metadata.encoder}
+                  </span>
                 </div>
               )}
               {metadata.creationTime && (
                 <div className="flex justify-between">
                   <span className="text-gray-400">Created:</span>
-                  <span>{new Date(metadata.creationTime).toLocaleDateString()}</span>
+                  <span>
+                    {new Date(metadata.creationTime).toLocaleDateString()}
+                  </span>
                 </div>
               )}
             </div>

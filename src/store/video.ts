@@ -2,42 +2,12 @@ import { atom } from "jotai";
 import { atomWithReset } from "jotai/utils";
 import { atomEffect } from "jotai-effect";
 import { isVideoFile } from "../utils";
-
-// Local storage helpers
-const getStoredVolume = (): number => {
-  try {
-    const stored = localStorage.getItem("videoPlayer.volume");
-    const parsed = stored ? parseFloat(stored) : 1;
-    return isNaN(parsed) ? 1 : Math.max(0, Math.min(1, parsed));
-  } catch {
-    return 1;
-  }
-};
-
-const getStoredMuted = (): boolean => {
-  try {
-    const stored = localStorage.getItem("videoPlayer.isMuted");
-    return stored === "true";
-  } catch {
-    return false;
-  }
-};
-
-const setStoredVolume = (volume: number): void => {
-  try {
-    localStorage.setItem("videoPlayer.volume", volume.toString());
-  } catch {
-    // Ignore storage errors
-  }
-};
-
-const setStoredMuted = (muted: boolean): void => {
-  try {
-    localStorage.setItem("videoPlayer.isMuted", muted.toString());
-  } catch {
-    // Ignore storage errors
-  }
-};
+import {
+  getStoredVolume,
+  setStoredVolume,
+  getStoredMuted,
+  setStoredMuted,
+} from "../utils/storage";
 
 // DATA ATOMS
 export const videoFileAtom = atomWithReset<File | null>(null);

@@ -70,19 +70,3 @@ export const extractDetailedVideoMetadata = async (
       : "Unknown",
   };
 };
-
-export const formatBitrate = (bitrate: number): string => {
-  if (bitrate >= 1_000_000) {
-    return `${(bitrate / 1_000_000).toFixed(1)} Mbps`;
-  } else if (bitrate >= 1_000) {
-    return `${(bitrate / 1_000).toFixed(0)} Kbps`;
-  }
-  return `${bitrate.toString()} bps`;
-};
-
-export const formatSampleRate = (sampleRate: number): string => {
-  if (sampleRate >= 1_000) {
-    return `${(sampleRate / 1_000).toFixed(1)} kHz`;
-  }
-  return `${sampleRate.toString()} Hz`;
-};
