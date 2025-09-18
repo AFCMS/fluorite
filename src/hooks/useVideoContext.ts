@@ -85,7 +85,7 @@ export function useUIControls() {
   const isPlaying = useAtomValue(isPlayingAtom);
   const videoUrl = useAtomValue(videoUrlAtom);
 
-  const controlsTimeoutRef = useRef<number | null>(null);
+  const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const showControlsTemporarily = useCallback(() => {
     setShowControls(true);
