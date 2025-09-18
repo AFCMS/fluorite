@@ -34,5 +34,6 @@
         "vite": "npm:rolldown-vite@latest",
         "vite-plugin-pwa": "^1.0.3",
         "workbox-window": "^7.3.0"
-    }
+    },
+    "packageManager": "pnpm@10.16.1"
 }
