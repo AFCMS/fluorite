@@ -1,5 +1,6 @@
 import { HiXMark } from "react-icons/hi2";
 import { type VideoMetadata, formatFileSize, formatResolution, formatTime } from "../utils";
+import { formatBitrate, formatSampleRate } from "../utils/mediaInfo";
 
 interface VideoInfoOverlayProps {
   isVisible: boolean;
@@ -46,14 +47,14 @@ export default function VideoInfoOverlay({ isVisible, metadata, onClose }: Video
         </div>
 
         {/* Additional technical info if available */}
-        {(metadata.videoCodec ?? metadata.audioCodec) && (
+        {(metadata.videoCodec ?? metadata.audioCodec ?? metadata.videoBitrate ?? metadata.audioBitrate) && (
           <div className="mt-6 space-y-2">
             <h3 className="text-sm font-medium text-gray-300">Technical Details</h3>
             <div className="space-y-2 text-sm">
               {metadata.videoCodec && (
                 <div className="flex justify-between">
                   <span className="text-gray-400">Video Codec:</span>
-                  <span>{metadata.videoCodec}</span>
+                  <span>{metadata.videoProfile ? `${metadata.videoCodec} (${metadata.videoProfile})` : metadata.videoCodec}</span>
                 </div>
               )}
               {metadata.audioCodec && (
@@ -66,6 +67,63 @@ export default function VideoInfoOverlay({ isVisible, metadata, onClose }: Video
                 <div className="flex justify-between">
                   <span className="text-gray-400">Frame Rate:</span>
                   <span>{metadata.videoFrameRate.toFixed(2)} fps</span>
+                </div>
+              )}
+              {metadata.videoBitrate && (
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Video Bitrate:</span>
+                  <span>{formatBitrate(metadata.videoBitrate)}</span>
+                </div>
+              )}
+              {metadata.audioBitrate && (
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Audio Bitrate:</span>
+                  <span>{formatBitrate(metadata.audioBitrate)}</span>
+                </div>
+              )}
+              {metadata.audioChannels && (
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Audio Channels:</span>
+                  <span>{metadata.audioChannels}</span>
+                </div>
+              )}
+              {metadata.audioSampleRate && (
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Sample Rate:</span>
+                  <span>{formatSampleRate(metadata.audioSampleRate)}</span>
+                </div>
+              )}
+              {metadata.videoColorSpace && (
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Color Space:</span>
+                  <span>{metadata.videoColorSpace}</span>
+                </div>
+              )}
+              {metadata.videoBitDepth && (
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Bit Depth:</span>
+                  <span>{metadata.videoBitDepth} bits</span>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Encoding information */}
+        {(metadata.encoder ?? metadata.creationTime) && (
+          <div className="mt-6 space-y-2">
+            <h3 className="text-sm font-medium text-gray-300">Encoding Information</h3>
+            <div className="space-y-2 text-sm">
+              {metadata.encoder && (
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Encoder:</span>
+                  <span className="text-right max-w-48 truncate" title={metadata.encoder}>{metadata.encoder}</span>
+                </div>
+              )}
+              {metadata.creationTime && (
+                <div className="flex justify-between">
+                  <span className="text-gray-400">Created:</span>
+                  <span>{new Date(metadata.creationTime).toLocaleDateString()}</span>
                 </div>
               )}
             </div>

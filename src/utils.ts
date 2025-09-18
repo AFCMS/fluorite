@@ -69,7 +69,7 @@ export const debounce = <T extends (...args: unknown[]) => unknown>(
 };
 
 /**
- * Video metadata information
+ * Video metadata information (legacy interface for compatibility)
  */
 export interface VideoMetadata {
   duration: number;
@@ -81,10 +81,20 @@ export interface VideoMetadata {
   containerFormat?: string;
   fileSize?: number;
   fileName?: string;
+  // Additional detailed metadata from MediaInfo
+  videoProfile?: string;
+  videoBitrate?: number;
+  videoColorSpace?: string;
+  videoBitDepth?: number;
+  audioBitrate?: number;
+  audioChannels?: number;
+  audioSampleRate?: number;
+  creationTime?: string;
+  encoder?: string;
 }
 
 /**
- * Extract metadata from video element
+ * Extract metadata from video element (basic fallback)
  */
 export const extractVideoMetadata = (video: HTMLVideoElement, file?: File): VideoMetadata => {
   const metadata: VideoMetadata = {

@@ -9,6 +9,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
   workbox: {
     clientsClaim: true,
     skipWaiting: true,
+    maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB to accommodate MediaInfoModule.wasm
   },
   manifest: {
     name: "Fluorite",

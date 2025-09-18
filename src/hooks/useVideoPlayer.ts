@@ -9,6 +9,7 @@ import {
   extractVideoMetadata,
   type VideoMetadata,
 } from "../utils";
+import { extractDetailedVideoMetadata } from "../utils/mediaInfo";
 
 interface VideoState {
   isPlaying: boolean;
@@ -78,14 +79,48 @@ export const useVideoPlayer = (): VideoPlayerHook => {
       animationFrameId = requestAnimationFrame(updateProgress);
     };
 
-    const handleLoadedMetadata = () => {
+    const handleLoadedMetadata = async () => {
       setDuration(video.duration);
       // Apply stored volume settings
       video.volume = isMuted ? 0 : volume;
       
-      // Extract and set video metadata
-      const metadata = extractVideoMetadata(video, currentFile ?? undefined);
-      setVideoMetadata(metadata);
+      // Extract basic metadata first (synchronous)
+      const basicMetadata = extractVideoMetadata(video, currentFile ?? undefined);
+      setVideoMetadata(basicMetadata);
+      
+      // Extract detailed metadata using MediaInfo (asynchronous)
+      if (currentFile) {
+        try {
+          const detailedMetadata = await extractDetailedVideoMetadata(currentFile);
+          
+          // Merge detailed metadata with basic metadata
+          const mergedMetadata: VideoMetadata = {
+            ...basicMetadata,
+            // Override with detailed info when available
+            duration: detailedMetadata.duration || basicMetadata.duration,
+            videoWidth: detailedMetadata.videoWidth || basicMetadata.videoWidth,
+            videoHeight: detailedMetadata.videoHeight || basicMetadata.videoHeight,
+            containerFormat: detailedMetadata.containerFormat || basicMetadata.containerFormat,
+            // Add detailed fields
+            videoCodec: detailedMetadata.videoCodec,
+            videoProfile: detailedMetadata.videoProfile,
+            videoBitrate: detailedMetadata.videoBitrate,
+            videoFrameRate: detailedMetadata.videoFrameRate,
+            videoColorSpace: detailedMetadata.videoColorSpace,
+            videoBitDepth: detailedMetadata.videoBitDepth,
+            audioCodec: detailedMetadata.audioCodec,
+            audioBitrate: detailedMetadata.audioBitrate,
+            audioChannels: detailedMetadata.audioChannels,
+            audioSampleRate: detailedMetadata.audioSampleRate,
+            creationTime: detailedMetadata.creationTime,
+            encoder: detailedMetadata.encoder,
+          };
+          
+          setVideoMetadata(mergedMetadata);
+        } catch (error) {
+          console.warn('Failed to extract detailed metadata, using basic metadata:', error);
+        }
+      }
     };
 
     const handleTimeUpdate = () => {
@@ -134,7 +169,9 @@ export const useVideoPlayer = (): VideoPlayerHook => {
       }
     };
 
-    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    video.addEventListener("loadedmetadata", () => {
+      void handleLoadedMetadata();
+    });
     video.addEventListener("timeupdate", handleTimeUpdate);
     video.addEventListener("play", handlePlay);
     video.addEventListener("pause", handlePause);
@@ -147,7 +184,9 @@ export const useVideoPlayer = (): VideoPlayerHook => {
     }
 
     return () => {
-      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      video.removeEventListener("loadedmetadata", () => {
+        void handleLoadedMetadata();
+      });
       video.removeEventListener("timeupdate", handleTimeUpdate);
       video.removeEventListener("play", handlePlay);
       video.removeEventListener("pause", handlePause);
