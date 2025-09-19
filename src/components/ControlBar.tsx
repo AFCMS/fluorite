@@ -78,18 +78,6 @@ export default function ControlBar(props: ControlBarProps) {
           step="0.1"
           value={videoState.currentTime}
           onChange={handleSeek}
-          onMouseDown={() => {
-            /* No longer needed */
-          }}
-          onMouseUp={() => {
-            /* No longer needed */
-          }}
-          onTouchStart={() => {
-            /* No longer needed */
-          }}
-          onTouchEnd={() => {
-            /* No longer needed */
-          }}
           onKeyDown={(e) => {
             // Prevent arrow / home / end / page keys from moving the slider while focused
             if (

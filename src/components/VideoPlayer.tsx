@@ -1,15 +1,18 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { HiFilm } from "react-icons/hi2";
 
 import { useRegisterSW } from "virtual:pwa-register/react";
 
 import ControlBar from "./ControlBar";
+import VideoInfoOverlay from "./VideoInfoOverlay";
 import {
   useVideoActions,
   useVideoUrl,
   useVideoState,
   useUIControls,
 } from "../hooks";
+import { useMediaInfoMetadata } from "../hooks";
+import type { VideoMetadata as OverlayVideoMetadata } from "../utils";
 import { isVideoFile } from "../utils";
 import { useSetAtom } from "jotai";
 import {
@@ -21,12 +24,14 @@ import {
 
 export default function VideoPlayerApp() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [showInfo, setShowInfo] = useState(false);
 
   // Get video context data
   const videoActions = useVideoActions();
   const videoUrl = useVideoUrl();
   const videoState = useVideoState();
   const uiControls = useUIControls();
+  const mediaInfo = useMediaInfoMetadata();
 
   // Manual atom setters for video state
   const setDuration = useSetAtom(updateDurationAtom);
@@ -102,6 +107,46 @@ export default function VideoPlayerApp() {
   const openFileDialog = () => {
     fileInputRef.current?.click();
   };
+
+  // Build merged metadata for overlay
+  const overlayMetadata: OverlayVideoMetadata | null = useMemo(() => {
+    if (!videoUrl) return null;
+
+    const fileName = videoState.metadata?.fileName;
+    const fileSize = videoState.metadata?.fileSize;
+
+    // Prefer MediaInfo dimensions, fallback to actual video element dimensions
+    const width = mediaInfo?.videoWidth ?? videoRef.current?.videoWidth ?? 0;
+    const height = mediaInfo?.videoHeight ?? videoRef.current?.videoHeight ?? 0;
+
+    // Derive a simple container format from file name if available
+    const containerFormat = fileName
+      ? fileName.split(".").pop()?.toUpperCase()
+      : undefined;
+
+    const merged: OverlayVideoMetadata = {
+      duration: videoState.duration || 0,
+      videoWidth: width,
+      videoHeight: height,
+      videoFrameRate: mediaInfo?.videoFrameRate,
+      videoCodec: mediaInfo?.videoCodec,
+      audioCodec: mediaInfo?.audioCodec,
+      containerFormat,
+      fileSize,
+      fileName,
+      videoProfile: undefined,
+      videoBitrate: mediaInfo?.videoBitrate,
+      videoColorSpace: mediaInfo?.videoColorSpace,
+      videoBitDepth: undefined,
+      audioBitrate: mediaInfo?.audioBitrate,
+      audioChannels: undefined,
+      audioSampleRate: mediaInfo?.audioSampleRate,
+      creationTime: undefined,
+      encoder: undefined,
+    };
+
+    return merged;
+  }, [mediaInfo, videoState.duration, videoState.metadata, videoUrl]);
 
   // Drag and drop handling
   const handleDragOver = (event: React.DragEvent) => {
@@ -274,7 +319,7 @@ export default function VideoPlayerApp() {
 
       <ControlBar
         onToggleVideoInfo={() => {
-          // Video info overlay removed for simplicity
+          setShowInfo(true);
         }}
         onOpenFile={openFileDialog}
       />
@@ -292,6 +337,15 @@ export default function VideoPlayerApp() {
           </div>
         </div>
       )}
+
+      {/* Video Info Overlay */}
+      <VideoInfoOverlay
+        isVisible={showInfo}
+        metadata={overlayMetadata}
+        onClose={() => {
+          setShowInfo(false);
+        }}
+      />
     </div>
   );
 }

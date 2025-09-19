@@ -65,4 +65,7 @@ export default defineConfig({
       ],
     }),
   ],
+  optimizeDeps: {
+    exclude: ["mediainfo.js"],
+  },
 });
