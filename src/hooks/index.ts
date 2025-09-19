@@ -4,5 +4,7 @@ export {
   useVideoUrl,
   useVideoActions,
   useVideoState,
+  useVideoMetadata,
+  useMediaInfoMetadata,
   useUIControls,
 } from "./useVideoContext";

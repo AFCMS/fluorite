@@ -14,6 +14,8 @@ import {
   isFullscreenAtom,
   isDragOverAtom,
   effectiveVolumeAtom,
+  videoMetadataAtom,
+  hasVideoMetadataAtom,
 
   // Action atoms
   videoFileSetAtom,
@@ -26,6 +28,9 @@ import {
   // Effects
   videoUrlCleanupEffect,
   videoElementSyncEffect,
+  mediaInfoInitEffect,
+  mediaInfoExtractEffect,
+  mediaInfoMetadataAtom,
 } from "../store/video";
 
 // Hook for video actions (play, pause, seek, etc.)
@@ -40,6 +45,8 @@ export function useVideoActions() {
   // Trigger effects
   useAtom(videoUrlCleanupEffect);
   useAtom(videoElementSyncEffect);
+  useAtom(mediaInfoInitEffect);
+  useAtom(mediaInfoExtractEffect);
 
   const registerVideoElement = useCallback(
     (element: HTMLVideoElement | null) => {
@@ -64,6 +71,19 @@ export function useVideoUrl() {
   return useAtomValue(videoUrlAtom);
 }
 
+// Hook for video metadata
+export function useVideoMetadata() {
+  return {
+    metadata: useAtomValue(videoMetadataAtom),
+    hasMetadata: useAtomValue(hasVideoMetadataAtom),
+  };
+}
+
+// Hook for MediaInfo detailed metadata
+export function useMediaInfoMetadata() {
+  return useAtomValue(mediaInfoMetadataAtom);
+}
+
 // Hook for video playback state
 export function useVideoState() {
   return {
@@ -74,6 +94,9 @@ export function useVideoState() {
     effectiveVolume: useAtomValue(effectiveVolumeAtom),
     isMuted: useAtomValue(isMutedAtom),
     isSeeking: useAtomValue(isSeekingAtom),
+    metadata: useAtomValue(videoMetadataAtom),
+    hasMetadata: useAtomValue(hasVideoMetadataAtom),
+    mediaInfo: useAtomValue(mediaInfoMetadataAtom),
   };
 }
 

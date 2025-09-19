@@ -5,68 +5,24 @@ export interface VideoMetadata {
   fileSize: number;
 }
 
-// Simple metadata extraction using HTML5 video element
-export const extractVideoMetadata = async (
-  file: File,
-): Promise<VideoMetadata> => {
-  return new Promise((resolve, reject) => {
-    const video = document.createElement("video");
-    const url = URL.createObjectURL(file);
-
-    video.addEventListener("loadedmetadata", () => {
-      URL.revokeObjectURL(url);
-      resolve({
-        duration: video.duration || 0,
-        fileName: file.name,
-        fileSize: file.size,
-      });
-    });
-
-    video.addEventListener("error", () => {
-      URL.revokeObjectURL(url);
-      reject(new Error("Failed to load video metadata"));
-    });
-
-    video.src = url;
-  });
-};
-
-// Keep the old interface for compatibility but mark as deprecated
-/** @deprecated Use VideoMetadata instead. This will be removed in favor of simpler metadata. */
-export interface DetailedVideoMetadata {
-  duration: number;
-  videoWidth: number;
-  videoHeight: number;
-  fileSize: number;
-  fileName: string;
-  containerFormat: string;
+export interface MediaInfoMetadata {
+  title?: string;
+  /**
+   * Codec format (e.g., AV1, H.264) of the first video track.
+   */
   videoCodec?: string;
-  videoProfile?: string;
-  videoBitrate?: number;
+  videoHeight?: number;
+  videoWidth?: number;
+  /**
+   * Frame rate (in frames per second) of the first video track.
+   */
   videoFrameRate?: number;
+  videoBitrate?: number;
   videoColorSpace?: string;
-  videoBitDepth?: number;
+  /**
+   * Codec format (e.g., AAC, Opus) of the first audio track.
+   */
   audioCodec?: string;
   audioBitrate?: number;
-  audioChannels?: number;
   audioSampleRate?: number;
-  creationTime?: string;
-  encoder?: string;
 }
-
-/** @deprecated Use extractVideoMetadata instead. MediaInfo.js integration is temporarily disabled. */
-export const extractDetailedVideoMetadata = async (
-  file: File,
-): Promise<DetailedVideoMetadata> => {
-  // Fallback to basic metadata using HTML5 video element
-  const basicMetadata = await extractVideoMetadata(file);
-
-  return {
-    ...basicMetadata,
-    videoWidth: 0,
-    videoHeight: 0,
-    containerFormat: file.type
-      ? file.type.replace("video/", "").toUpperCase()
-      : "Unknown",
-  };
-};
