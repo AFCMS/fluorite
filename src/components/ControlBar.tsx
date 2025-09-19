@@ -109,6 +109,7 @@ export default function ControlBar(props: ControlBarProps) {
           }}
           className="range-styled w-full"
           disabled={!videoUrl}
+          aria-label="Seek"
         />
         <span className="min-w-[40px] font-mono text-sm">
           {formatTime(videoState.duration)}
@@ -123,6 +124,7 @@ export default function ControlBar(props: ControlBarProps) {
             onClick={videoActions.togglePlayPause}
             disabled={!videoUrl}
             className="button-styled h-12 w-12"
+            title={videoState.isPlaying ? "Pause" : "Play"}
           >
             {videoState.isPlaying ? (
               <HiPause className="h-7 w-7" />
@@ -145,6 +147,7 @@ export default function ControlBar(props: ControlBarProps) {
               onClick={videoActions.toggleMute}
               disabled={!videoUrl}
               className="button-styled h-12 w-12"
+              title={videoState.isMuted ? "Unmute" : "Mute"}
             >
               {videoState.effectiveVolume === 0 ? (
                 <HiSpeakerXMark className="h-5 w-5" />
@@ -171,6 +174,7 @@ export default function ControlBar(props: ControlBarProps) {
                 }}
                 disabled={!videoUrl}
                 className="range-styled w-20 overflow-visible"
+                aria-label="Volume"
               />
             </div>
           </div>
@@ -203,6 +207,7 @@ export default function ControlBar(props: ControlBarProps) {
           <button
             onClick={props.onOpenFile}
             className="button-styled h-12 w-12"
+            title="Open File"
           >
             <HiFolderOpen className="h-5 w-5" />
           </button>
