@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { ChangeEvent } from "react";
+import { useLingui } from "@lingui/react/macro";
 import {
   HiPlay,
   HiPause,
@@ -60,6 +61,9 @@ export default function ControlBar(props: ControlBarProps) {
     uiControls.showControlsTemporarily();
   };
 
+  // Lingui macro
+  const { t } = useLingui();
+
   return (
     <div
       className={`absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent px-4 py-0 text-blue-100 transition-all duration-300 ${
@@ -118,7 +122,9 @@ export default function ControlBar(props: ControlBarProps) {
             onClick={videoActions.togglePlayPause}
             disabled={!videoUrl}
             className="button-styled h-12 w-12"
-            title={videoState.isPlaying ? "Pause" : isEnded ? "Replay" : "Play"}
+            title={
+              videoState.isPlaying ? t`Pause` : isEnded ? t`Replay` : t`Play`
+            }
           >
             {videoState.isPlaying ? (
               <HiPause className="h-7 w-7" />
