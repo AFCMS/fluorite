@@ -49,7 +49,6 @@ export default function VideoPlayerApp() {
       // Set up event listeners manually
       const handleLoadedMetadata = () => {
         setDuration(video.duration);
-        console.log("Video metadata loaded, duration:", video.duration);
       };
 
       const handleTimeUpdate = () => {
@@ -58,12 +57,10 @@ export default function VideoPlayerApp() {
 
       const handlePlay = () => {
         setPlayState(true);
-        console.log("Video play event");
       };
 
       const handlePause = () => {
         setPlayState(false);
-        console.log("Video pause event");
       };
 
       const handleEnded = () => {

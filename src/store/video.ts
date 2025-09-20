@@ -212,19 +212,15 @@ export const togglePlayPauseAtom = atom(null, (get, _set) => {
   const element = get(videoElementAtom);
 
   if (!element) {
-    console.log("togglePlayPause: No video element found");
+    // No element registered; nothing to toggle
     return;
   }
-
-  console.log("togglePlayPause: Current paused state:", element.paused);
 
   // Use the video element's paused property directly instead of atom state
   // to avoid race conditions with events
   if (element.paused) {
-    console.log("togglePlayPause: Starting playback");
     element.play().catch(console.error);
   } else {
-    console.log("togglePlayPause: Pausing playback");
     element.pause();
   }
 });
@@ -232,11 +228,9 @@ export const togglePlayPauseAtom = atom(null, (get, _set) => {
 export const seekToAtom = atom(null, (get, set, time: number) => {
   const element = get(videoElementAtom);
   if (!element) {
-    console.log("seekTo: No video element found");
+    // No element registered; cannot seek
     return;
   }
-
-  console.log("seekTo: Seeking to", time);
   element.currentTime = time;
   set(currentTimeAtom, time);
 });
