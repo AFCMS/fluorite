@@ -16,7 +16,18 @@ const pwaConfig: Partial<VitePWAOptions> = {
   manifest: {
     name: "Fluorite",
     short_name: "Fluorite",
-    description: "",
+    description: "An elegant PWA video player",
+    categories: ["entertainment", "productivity", "utilities", "video"],
+    screenshots: [
+      {
+        src: "fluorite_empty.png",
+        sizes: "1280x720",
+        type: "image/png",
+        label: "Fluorite - No video loaded",
+        form_factor: "wide",
+      },
+    ],
+    id: "/",
     start_url: "/",
     display: "standalone",
     orientation: "landscape-primary",
@@ -34,6 +45,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
         },
       },
     ],
+    shortcuts: [],
   },
   pwaAssets: {
     preset: "minimal-2023",
