@@ -7,6 +7,7 @@ import {
   formatSampleRate,
   formatTime,
 } from "../utils/format";
+import { t } from "@lingui/core/macro";
 
 interface VideoInfoOverlayProps {
   isVisible: boolean;
@@ -22,18 +23,21 @@ export default function VideoInfoOverlay({
   if (!isVisible || !metadata) return null;
 
   const infoItems = [
-    { label: "File Name", value: metadata.fileName ?? "Unknown" },
-    { label: "Duration", value: formatTime(metadata.duration ?? 0) },
+    { label: t`File Name`, value: metadata.fileName ?? "Unknown" },
+    { label: t`Duration`, value: formatTime(metadata.duration ?? 0) },
     {
-      label: "Resolution",
+      label: t`Resolution`,
       value: formatResolution(
         metadata.videoWidth ?? 0,
         metadata.videoHeight ?? 0,
       ),
     },
-    { label: "Container Format", value: metadata.containerFormat ?? "Unknown" },
     {
-      label: "File Size",
+      label: t`Container Format`,
+      value: metadata.containerFormat ?? "Unknown",
+    },
+    {
+      label: t`File Size`,
       value: metadata.fileSize ? formatFileSize(metadata.fileSize) : "Unknown",
     },
   ];
@@ -80,7 +84,7 @@ export default function VideoInfoOverlay({
               className="flex items-start justify-between gap-4 border-b border-gray-700 pb-2"
             >
               <span className="shrink-0 whitespace-nowrap text-gray-300">
-                {item.label}:
+                {item.label}
               </span>
               <span className="text-right font-medium break-words text-white">
                 {item.value}
@@ -96,13 +100,13 @@ export default function VideoInfoOverlay({
             {hasVideoDetails && (
               <div className="space-y-2">
                 <h3 className="text-sm font-medium text-gray-300">
-                  Video Details
+                  {t`Video Details`}
                 </h3>
                 <div className="space-y-2 text-sm">
                   {metadata.videoCodec && (
                     <div className="flex items-start justify-between gap-4">
                       <span className="shrink-0 whitespace-nowrap text-gray-400">
-                        Codec:
+                        {t`Codec:`}
                       </span>
                       <span className="text-right">
                         {metadata.videoProfile
@@ -114,7 +118,7 @@ export default function VideoInfoOverlay({
                   {metadata.videoBitrate && (
                     <div className="flex items-start justify-between gap-4">
                       <span className="shrink-0 whitespace-nowrap text-gray-400">
-                        Bitrate:
+                        {t`Bitrate:`}
                       </span>
                       <span className="text-right">
                         {formatBitrate(metadata.videoBitrate)}
@@ -124,17 +128,17 @@ export default function VideoInfoOverlay({
                   {metadata.videoFrameRate && (
                     <div className="flex items-start justify-between gap-4">
                       <span className="shrink-0 whitespace-nowrap text-gray-400">
-                        Frame Rate:
+                        {t`Frame Rate:`}
                       </span>
                       <span className="text-right">
-                        {metadata.videoFrameRate.toFixed(2)} fps
+                        {metadata.videoFrameRate.toFixed(2)} {t`fps`}
                       </span>
                     </div>
                   )}
                   {metadata.videoColorSpace && (
                     <div className="flex items-start justify-between gap-4">
                       <span className="shrink-0 whitespace-nowrap text-gray-400">
-                        Color Space:
+                        {t`Color Space:`}
                       </span>
                       <span className="text-right">
                         {metadata.videoColorSpace}
@@ -144,10 +148,10 @@ export default function VideoInfoOverlay({
                   {metadata.videoBitDepth && (
                     <div className="flex items-start justify-between gap-4">
                       <span className="shrink-0 whitespace-nowrap text-gray-400">
-                        Bit Depth:
+                        {t`Bit Depth:`}
                       </span>
                       <span className="text-right">
-                        {metadata.videoBitDepth} bits
+                        {metadata.videoBitDepth} {t`bits`}
                       </span>
                     </div>
                   )}
@@ -159,13 +163,13 @@ export default function VideoInfoOverlay({
             {hasAudioDetails && (
               <div className="space-y-2">
                 <h3 className="text-sm font-medium text-gray-300">
-                  Audio Details
+                  {t`Audio Details`}
                 </h3>
                 <div className="space-y-2 text-sm">
                   {metadata.audioCodec && (
                     <div className="flex items-start justify-between gap-4">
                       <span className="shrink-0 whitespace-nowrap text-gray-400">
-                        Codec:
+                        {t`Codec:`}
                       </span>
                       <span className="text-right">{metadata.audioCodec}</span>
                     </div>
@@ -173,7 +177,7 @@ export default function VideoInfoOverlay({
                   {metadata.audioBitrate && (
                     <div className="flex items-start justify-between gap-4">
                       <span className="shrink-0 whitespace-nowrap text-gray-400">
-                        Bitrate:
+                        {t`Bitrate:`}
                       </span>
                       <span className="text-right">
                         {formatBitrate(metadata.audioBitrate)}
@@ -183,7 +187,7 @@ export default function VideoInfoOverlay({
                   {metadata.audioChannels && (
                     <div className="flex items-start justify-between gap-4">
                       <span className="shrink-0 whitespace-nowrap text-gray-400">
-                        Channels:
+                        {t`Channels:`}
                       </span>
                       <span className="text-right">
                         {metadata.audioChannels}
@@ -193,7 +197,7 @@ export default function VideoInfoOverlay({
                   {metadata.audioSampleRate && (
                     <div className="flex items-start justify-between gap-4">
                       <span className="shrink-0 whitespace-nowrap text-gray-400">
-                        Sample Rate:
+                        {t`Sample Rate:`}
                       </span>
                       <span className="text-right">
                         {formatSampleRate(metadata.audioSampleRate)}

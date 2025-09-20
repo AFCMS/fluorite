@@ -21,6 +21,7 @@ import {
   updatePlayStateAtom,
   updateVolumeStateAtom,
 } from "../store/video";
+import { useLingui, Trans } from "@lingui/react/macro";
 
 export default function VideoPlayerApp() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -304,6 +305,9 @@ export default function VideoPlayerApp() {
     },
   });
 
+  // Lingui macro
+  const { t } = useLingui();
+
   return (
     <div
       className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 ${
@@ -348,7 +352,7 @@ export default function VideoPlayerApp() {
               </div>
               <h1 className="text-4xl font-bold">Fluorite</h1>
               <p className="text-xl text-gray-300">
-                Drop a video file anywhere or click here to open one
+                {t`Drop a video file anywhere or click here to open one`}
               </p>
             </div>
           </div>
@@ -370,7 +374,9 @@ export default function VideoPlayerApp() {
               <div className="flex justify-center">
                 <HiFilm className="h-12 w-12" />
               </div>
-              <p>Drop video file here</p>
+              <p>
+                <Trans>Drop video file here</Trans>
+              </p>
             </div>
           </div>
         </div>
