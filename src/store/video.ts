@@ -11,7 +11,7 @@ import {
   getStoredMuted,
   setStoredMuted,
 } from "../utils/storage";
-import type { MediaInfoMetadata, VideoMetadata } from "../utils/mediaInfo";
+import type { MediaInfoMetadata } from "../utils/mediaInfo";
 
 // DATA ATOMS
 export const videoFileAtom = atomWithReset<File | null>(null);
@@ -42,7 +42,7 @@ export const canPlayAtom = atom(
 );
 
 // METADATA ATOMS
-export const videoMetadataAtom = atom<VideoMetadata | null>(null);
+export const videoMetadataAtom = atom<MediaInfoMetadata | null>(null);
 
 export const hasVideoMetadataAtom = atom(
   (get) => get(videoMetadataAtom) !== null,
@@ -334,10 +334,17 @@ export const videoElementSyncEffect = atomEffect((get, set) => {
     // Extract video metadata when metadata is loaded
     const file = get(videoFileAtom);
     if (file) {
-      const metadata: VideoMetadata = {
+      const ext = file.name.split(".").pop()?.toUpperCase();
+      const metadata: MediaInfoMetadata = {
         duration: element.duration || 0,
         fileName: file.name,
         fileSize: file.size,
+        containerFormat: file.type
+          ? file.type.replace("video/", "").toUpperCase()
+          : ext,
+        // width/height from element if available
+        videoWidth: element.videoWidth || undefined,
+        videoHeight: element.videoHeight || undefined,
       };
       set(videoMetadataAtom, metadata);
     }

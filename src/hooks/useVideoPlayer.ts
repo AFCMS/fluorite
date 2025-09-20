@@ -5,9 +5,8 @@ import {
   getStoredMuteState,
   storeVolume,
   storeMuteState,
-  extractVideoMetadata,
-  type VideoMetadata,
 } from "../utils";
+import type { MediaInfoMetadata } from "../utils/mediaInfo";
 import { formatTime } from "../utils/format";
 
 interface VideoState {
@@ -18,7 +17,7 @@ interface VideoState {
   isMuted: boolean;
   isSeeking: boolean;
   videoSrc: string;
-  videoMetadata: VideoMetadata | null;
+  videoMetadata: MediaInfoMetadata | null;
   currentFile: File | null;
 }
 
@@ -53,7 +52,7 @@ export const useVideoPlayer = (): VideoPlayerHook => {
   const [duration, setDuration] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
   const [videoSrc, setVideoSrc] = useState<string>("");
-  const [videoMetadata, setVideoMetadata] = useState<VideoMetadata | null>(
+  const [videoMetadata, setVideoMetadata] = useState<MediaInfoMetadata | null>(
     null,
   );
   const [currentFile, setCurrentFile] = useState<File | null>(null);
@@ -85,11 +84,18 @@ export const useVideoPlayer = (): VideoPlayerHook => {
       // Apply stored volume settings
       video.volume = isMuted ? 0 : volume;
 
-      // Extract basic metadata first (synchronous)
-      const basicMetadata = extractVideoMetadata(
-        video,
-        currentFile ?? undefined,
-      );
+      // Build basic metadata synchronously from element and file
+      const ext = currentFile?.name.split(".").pop()?.toUpperCase();
+      const basicMetadata: MediaInfoMetadata = {
+        duration: video.duration || 0,
+        videoWidth: video.videoWidth || undefined,
+        videoHeight: video.videoHeight || undefined,
+        fileSize: currentFile?.size,
+        fileName: currentFile?.name,
+        containerFormat: currentFile?.type
+          ? currentFile.type.replace("video/", "").toUpperCase()
+          : ext,
+      };
       setVideoMetadata(basicMetadata);
 
       // Extract detailed metadata using MediaInfo (asynchronous)

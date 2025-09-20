@@ -12,7 +12,7 @@ import {
   useUIControls,
 } from "../hooks";
 import { useMediaInfoMetadata } from "../hooks";
-import type { VideoMetadata as OverlayVideoMetadata } from "../utils";
+import type { MediaInfoMetadata } from "../utils/mediaInfo";
 import { isVideoFile } from "../utils";
 import { useSetAtom } from "jotai";
 import {
@@ -109,7 +109,7 @@ export default function VideoPlayerApp() {
   };
 
   // Build merged metadata for overlay
-  const overlayMetadata: OverlayVideoMetadata | null = useMemo(() => {
+  const overlayMetadata: MediaInfoMetadata | null = useMemo(() => {
     if (!videoUrl) return null;
 
     const fileName = videoState.metadata?.fileName;
@@ -124,7 +124,7 @@ export default function VideoPlayerApp() {
       ? fileName.split(".").pop()?.toUpperCase()
       : undefined;
 
-    const merged: OverlayVideoMetadata = {
+    const merged: MediaInfoMetadata = {
       duration: videoState.duration || 0,
       videoWidth: width,
       videoHeight: height,
@@ -134,15 +134,13 @@ export default function VideoPlayerApp() {
       containerFormat,
       fileSize,
       fileName,
-      videoProfile: undefined,
       videoBitrate: mediaInfo?.videoBitrate,
       videoColorSpace: mediaInfo?.videoColorSpace,
-      videoBitDepth: undefined,
+      videoProfile: mediaInfo?.videoProfile,
+      videoBitDepth: mediaInfo?.videoBitDepth,
       audioBitrate: mediaInfo?.audioBitrate,
-      audioChannels: undefined,
+      audioChannels: mediaInfo?.audioChannels,
       audioSampleRate: mediaInfo?.audioSampleRate,
-      creationTime: undefined,
-      encoder: undefined,
     };
 
     return merged;
