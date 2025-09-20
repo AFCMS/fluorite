@@ -4,6 +4,7 @@ import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa";
 import { viteStaticCopy } from "vite-plugin-static-copy";
+import { lingui } from "@lingui/vite-plugin";
 
 const pwaConfig: Partial<VitePWAOptions> = {
   registerType: "autoUpdate",
@@ -59,7 +60,12 @@ const pwaConfig: Partial<VitePWAOptions> = {
 
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      babel: {
+        plugins: ["@lingui/babel-plugin-lingui-macro"],
+      },
+    }),
+    lingui(),
     tailwindcss(),
     VitePWA(pwaConfig),
     viteStaticCopy({
