@@ -13,6 +13,84 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
+#: src/components/VideoInfoOverlay.tsx:166
+msgid "Audio Details"
+msgstr "Audio Details"
+
+#: src/components/VideoInfoOverlay.tsx:151
+msgid "Bit Depth:"
+msgstr "Bit Depth:"
+
+#: src/components/VideoInfoOverlay.tsx:121
+#: src/components/VideoInfoOverlay.tsx:180
+msgid "Bitrate:"
+msgstr "Bitrate:"
+
+#: src/components/VideoInfoOverlay.tsx:154
+msgid "bits"
+msgstr "bits"
+
+#: src/components/VideoInfoOverlay.tsx:190
+msgid "Channels:"
+msgstr "Channels:"
+
+#: src/components/VideoInfoOverlay.tsx:109
+#: src/components/VideoInfoOverlay.tsx:172
+msgid "Codec:"
+msgstr "Codec:"
+
+#: src/components/VideoInfoOverlay.tsx:141
+msgid "Color Space:"
+msgstr "Color Space:"
+
+#: src/components/VideoInfoOverlay.tsx:36
+msgid "Container Format"
+msgstr "Container Format"
+
+#: src/components/VideoPlayer.tsx:372
+msgid "Drop a video file anywhere or click here to open one"
+msgstr "Drop a video file anywhere or click here to open one"
+
+#: src/components/VideoPlayer.tsx:395
+msgid "Drop video file here"
+msgstr "Drop video file here"
+
+#: src/components/VideoInfoOverlay.tsx:27
+msgid "Duration"
+msgstr "Duration"
+
+#: src/components/ControlBar.tsx:192
+msgid "Enter fullscreen"
+msgstr "Enter fullscreen"
+
+#: src/components/ControlBar.tsx:191
+msgid "Exit fullscreen"
+msgstr "Exit fullscreen"
+
+#: src/components/VideoInfoOverlay.tsx:26
+msgid "File Name"
+msgstr "File Name"
+
+#: src/components/VideoInfoOverlay.tsx:40
+msgid "File Size"
+msgstr "File Size"
+
+#: src/components/VideoInfoOverlay.tsx:134
+msgid "fps"
+msgstr "fps"
+
+#: src/components/VideoInfoOverlay.tsx:131
+msgid "Frame Rate:"
+msgstr "Frame Rate:"
+
+#: src/components/ControlBar.tsx:142
+msgid "Mute"
+msgstr "Mute"
+
+#: src/components/ControlBar.tsx:204
+msgid "Open File"
+msgstr "Open File"
+
 #: src/components/ControlBar.tsx:119
 msgid "Pause"
 msgstr "Pause"
@@ -20,3 +98,27 @@ msgstr "Pause"
 #: src/components/ControlBar.tsx:119
 msgid "Play"
 msgstr "Play"
+
+#: src/components/VideoInfoOverlay.tsx:29
+msgid "Resolution"
+msgstr "Resolution"
+
+#: src/components/VideoInfoOverlay.tsx:200
+msgid "Sample Rate:"
+msgstr "Sample Rate:"
+
+#: src/components/ControlBar.tsx:142
+msgid "Unmute"
+msgstr "Unmute"
+
+#: src/components/VideoInfoOverlay.tsx:103
+msgid "Video Details"
+msgstr "Video Details"
+
+#: src/components/ControlBar.tsx:180
+msgid "Video Information"
+msgstr "Video Information"
+
+#: src/components/ControlBar.tsx:169
+msgid "Volume"
+msgstr "Volume"

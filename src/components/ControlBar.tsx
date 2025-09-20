@@ -149,7 +149,7 @@ export default function ControlBar(props: ControlBarProps) {
               onClick={videoActions.toggleMute}
               disabled={!videoUrl}
               className="button-styled h-12 w-12"
-              title={videoState.isMuted ? "Unmute" : "Mute"}
+              title={videoState.isMuted ? t`Unmute` : t`Mute`}
             >
               {videoState.effectiveVolume === 0 ? (
                 <HiSpeakerXMark className="h-5 w-5" />
@@ -176,7 +176,7 @@ export default function ControlBar(props: ControlBarProps) {
                 }}
                 disabled={!videoUrl}
                 className="range-styled w-20 overflow-visible"
-                aria-label="Volume"
+                aria-label={t`Volume`}
               />
             </div>
           </div>
@@ -187,7 +187,7 @@ export default function ControlBar(props: ControlBarProps) {
             onClick={props.onToggleVideoInfo}
             disabled={!videoUrl}
             className="button-styled h-12 w-12"
-            title="Video Information (I)"
+            title={t`Video Information` + " (I)"}
           >
             <HiInformationCircle className="h-5 w-5" />
           </button>
@@ -198,8 +198,8 @@ export default function ControlBar(props: ControlBarProps) {
             className="button-styled h-12 w-12"
             title={
               uiControls.isFullscreen
-                ? "Exit fullscreen (F)"
-                : "Enter fullscreen (F)"
+                ? t`Exit fullscreen` + " (F)"
+                : t`Enter fullscreen` + " (F)"
             }
           >
             {uiControls.isFullscreen ? (
@@ -211,7 +211,7 @@ export default function ControlBar(props: ControlBarProps) {
           <button
             onClick={props.onOpenFile}
             className="button-styled h-12 w-12"
-            title="Open File (O)"
+            title={t`Open File` + " (O)"}
           >
             <HiFolderOpen className="h-5 w-5" />
           </button>
