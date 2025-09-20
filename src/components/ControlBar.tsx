@@ -173,7 +173,7 @@ export default function ControlBar(props: ControlBarProps) {
             onClick={props.onToggleVideoInfo}
             disabled={!videoUrl}
             className="button-styled h-12 w-12"
-            title="Video Information"
+            title="Video Information (I)"
           >
             <HiInformationCircle className="h-5 w-5" />
           </button>
@@ -183,7 +183,9 @@ export default function ControlBar(props: ControlBarProps) {
             }}
             className="button-styled h-12 w-12"
             title={
-              uiControls.isFullscreen ? "Exit fullscreen" : "Enter fullscreen"
+              uiControls.isFullscreen
+                ? "Exit fullscreen (F)"
+                : "Enter fullscreen (F)"
             }
           >
             {uiControls.isFullscreen ? (
@@ -195,7 +197,7 @@ export default function ControlBar(props: ControlBarProps) {
           <button
             onClick={props.onOpenFile}
             className="button-styled h-12 w-12"
-            title="Open File"
+            title="Open File (O)"
           >
             <HiFolderOpen className="h-5 w-5" />
           </button>

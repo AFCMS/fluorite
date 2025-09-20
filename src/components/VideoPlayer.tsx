@@ -206,6 +206,66 @@ export default function VideoPlayerApp() {
   // Keyboard shortcuts: Left/Right arrow seek 5s
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
+      // Toggle fullscreen with "F" anywhere (unless typing in inputs)
+      if (e.key === "f" || e.key === "F") {
+        const target = e.target as HTMLElement | null;
+        const tag = target?.tagName;
+        const editable = target?.isContentEditable ?? false;
+        const isEditableTag =
+          tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+        const isEditable = editable || isEditableTag;
+        if (!isEditable) {
+          e.preventDefault();
+          void uiControls.toggleFullscreen();
+          return;
+        }
+      }
+
+      // Open file dialog with "O" anywhere (unless typing in inputs)
+      if (e.key === "o" || e.key === "O") {
+        const target = e.target as HTMLElement | null;
+        const tag = target?.tagName;
+        const editable = target?.isContentEditable ?? false;
+        const isEditableTag =
+          tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+        const isEditable = editable || isEditableTag;
+        if (!isEditable) {
+          e.preventDefault();
+          fileInputRef.current?.click();
+          return;
+        }
+      }
+
+      // Toggle info overlay with "I" anywhere (unless typing in inputs)
+      if (e.key === "i" || e.key === "I") {
+        const target = e.target as HTMLElement | null;
+        const tag = target?.tagName;
+        const editable = target?.isContentEditable ?? false;
+        const isEditableTag =
+          tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+        const isEditable = editable || isEditableTag;
+        if (!isEditable) {
+          e.preventDefault();
+          setShowInfo((prev) => !prev);
+          return;
+        }
+      }
+
+      // Close info overlay with Escape (don't block browser fullscreen exit)
+      if (e.key === "Escape") {
+        const target = e.target as HTMLElement | null;
+        const tag = target?.tagName;
+        const editable = target?.isContentEditable ?? false;
+        const isEditableTag =
+          tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+        const isEditable = editable || isEditableTag;
+        if (!isEditable) {
+          // No preventDefault here to allow native behaviors (e.g., exit fullscreen)
+          setShowInfo(false);
+          return;
+        }
+      }
+
       if (!videoUrl) return;
       if (e.key === "ArrowRight") {
         e.preventDefault();
@@ -234,7 +294,7 @@ export default function VideoPlayerApp() {
     return () => {
       document.removeEventListener("keydown", handleKey);
     };
-  }, [videoActions, videoUrl]);
+  }, [videoActions, videoUrl, uiControls, setShowInfo]);
 
   // Service Worker registration and update handling
   const { updateServiceWorker } = useRegisterSW({
