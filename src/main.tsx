@@ -18,7 +18,6 @@ await dynamicActivate(sanitizedBrowserLanguageIfSupportedOrEnglish);
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Analytics />
-    {/* eslint-disable-next-line @typescript-eslint/no-unsafe-assignment*/}
     <I18nProvider i18n={i18n}>
       <App />
     </I18nProvider>
