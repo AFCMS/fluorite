@@ -374,7 +374,7 @@ export default function VideoPlayerApp() {
               <div className="flex justify-center">
                 <HiFilm className="h-12 w-12" />
               </div>
-              <p>t`Drop video file here`</p>
+              <p>{t`Drop video file here`}</p>
             </div>
           </div>
         </div>
