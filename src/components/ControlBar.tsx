@@ -9,6 +9,7 @@ import {
   HiArrowsPointingOut,
   HiArrowsPointingIn,
   HiInformationCircle,
+  HiArrowPath,
 } from "react-icons/hi2";
 import {
   useVideoActions,
@@ -31,6 +32,11 @@ export default function ControlBar(props: ControlBarProps) {
   const videoUrl = useVideoUrl();
   const videoState = useVideoState();
   const uiControls = useUIControls();
+  const isEnded =
+    !!videoUrl &&
+    !videoState.isPlaying &&
+    videoState.duration > 0 &&
+    videoState.currentTime >= Math.max(0, videoState.duration - 0.2);
 
   // Local handlers
   const handleSeek = (event: ChangeEvent<HTMLInputElement>) => {
@@ -112,10 +118,12 @@ export default function ControlBar(props: ControlBarProps) {
             onClick={videoActions.togglePlayPause}
             disabled={!videoUrl}
             className="button-styled h-12 w-12"
-            title={videoState.isPlaying ? "Pause" : "Play"}
+            title={videoState.isPlaying ? "Pause" : isEnded ? "Replay" : "Play"}
           >
             {videoState.isPlaying ? (
               <HiPause className="h-7 w-7" />
+            ) : isEnded ? (
+              <HiArrowPath className="h-7 w-7" />
             ) : (
               <HiPlay className="h-7 w-7" />
             )}
