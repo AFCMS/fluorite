@@ -15,10 +15,12 @@ Fluorite is an elegant Progressive Web App (PWA) video player built with React, 
 **Development Workflow:**
 
 1. Install dependencies: `pnpm install`
-2. Run linting: `pnpm run lint` (run ESLint to ensure code quality)
-3. Build the project: `pnpm run build` (typecheck and build application, NEVER CANCEL, set timeout to 30+ seconds)
-4. Run development server: `pnpm run dev` (starts development server with hot reload)
-5. Run preview server: `pnpm run preview` (for serving built application)
+2. Run text extract command for translation: `pnpm run extract`
+3. Add the translation in all locale sub-directory of `src/locales`
+4. Run linting: `pnpm run lint` (run ESLint to ensure code quality)
+5. Build the project: `pnpm run build` (typecheck and build application, NEVER CANCEL, set timeout to 30+ seconds)
+6. Run development server: `pnpm run dev` (starts development server with hot reload)
+7. Run preview server: `pnpm run preview` (for serving built application)
 
 ### Running the Application
 
@@ -90,6 +92,7 @@ After making any changes, ALWAYS test these scenarios:
   - `components/`: UI components (ControlBar.tsx)
   - `hooks/`: Custom React hooks (useFileHandler.ts, etc.)
   - `utils.ts`: Utility functions and constants
+  - `locales/`: Extracted and translated text in PO format
 - `public/`: Static assets (fluorite.svg)
 - `dist/`: Build output (generated)
 
@@ -101,6 +104,7 @@ After making any changes, ALWAYS test these scenarios:
 - `tsconfig.app.json`: Application TypeScript settings
 - `eslint.config.js`: ESLint configuration
 - `prettier.config.js`: Prettier formatting configuration
+- `lingui.config.ts`: Lingui configuration
 
 **Important Implementation Details:**
 
@@ -109,6 +113,7 @@ After making any changes, ALWAYS test these scenarios:
 - PWA features include service worker, manifest, and file handling
 - Tailwind CSS for styling
 - React 19 with TypeScript strict mode
+- Use the Lingui macro for translating UI text (not the `<Trans>` component)
 
 ## Common Commands Reference
 
@@ -127,6 +132,9 @@ pnpm run lint         # Run ESLint
 # Formatting
 pnpx prettier --write .  # Format all files
 pnpx prettier --check .  # Check formatting
+
+# Translating
+pnpm run extract # Extract text from the app and add them in PO translation files
 ```
 
 **Troubleshooting:**
@@ -143,6 +151,7 @@ pnpx prettier --check .  # Check formatting
 **Language:** TypeScript (strict mode)
 **Styling:** Tailwind CSS v4 with Vite plugin
 **PWA:** vite-plugin-pwa with Workbox
+**Internationalization:** Lingui with Vite plugin
 
 **Deploy Target:** Vercel (based on README badges)
 **Browser Support:** Modern browsers with PWA support

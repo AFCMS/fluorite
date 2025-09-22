@@ -47,23 +47,23 @@ msgstr "Espace colorimétrique :"
 msgid "Container Format"
 msgstr "Format de conteneur"
 
-#: src/components/VideoPlayer.tsx:372
+#: src/components/VideoPlayer.tsx:355
 msgid "Drop a video file anywhere or click here to open one"
 msgstr "Déposez un fichier vidéo n'importe où, ou cliquez ici pour en ouvrir un"
 
 #: src/components/VideoPlayer.tsx:395
-msgid "Drop video file here"
-msgstr "Déposez un fichier vidéo ici"
+#~ msgid "Drop video file here"
+#~ msgstr "Déposez un fichier vidéo ici"
 
 #: src/components/VideoInfoOverlay.tsx:27
 msgid "Duration"
 msgstr "Durée"
 
-#: src/components/ControlBar.tsx:192
+#: src/components/ControlBar.tsx:202
 msgid "Enter fullscreen"
 msgstr "Mettre en plein écran"
 
-#: src/components/ControlBar.tsx:191
+#: src/components/ControlBar.tsx:201
 msgid "Exit fullscreen"
 msgstr "Sortir du plein écran"
 
@@ -83,21 +83,25 @@ msgstr "fps"
 msgid "Frame Rate:"
 msgstr "Fréquence d'images :"
 
-#: src/components/ControlBar.tsx:142
+#: src/components/ControlBar.tsx:152
 msgid "Mute"
 msgstr "Désactiver le son"
 
-#: src/components/ControlBar.tsx:204
+#: src/components/ControlBar.tsx:214
 msgid "Open File"
 msgstr "Ouvrir un fichier"
 
-#: src/components/ControlBar.tsx:119
+#: src/components/ControlBar.tsx:126
 msgid "Pause"
 msgstr "Pause"
 
-#: src/components/ControlBar.tsx:119
+#: src/components/ControlBar.tsx:126
 msgid "Play"
 msgstr "Lire"
+
+#: src/components/ControlBar.tsx:126
+msgid "Replay"
+msgstr "Relancer"
 
 #: src/components/VideoInfoOverlay.tsx:29
 msgid "Resolution"
@@ -107,7 +111,7 @@ msgstr "Résolution"
 msgid "Sample Rate:"
 msgstr "Fréquence d'échantillonnage :"
 
-#: src/components/ControlBar.tsx:142
+#: src/components/ControlBar.tsx:152
 msgid "Unmute"
 msgstr "Activer le son"
 
@@ -115,10 +119,10 @@ msgstr "Activer le son"
 msgid "Video Details"
 msgstr "Détails vidéo"
 
-#: src/components/ControlBar.tsx:180
+#: src/components/ControlBar.tsx:190
 msgid "Video Information"
 msgstr "Informations sur la vidéo"
 
-#: src/components/ControlBar.tsx:169
+#: src/components/ControlBar.tsx:179
 msgid "Volume"
 msgstr "Volume"

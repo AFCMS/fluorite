@@ -47,23 +47,23 @@ msgstr "Color Space:"
 msgid "Container Format"
 msgstr "Container Format"
 
-#: src/components/VideoPlayer.tsx:372
+#: src/components/VideoPlayer.tsx:355
 msgid "Drop a video file anywhere or click here to open one"
 msgstr "Drop a video file anywhere or click here to open one"
 
 #: src/components/VideoPlayer.tsx:395
-msgid "Drop video file here"
-msgstr "Drop video file here"
+#~ msgid "Drop video file here"
+#~ msgstr "Drop video file here"
 
 #: src/components/VideoInfoOverlay.tsx:27
 msgid "Duration"
 msgstr "Duration"
 
-#: src/components/ControlBar.tsx:192
+#: src/components/ControlBar.tsx:202
 msgid "Enter fullscreen"
 msgstr "Enter fullscreen"
 
-#: src/components/ControlBar.tsx:191
+#: src/components/ControlBar.tsx:201
 msgid "Exit fullscreen"
 msgstr "Exit fullscreen"
 
@@ -83,21 +83,25 @@ msgstr "fps"
 msgid "Frame Rate:"
 msgstr "Frame Rate:"
 
-#: src/components/ControlBar.tsx:142
+#: src/components/ControlBar.tsx:152
 msgid "Mute"
 msgstr "Mute"
 
-#: src/components/ControlBar.tsx:204
+#: src/components/ControlBar.tsx:214
 msgid "Open File"
 msgstr "Open File"
 
-#: src/components/ControlBar.tsx:119
+#: src/components/ControlBar.tsx:126
 msgid "Pause"
 msgstr "Pause"
 
-#: src/components/ControlBar.tsx:119
+#: src/components/ControlBar.tsx:126
 msgid "Play"
 msgstr "Play"
+
+#: src/components/ControlBar.tsx:126
+msgid "Replay"
+msgstr "Replay"
 
 #: src/components/VideoInfoOverlay.tsx:29
 msgid "Resolution"
@@ -107,7 +111,7 @@ msgstr "Resolution"
 msgid "Sample Rate:"
 msgstr "Sample Rate:"
 
-#: src/components/ControlBar.tsx:142
+#: src/components/ControlBar.tsx:152
 msgid "Unmute"
 msgstr "Unmute"
 
@@ -115,10 +119,10 @@ msgstr "Unmute"
 msgid "Video Details"
 msgstr "Video Details"
 
-#: src/components/ControlBar.tsx:180
+#: src/components/ControlBar.tsx:190
 msgid "Video Information"
 msgstr "Video Information"
 
-#: src/components/ControlBar.tsx:169
+#: src/components/ControlBar.tsx:179
 msgid "Volume"
 msgstr "Volume"
