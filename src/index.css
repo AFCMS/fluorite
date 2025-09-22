@@ -1,5 +1,10 @@
 @import "tailwindcss";
 
+* {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
 /* Disable all focus outlines */
 *:focus {
   outline: none !important;
