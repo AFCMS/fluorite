@@ -121,7 +121,7 @@ export const useUIControls = (
         !["INPUT", "TEXTAREA"].includes((event.target as HTMLElement).tagName)
       ) {
         event.preventDefault();
-        setShowVideoInfo(prev => !prev);
+        setShowVideoInfo((prev) => !prev);
       }
       // Also support F11 (browser fullscreen)
       if (event.key === "F11") {
@@ -140,7 +140,7 @@ export const useUIControls = (
   }, [toggleFullscreen, onOpenFile, videoSrc]);
 
   const toggleVideoInfo = useCallback(() => {
-    setShowVideoInfo(prev => !prev);
+    setShowVideoInfo((prev) => !prev);
   }, []);
 
   const onMouseEnterControls = useCallback(() => {
