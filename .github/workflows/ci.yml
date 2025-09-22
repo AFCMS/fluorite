@@ -55,15 +55,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Start server
-        run: |
-          pnpm run build
-          pnpm run preview &
-          sleep 5
+      - name: Build project
+        run: pnpm run build
 
-      - name: Run Lighthouse 12
-        uses: treosh/lighthouse-ci-action@v12
-        with:
-          urls: http://localhost:4173
-          uploadArtifacts: true
-          temporaryPublicStorage: true
+      - name: Run Lighthouse CI
+        run: pnpm lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}

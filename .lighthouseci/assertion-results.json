@@ -1,0 +1,16 @@
+[
+  {
+    "name": "auditRan",
+    "expected": 1,
+    "actual": 0,
+    "values": [
+      0
+    ],
+    "operator": ">=",
+    "passed": false,
+    "auditProperty": "pwa",
+    "auditId": "categories",
+    "level": "warn",
+    "url": "http://localhost:4173/"
+  }
+]
