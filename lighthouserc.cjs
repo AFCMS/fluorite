@@ -1,9 +1,9 @@
 module.exports = {
   ci: {
     collect: {
-      url: ["http://localhost:4173"],
-      startServerCommand: "pnpm run preview",
-      startServerReadyPattern: "Local:",
+      url: ["http://localhost:8080"],
+      startServerCommand: "caddy file-server --root ./dist --listen :8080",
+      startServerReadyPattern: "serving static files",
       numberOfRuns: 3,
       settings: {
         // Desktop navigation mode settings
@@ -25,8 +25,8 @@ module.exports = {
         },
         // Use navigation mode for realistic user experience
         gatherMode: "navigation",
-        // Include all categories to ensure PWA runs when possible
-        onlyCategories: ["performance", "accessibility", "best-practices", "seo", "pwa"],
+        // Exclude PWA category as requested
+        onlyCategories: ["performance", "accessibility", "best-practices", "seo"],
       },
     },
     assert: {
@@ -36,9 +36,6 @@ module.exports = {
         "categories:accessibility": ["error", { minScore: 0.9 }],
         "categories:best-practices": ["warn", { minScore: 0.8 }],
         "categories:seo": ["warn", { minScore: 0.8 }],
-        
-        // PWA category (only fails if it runs - allows for HTTP local testing)
-        "categories:pwa": ["warn", { minScore: 0.8 }],
         
         // Performance budgets (adjusted for video player PWA)
         "resource-summary:document:size": ["warn", { maxNumericValue: 100000 }],
