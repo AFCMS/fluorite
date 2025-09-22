@@ -8,7 +8,7 @@ import pluginLingui from "eslint-plugin-lingui";
 
 export default tseslint.config([
   pluginLingui.configs["flat/recommended"],
-  globalIgnores(["dist"]),
+  globalIgnores(["dist", "coverage", "node_modules", "src/locales"]),
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
