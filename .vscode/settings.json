@@ -14,5 +14,12 @@
     },
     "[tailwindcss]": {
         "editor.tabSize": 2
+    },
+    "chat.tools.terminal.autoApprove": {
+        "pnpm run preview": true,
+        "pnpm run build": true,
+        "pnpm run lint": true,
+        "pnpm run test": true,
+        "pnpm run dev": true
     }
 }
