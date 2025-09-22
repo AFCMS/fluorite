@@ -21,7 +21,7 @@ import {
   updatePlayStateAtom,
   updateVolumeStateAtom,
 } from "../store/video";
-import { useLingui, Trans } from "@lingui/react/macro";
+import { useLingui } from "@lingui/react/macro";
 
 export default function VideoPlayerApp() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -374,9 +374,7 @@ export default function VideoPlayerApp() {
               <div className="flex justify-center">
                 <HiFilm className="h-12 w-12" />
               </div>
-              <p>
-                <Trans>Drop video file here</Trans>
-              </p>
+              <p>t`Drop video file here`</p>
             </div>
           </div>
         </div>
