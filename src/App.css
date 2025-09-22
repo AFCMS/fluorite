@@ -1,7 +1,13 @@
+:root {
+  --color-base: var(--color-slate-200);
+  --color-base-hover: var(--color-slate-100);
+  --color-base-disabled: var(--color-slate-300);
+}
+
 .range-styled {
-  --track-height: calc(var(--spacing) * 2);
-  --thumb-height: calc(var(--spacing) * 4);
-  --track-color: var(--color-sky-100);
+  --track-height: calc(var(--spacing) * 1.5);
+  --thumb-height: calc(var(--spacing) * 3.5);
+  --track-color: var(--color-base);
   --thumb-color: var(--color-sky-500);
   appearance: none;
   background-color: transparent;
@@ -45,9 +51,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-sky-100);
+  color: var(--color-slate-300);
   @apply transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50;
   &:hover {
-    color: var(--color-sky-200);
+    color: var(--color-base-hover);
+  }
+  &:disabled {
+    color: var(--color-base-disabled);
   }
 }
