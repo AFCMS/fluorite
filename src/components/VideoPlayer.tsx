@@ -352,8 +352,8 @@ export default function VideoPlayerApp() {
 
       {/* Drag Overlay */}
       {uiControls.isDragOver && (
-        <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-blue-500/20 backdrop-blur-sm">
-          <div className="rounded-2xl bg-blue-600 px-12 py-8 text-2xl font-medium text-white shadow-2xl">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="rounded-xl bg-gray-900/95 p-6 text-xl font-medium text-white shadow-2xl">
             <div className="space-y-2 text-center">
               <div className="flex justify-center">
                 <HiFilm className="h-12 w-12" />
