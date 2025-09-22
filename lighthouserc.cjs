@@ -6,8 +6,8 @@ module.exports = {
       startServerReadyPattern: "Local:",
       numberOfRuns: 3,
       settings: {
-        // Mobile PWA settings
-        emulatedFormFactor: "mobile",
+        // Desktop navigation mode settings
+        formFactor: "desktop",
         throttling: {
           rttMs: 40,
           throughputKbps: 10240,
@@ -16,6 +16,15 @@ module.exports = {
           downloadThroughputKbps: 0,
           uploadThroughputKbps: 0,
         },
+        screenEmulation: {
+          mobile: false,
+          width: 1350,
+          height: 940,
+          deviceScaleFactor: 1,
+          disabled: false,
+        },
+        // Use navigation mode for realistic user experience
+        gatherMode: "navigation",
         // Include all categories to ensure PWA runs when possible
         onlyCategories: ["performance", "accessibility", "best-practices", "seo", "pwa"],
       },
