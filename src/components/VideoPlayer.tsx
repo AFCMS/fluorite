@@ -32,6 +32,7 @@ export default function VideoPlayerApp() {
   const videoState = useVideoState();
   const uiControls = useUIControls();
   const mediaInfo = useMediaInfoMetadata();
+  const dragCounter = useRef(0);
 
   // Manual atom setters for video state
   const setDuration = useSetAtom(updateDurationAtom);
@@ -144,18 +145,28 @@ export default function VideoPlayerApp() {
   }, [mediaInfo, videoState.duration, videoState.metadata, videoUrl]);
 
   // Drag and drop handling
+  const handleDragEnter = (event: React.DragEvent) => {
+    event.preventDefault();
+    dragCounter.current += 1;
+    uiControls.setIsDragOver(true);
+  };
+
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault();
-    uiControls.setIsDragOver(true);
+    event.dataTransfer.dropEffect = "copy";
   };
 
   const handleDragLeave = (event: React.DragEvent) => {
     event.preventDefault();
-    uiControls.setIsDragOver(false);
+    dragCounter.current = Math.max(0, dragCounter.current - 1);
+    if (dragCounter.current === 0) {
+      uiControls.setIsDragOver(false);
+    }
   };
 
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
+    dragCounter.current = 0;
     uiControls.setIsDragOver(false);
 
     const files = event.dataTransfer.files;
@@ -302,6 +313,7 @@ export default function VideoPlayerApp() {
           ? "cursor-none"
           : "cursor-default"
       }`}
+      onDragEnter={handleDragEnter}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
@@ -352,7 +364,7 @@ export default function VideoPlayerApp() {
 
       {/* Drag Overlay */}
       {uiControls.isDragOver && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+        <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="rounded-xl bg-gray-900/95 p-6 text-xl font-medium text-white shadow-2xl">
             <div className="space-y-2 text-center">
               <div className="flex justify-center">
