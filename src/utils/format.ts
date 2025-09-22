@@ -42,8 +42,21 @@ export const formatResolution = (width: number, height: number): string => {
   return `${width.toString()}×${height.toString()} (${aspectWidth.toString()}:${aspectHeight.toString()})`;
 };
 
+/**
+ * Format time in seconds to H:MM:SS or M:SS if less than an hour
+ */
 export const formatTime = (time: number): string => {
-  const minutes = Math.floor(time / 60);
-  const seconds = Math.floor(time % 60);
+  const totalSeconds = Math.max(0, Math.floor(time));
+
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  if (hours > 0) {
+    return `${hours.toString()}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  }
+
   return `${minutes.toString()}:${seconds.toString().padStart(2, "0")}`;
 };

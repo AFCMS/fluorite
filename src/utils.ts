@@ -46,8 +46,3 @@ export const storeMuteState = (isMuted: boolean): void => {
 export const isVideoFile = (file: File): boolean => {
   return file.type.startsWith("video/");
 };
-
-/**
- * Debounce function for limiting the rate of function calls
- */
-// Legacy debounce was removed to address root cause with event sequencing; avoid masking issues with timers.
