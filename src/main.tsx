@@ -14,10 +14,13 @@ const sanitizedBrowserLanguageIfSupportedOrEnglish =
   getSanitizedBrowserLanguageIfSupportedOrEnglish();
 await dynamicActivate(sanitizedBrowserLanguageIfSupportedOrEnglish);
 
+const isAnalyticsEnabled =
+  import.meta.env.VITE_DISABLE_VERCEL_ANALYTICS !== "true";
+
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Analytics />
+    {isAnalyticsEnabled && <Analytics />}
     <I18nProvider i18n={i18n}>
       <App />
     </I18nProvider>
