@@ -20,7 +20,7 @@
                 },
                 {
                     "key": "Permissions-Policy",
-                    "value": "autoplay=(self), fullscreen=(self), picture-in-picture=(), geolocation=(), microphone=(), camera=(), display-capture=(), screen-wake-lock=(), usb=(), serial=(), bluetooth=(), hid=(), midi=(), payment=(), speaker-selection=(), accelerometer=(), gyroscope=(), magnetometer=(), clipboard-read=(), clipboard-write=(), web-share=(), idle-detection=(), document-domain=(), encrypted-media=(), storage-access=(), attribution-reporting=(), browsing-topics=(), run-ad-auction=(), join-ad-interest-group=(), publickey-credentials-get=(), xr-spatial-tracking=(), gamepad=(), sync-xhr=(), local-fonts=(), otp-credentials=(), window-management=()"
+                    "value": "autoplay=(self), fullscreen=(self), picture-in-picture=(), geolocation=(), microphone=(), camera=(), display-capture=(), screen-wake-lock=(), usb=(), serial=(), hid=(), midi=(), payment=(), accelerometer=(), gyroscope=(), magnetometer=(), clipboard-read=(), clipboard-write=(), idle-detection=(), encrypted-media=(), storage-access=(), attribution-reporting=(), browsing-topics=(), run-ad-auction=(), join-ad-interest-group=(), publickey-credentials-get=(), xr-spatial-tracking=(), gamepad=(), sync-xhr=(), local-fonts=(), otp-credentials=(), window-management=()"
                 },
                 {
                     "key": "Cross-Origin-Resource-Policy",
