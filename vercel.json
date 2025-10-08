@@ -1,0 +1,40 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "fluid": true,
+    "framework": "vite",
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                },
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                },
+                {
+                    "key": "Referrer-Policy",
+                    "value": "no-referrer"
+                },
+                {
+                    "key": "Permissions-Policy",
+                    "value": "autoplay=(self), fullscreen=(self), picture-in-picture=(), geolocation=(), microphone=(), camera=(), display-capture=(), screen-wake-lock=(), usb=(), serial=(), bluetooth=(), hid=(), midi=(), payment=(), speaker-selection=(), accelerometer=(), gyroscope=(), magnetometer=(), clipboard-read=(), clipboard-write=(), web-share=(), idle-detection=(), document-domain=(), encrypted-media=(), storage-access=(), attribution-reporting=(), browsing-topics=(), run-ad-auction=(), join-ad-interest-group=(), publickey-credentials-get=(), xr-spatial-tracking=(), gamepad=(), sync-xhr=(), local-fonts=(), otp-credentials=(), window-management=()"
+                },
+                {
+                    "key": "Cross-Origin-Resource-Policy",
+                    "value": "same-origin"
+                },
+                {
+                    "key": "Strict-Transport-Security",
+                    "value": "max-age=63072000; includeSubDomains; preload"
+                },
+                {
+                    "key": "Content-Security-Policy",
+                    "value": "default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; frame-src 'none'; form-action 'none'; navigate-to 'self'; manifest-src 'self'; worker-src 'self'; connect-src 'self'; img-src 'self' data: blob:; font-src 'self' data:; style-src 'self'; script-src 'self' 'wasm-unsafe-eval'; media-src 'self' blob:; prefetch-src 'self'; upgrade-insecure-requests"
+                }
+            ]
+        }
+    ]
+}
