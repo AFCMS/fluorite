@@ -15,6 +15,8 @@ LABEL io.artifacthub.package.keywords="video-player,offline,pwa"
 LABEL io.artifacthub.package.license="GPL-3.0-only"
 LABEL io.artifacthub.package.maintainers='[{"name":"AFCMS","email":"afcm.contact@gmail.com"}]'
 
+ENV VITE_DISABLE_VERCEL_ANALYTICS="true"
+
 RUN corepack enable pnpm
 
 WORKDIR /app
