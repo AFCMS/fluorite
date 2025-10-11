@@ -129,7 +129,7 @@ jobs:
             org.opencontainers.image.licenses=GPL-3.0-only
             org.opencontainers.image.source=https://github.com/AFCMS/fluorite
             io.artifacthub.package.logo-url=https://raw.githubusercontent.com/AFCMS/fluorite/refs/heads/master/public/fluorite.svg
-            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/AFCMS/fluorite/refs/heads/master/README.md
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/AFCMS/fluorite/refs/heads/master/.github/README_ARTIFACTHUB.md
             io.artifacthub.package.category=skip-prediction
             io.artifacthub.package.keywords=video-player,offline,pwa
             io.artifacthub.package.license=GPL-3.0-only
@@ -141,7 +141,7 @@ jobs:
             org.opencontainers.image.licenses=GPL-3.0-only
             org.opencontainers.image.source=https://github.com/AFCMS/fluorite
             io.artifacthub.package.logo-url=https://raw.githubusercontent.com/AFCMS/fluorite/refs/heads/master/public/fluorite.svg
-            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/AFCMS/fluorite/refs/heads/master/README.md
+            io.artifacthub.package.readme-url=https://raw.githubusercontent.com/AFCMS/fluorite/refs/heads/master/.github/README_ARTIFACTHUB.md
             io.artifacthub.package.category=skip-prediction
             io.artifacthub.package.keywords=video-player,offline,pwa
             io.artifacthub.package.license=GPL-3.0-only
