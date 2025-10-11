@@ -1,0 +1,13 @@
+node_modules
+.github
+.husky
+.vscode
+.dist
+.node-version
+.prettierignore
+eslint.config.js
+lighthouserc.cjs
+prettier.config.js
+README.md
+vercel.json
+vitest.config.ts
