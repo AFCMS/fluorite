@@ -5,5 +5,13 @@
 :80 {
 	root * /srv
 	file_server
+	header {
+		X-Frame-Options "DENY"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "no-referrer"
+		Permissions-Policy "autoplay=(self), fullscreen=(self), picture-in-picture=(), geolocation=(), microphone=(), camera=(), display-capture=(), screen-wake-lock=(), usb=(), serial=(), hid=(), midi=(), payment=(), accelerometer=(), gyroscope=(), magnetometer=(), clipboard-read=(), clipboard-write=(), idle-detection=(), encrypted-media=(), storage-access=(), attribution-reporting=(), browsing-topics=(), run-ad-auction=(), join-ad-interest-group=(), publickey-credentials-get=(), xr-spatial-tracking=(), gamepad=(), sync-xhr=(), local-fonts=(), otp-credentials=(), window-management=()"
+		Cross-Origin-Resource-Policy "same-origin"
+		Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
+	}
 	try_files {path} /index.html
 }
