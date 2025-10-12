@@ -2,7 +2,9 @@
     "compilerOptions": {
         "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
         "target": "ES2023",
-        "lib": ["ES2023"],
+        "lib": [
+            "ES2023"
+        ],
         "module": "ESNext",
         "skipLibCheck": true,
         /* Bundler mode */
@@ -19,5 +21,10 @@
         "noFallthroughCasesInSwitch": true,
         "noUncheckedSideEffectImports": true
     },
-    "include": ["vite.config.ts", "vitest.config.ts", "lingui.config.ts"]
+    "include": [
+        "vite.config.ts",
+        "vitest.config.ts",
+        "lingui.config.ts",
+        "prettier.config.ts"
+    ],
 }
