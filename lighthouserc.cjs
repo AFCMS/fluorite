@@ -1,9 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      url: ["http://localhost:8080"],
-      startServerCommand: "caddy file-server --root ./dist --listen :8080",
-      startServerReadyPattern: "serving static files",
+      staticDistDir: "./dist",
       numberOfRuns: 3,
       settings: {
         formFactor: "desktop",
