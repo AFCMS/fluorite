@@ -26,6 +26,10 @@ import { useLingui } from "@lingui/react/macro";
 export default function VideoPlayerApp() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [showInfo, setShowInfo] = useState(false);
+  const [elementDimensions, setElementDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
 
   // Get video context data
   const videoActions = useVideoActions();
@@ -51,6 +55,8 @@ export default function VideoPlayerApp() {
       // Set up event listeners manually
       const handleLoadedMetadata = () => {
         setDuration(video.duration);
+        // Capture intrinsic video dimensions when metadata is available
+        setElementDimensions({ width: video.videoWidth, height: video.videoHeight });
       };
 
       const handleTimeUpdate = () => {
@@ -115,8 +121,8 @@ export default function VideoPlayerApp() {
     const fileSize = videoState.metadata?.fileSize;
 
     // Prefer MediaInfo dimensions, fallback to actual video element dimensions
-    const width = mediaInfo?.videoWidth ?? videoRef.current?.videoWidth ?? 0;
-    const height = mediaInfo?.videoHeight ?? videoRef.current?.videoHeight ?? 0;
+    const width = mediaInfo?.videoWidth ?? elementDimensions.width;
+    const height = mediaInfo?.videoHeight ?? elementDimensions.height;
 
     // Derive a simple container format from file name if available
     const containerFormat = fileName
@@ -143,7 +149,7 @@ export default function VideoPlayerApp() {
     };
 
     return merged;
-  }, [mediaInfo, videoState.duration, videoState.metadata, videoUrl]);
+  }, [mediaInfo, videoState.duration, videoState.metadata, videoUrl, elementDimensions.width, elementDimensions.height]);
 
   // Drag and drop handling
   const handleDragEnter = (event: React.DragEvent) => {

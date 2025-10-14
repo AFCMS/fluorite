@@ -69,16 +69,6 @@ export const useUIControls = (
     };
   }, [isPlaying, videoSrc]);
 
-  // Show controls when video is paused
-  useEffect(() => {
-    if (!isPlaying) {
-      setShowControls(true);
-      if (hideTimeoutRef.current) {
-        clearTimeout(hideTimeoutRef.current);
-      }
-    }
-  }, [isPlaying]);
-
   const toggleFullscreen = useCallback(async () => {
     try {
       if (!document.fullscreenElement) {

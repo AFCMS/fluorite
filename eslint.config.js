@@ -3,10 +3,10 @@ import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
-import { globalIgnores } from "eslint/config";
+import { globalIgnores, defineConfig } from "eslint/config";
 import pluginLingui from "eslint-plugin-lingui";
 
-export default tseslint.config([
+export default defineConfig([
   pluginLingui.configs["flat/recommended"],
   globalIgnores(["dist", "coverage", "node_modules", "src/locales"]),
   {
@@ -15,7 +15,7 @@ export default tseslint.config([
       js.configs.recommended,
       tseslint.configs.strictTypeChecked,
       tseslint.configs.stylisticTypeChecked,
-      reactHooks.configs["recommended-latest"],
+      reactHooks.configs.flat["recommended-latest"],
       reactRefresh.configs.vite,
     ],
     languageOptions: {
