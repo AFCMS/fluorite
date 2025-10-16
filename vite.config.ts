@@ -14,6 +14,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
     clientsClaim: true,
     skipWaiting: true,
     maximumFileSizeToCacheInBytes: 5 * 1024 * 1024, // 5MB to accommodate MediaInfoModule.wasm
+    globPatterns: ["**/*.{js,css,html,wasm,svg,png,jpg,jpeg,json}"],
   },
   manifest: {
     name: "Fluorite",
