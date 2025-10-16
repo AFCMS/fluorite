@@ -3,6 +3,7 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa";
+import sri from "vite-plugin-sri-gen";
 import { viteStaticCopy } from "vite-plugin-static-copy";
 import { lingui } from "@lingui/vite-plugin";
 
@@ -81,6 +82,13 @@ export default defineConfig({
           dest: "",
         },
       ],
+    }),
+    sri({
+      algorithm: "sha384",
+      crossorigin: "anonymous",
+      fetchCache: true,
+      fetchTimeoutMs: 5000,
+      skipResources: [],
     }),
   ],
   optimizeDeps: {
