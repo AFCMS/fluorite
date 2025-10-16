@@ -1,8 +1,11 @@
 import { atom } from "jotai";
+import type { Getter, Setter } from "jotai";
 import { atomWithReset } from "jotai/utils";
 import { atomEffect } from "jotai-effect";
-import mediaInfoFactory from "mediainfo.js";
-import type { MediaInfo } from "mediainfo.js";
+
+// MediaInfo is offloaded to a Web Worker to avoid 'unsafe-eval' on the main page
+// and to scope CSP relaxation to worker only.
+import MediainfoWorker from "../workers/mediainfo.worker?worker";
 
 import { isVideoFile } from "../utils";
 import {
@@ -48,140 +51,72 @@ export const hasVideoMetadataAtom = atom(
   (get) => get(videoMetadataAtom) !== null,
 );
 
-export const mediaInfoInstanceAtom = atom<MediaInfo | null>(null);
+// Worker instance and a request counter for correlating responses
+const mediaInfoWorkerAtom = atom<Worker | null>(null);
+let workerReqId = 0;
 export const mediaInfoMetadataAtom = atom<MediaInfoMetadata | null>(null);
 
 // Initialize a single MediaInfo instance for the app lifecycle and clean it up on unmount
-export const mediaInfoInitEffect = atomEffect((_get, set) => {
-  let instance: MediaInfo | null = null;
-  let closed = false;
+export const mediaInfoInitEffect = atomEffect((_get: Getter, set: Setter) => {
+  // Lazily create one worker
+  const worker = new MediainfoWorker();
+  set(mediaInfoWorkerAtom, worker);
 
-  // Create the MediaInfo instance (object format is easier to consume programmatically)
-  void mediaInfoFactory({
-    format: "object" as const,
-  })
-    .then((mi) => {
-      if (closed) {
-        // If effect already cleaned up, immediately close the created instance
-        try {
-          mi.close();
-        } catch {
-          // ignore
-        }
-        return;
-      }
-      instance = mi;
-      set(mediaInfoInstanceAtom, mi);
-    })
-    .catch((error: unknown) => {
-      console.error("Failed to initialize MediaInfo:", error);
-      set(mediaInfoInstanceAtom, null);
-    });
+  worker.postMessage({ id: ++workerReqId, type: "warmup" });
 
   return () => {
-    closed = true;
-    if (instance) {
-      try {
-        instance.close();
-      } catch {
-        // ignore
-      }
+    try {
+      worker.terminate();
+    } catch {
+      // ignore
     }
-    set(mediaInfoInstanceAtom, null);
+    set(mediaInfoWorkerAtom, null);
   };
 });
 
-// Helper to parse numeric strings that may contain units (e.g., "1 920 pixels", "48 000 KHz")
-const parseNumber = (value: unknown): number | undefined => {
-  if (typeof value === "number") return value;
-  if (typeof value === "string") {
-    const cleaned = value.replace(/[, ]/g, "");
-    const match = /^[0-9]+(?:\.[0-9]+)?/.exec(cleaned);
-    if (match) return Number(match[0]);
-  }
-  return undefined;
-};
-
-// Minimal shape of mediainfo.js object output when using { format: 'object' }
-interface MediaInfoTrack {
-  "@type"?: string;
-  Title?: string;
-  Format?: string;
-  CodecID?: string;
-  Height?: string | number;
-  Width?: string | number;
-  FrameRate?: string | number;
-  BitRate?: string | number;
-  ColorSpace?: string;
-  SamplingRate?: string | number;
-}
-
-interface MediaInfoObjectResult {
-  media?: {
-    track?: MediaInfoTrack[];
-  };
-}
-
 // EFFECT: Extract detailed metadata with MediaInfo when a file is set
-export const mediaInfoExtractEffect = atomEffect((get, set) => {
-  const mi = get(mediaInfoInstanceAtom);
+export const mediaInfoExtractEffect = atomEffect((get: Getter, set: Setter) => {
+  const worker = get(mediaInfoWorkerAtom);
   const file = get(videoFileAtom);
 
-  // If no instance or file, clear metadata and stop
-  if (!mi || !file) {
+  if (!worker || !file) {
     set(mediaInfoMetadataAtom, null);
     return;
   }
 
   let canceled = false;
+  const id = ++workerReqId;
 
-  // analyzeData reads the file in chunks via the provided reader
-  void mi
-    .analyzeData(file.size, async (chunkSize: number, offset: number) => {
-      const blob = file.slice(offset, offset + chunkSize);
-      const buf = await blob.arrayBuffer();
-      return new Uint8Array(buf);
-    })
-    .then((result: unknown) => {
-      if (canceled) return;
-
-      // result is the object output by mediainfo.js
-      const mediaObj = result as MediaInfoObjectResult;
-      const tracks = mediaObj.media?.track ?? [];
-
-      const general: MediaInfoTrack | undefined = tracks.find(
-        (t) => t["@type"] === "General",
-      );
-      const video: MediaInfoTrack | undefined = tracks.find(
-        (t) => t["@type"] === "Video",
-      );
-      const audio: MediaInfoTrack | undefined = tracks.find(
-        (t) => t["@type"] === "Audio",
-      );
-
-      const mapped: MediaInfoMetadata = {
-        title: general?.Title,
-        videoCodec: video?.Format ?? video?.CodecID,
-        videoHeight: parseNumber(video?.Height),
-        videoWidth: parseNumber(video?.Width),
-        videoFrameRate: parseNumber(video?.FrameRate),
-        videoBitrate: parseNumber(video?.BitRate),
-        videoColorSpace: video?.ColorSpace,
-        audioCodec: audio?.Format ?? audio?.CodecID,
-        audioBitrate: parseNumber(audio?.BitRate),
-        audioSampleRate: parseNumber(audio?.SamplingRate),
-      };
-
-      set(mediaInfoMetadataAtom, mapped);
-    })
-    .catch((err: unknown) => {
-      if (canceled) return;
-      console.warn("MediaInfo analyzeData failed:", err);
+  interface WorkerMsg {
+    id?: number;
+    type?: string;
+    metadata?: MediaInfoMetadata | null;
+    message?: string;
+  }
+  const handleMessage = (evt: MessageEvent<WorkerMsg>) => {
+    const data = evt.data;
+    if (data.id !== id) return;
+    if (canceled) return;
+    if (data.type === "metadata") {
+      set(mediaInfoMetadataAtom, data.metadata ?? null);
+      worker.removeEventListener("message", handleMessage);
+    } else if (data.type === "error") {
+      console.warn("MediaInfo worker error:", data.message);
       set(mediaInfoMetadataAtom, null);
-    });
+      worker.removeEventListener("message", handleMessage);
+    }
+  };
+
+  worker.addEventListener("message", handleMessage);
+  worker.postMessage({ id, type: "analyze", file });
 
   return () => {
     canceled = true;
+    try {
+      worker.removeEventListener("message", handleMessage);
+    } catch {
+      // ignore
+    }
   };
 });
 
@@ -276,7 +211,7 @@ export const toggleMuteAtom = atom(null, (get, set) => {
 
 // EFFECT ATOMS
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const videoUrlCleanupEffect = atomEffect((get, _set) => {
+export const videoUrlCleanupEffect = atomEffect((get: Getter, _set: Setter) => {
   const url = get(videoUrlAtom);
   return () => {
     if (url) URL.revokeObjectURL(url);
@@ -311,7 +246,7 @@ export const updateVolumeStateAtom = atom(
 );
 
 // Keep the effect for URL cleanup only
-export const videoElementSyncEffect = atomEffect((get, set) => {
+export const videoElementSyncEffect = atomEffect((get: Getter, set: Setter) => {
   const element = get(videoElementAtom);
   if (!element) return;
 

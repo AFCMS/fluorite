@@ -86,4 +86,12 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ["mediainfo.js"],
   },
+  build: {
+    outDir: "dist",
+    target: "esnext",
+    minify: true,
+  },
+  worker: {
+    format: "es",
+  },
 });

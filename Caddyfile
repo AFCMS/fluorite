@@ -8,6 +8,7 @@
 	header {
 		X-Frame-Options "DENY"
 		X-Content-Type-Options "nosniff"
+		Content-Security-Policy "default-src 'none'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; frame-src 'none'; form-action 'self'; manifest-src 'self'; worker-src 'self'; connect-src 'self'; img-src 'self' data: blob:; font-src 'self' data:; style-src 'self'; script-src 'self' 'wasm-unsafe-eval'; media-src 'self' blob:; upgrade-insecure-requests"
 		Referrer-Policy "no-referrer"
 		Permissions-Policy "autoplay=(self), fullscreen=(self), picture-in-picture=(), geolocation=(), microphone=(), camera=(), display-capture=(), screen-wake-lock=(), usb=(), serial=(), hid=(), midi=(), payment=(), accelerometer=(), gyroscope=(), magnetometer=(), clipboard-read=(), clipboard-write=(), idle-detection=(), encrypted-media=(), storage-access=(), attribution-reporting=(), browsing-topics=(), run-ad-auction=(), join-ad-interest-group=(), publickey-credentials-get=(), xr-spatial-tracking=(), gamepad=(), sync-xhr=(), local-fonts=(), otp-credentials=(), window-management=()"
 		Cross-Origin-Resource-Policy "same-origin"
