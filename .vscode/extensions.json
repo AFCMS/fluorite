@@ -2,6 +2,7 @@
     "recommendations": [
         "esbenp.prettier-vscode",
         "dbaeumer.vscode-eslint",
-        "vitest.explorer"
+        "vitest.explorer",
+        "matthewpi.caddyfile-support"
     ]
 }
