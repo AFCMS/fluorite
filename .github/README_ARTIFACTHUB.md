@@ -15,7 +15,6 @@ An elegant, offline‑first Progressive Web App (PWA) video player. This contain
 
 - Preconfigured Caddy server serving static files
 - Hardened HTTP security headers
-- Rootless user
 - No volumes or env vars required
 - No TLS support (reverse proxy required for production use)
 - Expose port 80 in the container
@@ -33,4 +32,25 @@ Or build locally:
 ```bash
 docker build -t fluorite:latest .
 docker run --rm -p 4173:80 fluorite:latest
+```
+
+## Treafik + Docker Compose setup
+
+```yaml
+---
+name: Fluorite
+networks:
+  traefik_proxy:
+    external: true
+services:
+  fluorite:
+    image: ghcr.io/afcms/fluorite:master
+    pull_policy: always
+    restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.fluorite.rule=Host(`fluorite.mydomain.com`)"
+      - "traefik.http.services.fluorite.loadbalancer.server.port=80"
+    networks:
+      - traefik_proxy
 ```
