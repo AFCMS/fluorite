@@ -13,8 +13,9 @@ An elegant, offline‑first Progressive Web App (PWA) video player. This contain
 
 ## Docker Image
 
-- Preconfigured Caddy server serving static files from /srv
+- Preconfigured Caddy server serving static files
 - Hardened HTTP security headers
+- Rootless user
 - No volumes or env vars required
 - No TLS support (reverse proxy required for production use)
 - Expose port 80 in the container

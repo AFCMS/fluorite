@@ -31,9 +31,20 @@ RUN pnpm build
 
 FROM caddy:2-alpine
 
-COPY --from=builder /app/dist /srv
+RUN adduser \
+    --gecos "" \
+    --system \
+    --no-create-home \
+    --uid "900" \
+    "appuser"
 
-COPY Caddyfile /etc/caddy/Caddyfile
+USER appuser
+
+COPY --from=builder --chown=appuser:appuser /app/dist /srv
+
+# COPY --chown=appuser:appuser dist /srv
+
+COPY --chown=appuser:appuser Caddyfile /etc/caddy/Caddyfile
 
 EXPOSE 80
 

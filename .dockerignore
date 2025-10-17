@@ -11,3 +11,4 @@ prettier.config.js
 README.md
 vercel.json
 vitest.config.ts
+dist
