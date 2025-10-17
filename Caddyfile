@@ -1,10 +1,10 @@
 {
 	auto_https off
+	admin off
 }
 
 :80 {
 	root * /srv
-	file_server
 	header {
 		# NOTE: Temporary relaxation — 'unsafe-eval' is required due to mediainfo.js using string eval in the worker.
 		# TODO: Remove 'unsafe-eval' from script-src once upstream mediainfo.js patches this behavior.
@@ -16,5 +16,16 @@
 		Cross-Origin-Resource-Policy "same-origin"
 		Strict-Transport-Security "max-age=63072000; includeSubDomains; preload"
 	}
+
+	# Restrict allowed HTTP methods to safe ones for static content
+	@disallowed_methods {
+		not method GET HEAD OPTIONS
+	}
+	header @disallowed_methods {
+		Allow "GET, HEAD, OPTIONS"
+	}
+	respond @disallowed_methods 405
+
+	file_server
 	try_files {path} /index.html
 }
