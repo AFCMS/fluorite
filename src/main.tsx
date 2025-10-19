@@ -7,11 +7,10 @@ import { i18n } from "@lingui/core";
 import App from "./App.tsx";
 
 import "./index.css";
-import { dynamicActivate } from "./utils/i18nLocaleModuleLoading.ts";
-import { getSanitizedBrowserLanguageIfSupportedOrEnglish } from "./utils/getSanitizedBrowserLanguageIfSupportedOrEnglish.ts";
+import { dynamicActivate } from "./utils/i18n_loader.ts";
+import { getLanguage } from "./utils/get_language.ts";
 
-const sanitizedBrowserLanguageIfSupportedOrEnglish =
-  getSanitizedBrowserLanguageIfSupportedOrEnglish();
+const sanitizedBrowserLanguageIfSupportedOrEnglish = getLanguage();
 await dynamicActivate(sanitizedBrowserLanguageIfSupportedOrEnglish);
 
 const isAnalyticsEnabled =
