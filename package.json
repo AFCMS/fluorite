@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@lingui/core": "^5.5.1",
+        "@lingui/detect-locale": "^5.5.1",
         "@lingui/react": "^5.5.1",
         "@tailwindcss/vite": "^4.1.15",
         "@vercel/analytics": "^1.5.0",
