@@ -32,7 +32,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
-      - name: Use Node.js LTS/Jod
+      - name: Use Node.js LTS/Krypton
         uses: actions/setup-node@v4
         with:
           node-version-file: ".node-version"
@@ -60,7 +60,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
-      - name: Use Node.js LTS/Jod
+      - name: Use Node.js LTS/Krypton
         uses: actions/setup-node@v4
         with:
           node-version-file: ".node-version"
