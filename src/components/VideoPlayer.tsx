@@ -56,7 +56,10 @@ export default function VideoPlayerApp() {
       const handleLoadedMetadata = () => {
         setDuration(video.duration);
         // Capture intrinsic video dimensions when metadata is available
-        setElementDimensions({ width: video.videoWidth, height: video.videoHeight });
+        setElementDimensions({
+          width: video.videoWidth,
+          height: video.videoHeight,
+        });
       };
 
       const handleTimeUpdate = () => {
@@ -149,7 +152,14 @@ export default function VideoPlayerApp() {
     };
 
     return merged;
-  }, [mediaInfo, videoState.duration, videoState.metadata, videoUrl, elementDimensions.width, elementDimensions.height]);
+  }, [
+    mediaInfo,
+    videoState.duration,
+    videoState.metadata,
+    videoUrl,
+    elementDimensions.width,
+    elementDimensions.height,
+  ]);
 
   // Drag and drop handling
   const handleDragEnter = (event: React.DragEvent) => {
@@ -354,6 +364,7 @@ export default function VideoPlayerApp() {
                   src="/fluorite.svg"
                   className="h-16 w-16"
                   alt="Fluorite logo"
+                  fetchPriority="high"
                 />
               </div>
               <h1 className="text-4xl font-bold">Fluorite</h1>
