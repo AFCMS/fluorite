@@ -7,7 +7,6 @@ import { globalIgnores, defineConfig } from "eslint/config";
 import pluginLingui from "eslint-plugin-lingui";
 
 export default defineConfig([
-  pluginLingui.configs["flat/recommended"],
   globalIgnores(["dist", "coverage", "node_modules", "src/locales"]),
   {
     files: ["**/*.{ts,tsx}"],
@@ -17,6 +16,7 @@ export default defineConfig([
       tseslint.configs.stylisticTypeChecked,
       reactHooks.configs.flat["recommended-latest"],
       reactRefresh.configs.vite,
+      pluginLingui.configs["flat/recommended"],
     ],
     languageOptions: {
       parserOptions: {
