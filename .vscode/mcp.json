@@ -1,0 +1,12 @@
+{
+    "servers": {
+        "playwright": {
+            "type": "stdio",
+            "command": "pnpm",
+            "args": [
+                "dlx",
+                "@playwright/mcp@latest"
+            ]
+        },
+    },
+}
