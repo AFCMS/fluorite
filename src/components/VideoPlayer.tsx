@@ -325,7 +325,7 @@ export default function VideoPlayerApp() {
   const { t } = useLingui();
 
   return (
-    <div
+    <main
       className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 ${
         uiControls.isDragOver ? "bg-blue-900/20" : "bg-black"
       } ${
@@ -405,6 +405,6 @@ export default function VideoPlayerApp() {
           setShowInfo(false);
         }}
       />
-    </div>
+    </main>
   );
 }
