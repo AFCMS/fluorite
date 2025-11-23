@@ -49,6 +49,12 @@ const pwaConfig: Partial<VitePWAOptions> = {
       },
     ],
     shortcuts: [],
+    launch_handler: {
+      client_mode: "navigate-new",
+    },
+    edge_side_panel: {
+      preferred_width: 720,
+    },
   },
   pwaAssets: {
     preset: "minimal-2023",
