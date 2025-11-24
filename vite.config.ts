@@ -44,7 +44,16 @@ const pwaConfig: Partial<VitePWAOptions> = {
       {
         action: "./",
         accept: {
-          "video/*": [".mp4", ".mkv", ".webm", ".mov", ".avi", ".flv", ".wmv"],
+          "video/*": [
+            ".mp4",
+            ".mkv",
+            ".webm",
+            ".mov",
+            ".avi",
+            ".flv",
+            ".wmv",
+            ".webm",
+          ],
         },
       },
     ],
