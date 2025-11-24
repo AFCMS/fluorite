@@ -7,7 +7,14 @@ import { globalIgnores, defineConfig } from "eslint/config";
 import pluginLingui from "eslint-plugin-lingui";
 
 export default defineConfig([
-  globalIgnores(["dist", "coverage", "node_modules", "src/locales"]),
+  globalIgnores([
+    "dist",
+    "coverage",
+    "node_modules",
+    "src/locales",
+    // Avoid linting the ESLint config itself to prevent parserOptions.project resolution issues in CI
+    "eslint.config.ts",
+  ]),
   {
     files: ["**/*.{ts,tsx}"],
     extends: [
