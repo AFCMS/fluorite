@@ -64,6 +64,7 @@ const pwaConfig: Partial<VitePWAOptions> = {
     edge_side_panel: {
       preferred_width: 720,
     },
+    iarc_rating_id: "cca2df34-bc4c-4f4c-ad4e-019aa155fc1f",
   },
   pwaAssets: {
     preset: "minimal-2023",
