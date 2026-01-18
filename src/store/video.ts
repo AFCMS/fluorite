@@ -3,8 +3,8 @@ import type { Getter, Setter } from "jotai";
 import { atomWithReset } from "jotai/utils";
 import { atomEffect } from "jotai-effect";
 
-// MediaInfo is offloaded to a Web Worker to avoid 'unsafe-eval' on the main page
-// and to scope CSP relaxation to worker only.
+// MediaInfo is offloaded to a Web Worker to keep heavy parsing off the main thread.
+// mediainfo.js is built without dynamic eval, so CSP does not need 'unsafe-eval'.
 import MediainfoWorker from "../workers/mediainfo.worker?worker";
 
 import { isVideoFile } from "../utils";
