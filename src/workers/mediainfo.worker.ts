@@ -1,5 +1,6 @@
 import mediaInfoFactory from "mediainfo.js";
 import type { MediaInfo } from "mediainfo.js";
+import mediaInfoWasmUrl from "mediainfo.js/MediaInfoModule.wasm?url";
 
 // Keep types in sync with app
 export interface MediaInfoMetadata {
@@ -45,7 +46,11 @@ const parseNumber = (value: unknown): number | undefined => {
 
 async function ensureMediaInfo(): Promise<MediaInfo> {
   if (miInstance) return miInstance;
-  miInstance = await mediaInfoFactory({ format: "object" as const });
+  miInstance = await mediaInfoFactory({
+    format: "object" as const,
+    locateFile: (path, prefix) =>
+      path === "MediaInfoModule.wasm" ? mediaInfoWasmUrl : `${prefix}${path}`,
+  });
   return miInstance;
 }
 
