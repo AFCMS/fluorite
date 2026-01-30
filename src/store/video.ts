@@ -1,6 +1,5 @@
-import { atom } from "jotai";
-import type { Getter, Setter } from "jotai";
-import { atomWithReset } from "jotai/utils";
+import { atom, type Getter, type Setter } from "jotai";
+import { atomWithReset, atomWithStorage } from "jotai/utils";
 import { atomEffect } from "jotai-effect";
 
 // MediaInfo is offloaded to a Web Worker to keep heavy parsing off the main thread.
@@ -8,12 +7,6 @@ import { atomEffect } from "jotai-effect";
 import MediainfoWorker from "../workers/mediainfo.worker?worker";
 
 import { isVideoFile } from "../utils";
-import {
-  getStoredVolume,
-  setStoredVolume,
-  getStoredMuted,
-  setStoredMuted,
-} from "../utils/storage";
 import type { MediaInfoMetadata } from "../utils/mediaInfo";
 
 // DATA ATOMS
@@ -26,14 +19,17 @@ export const videoElementAtom = atom<HTMLVideoElement | null>(null);
 export const isPlayingAtom = atom(false);
 export const currentTimeAtom = atom(0);
 export const durationAtom = atom(0);
-export const volumeAtom = atom(getStoredVolume());
-export const isMutedAtom = atom(getStoredMuted());
+export const volumeAtom = atomWithStorage("oktomusic:volume", 1);
+export const isMutedAtom = atomWithStorage("oktomusic:muted", false);
 export const isSeekingAtom = atom(false);
+export const playbackRateAtom = atomWithStorage("oktomusic:playbackRate", 1);
+export const loopAtom = atomWithStorage("oktomusic:loop", false);
 
 // UI STATE ATOMS
 export const showControlsAtom = atom(true);
 export const isFullscreenAtom = atom(false);
 export const isDragOverAtom = atom(false);
+export const settingsPopoverOpenAtom = atom(false);
 
 // DERIVED ATOMS
 export const videoIsLoadedAtom = atom(
@@ -142,12 +138,12 @@ export const videoFileSetAtom = atom(null, (_get, set, file: File) => {
   set(mediaInfoMetadataAtom, null);
 });
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const togglePlayPauseAtom = atom(null, (get, _set) => {
+export const togglePlayPauseAtom = atom(null, (get) => {
   const element = get(videoElementAtom);
+  const isSettingsPopoverOpen = get(settingsPopoverOpenAtom);
 
-  if (!element) {
-    // No element registered; nothing to toggle
+  if (!element || isSettingsPopoverOpen) {
+    // No element registered or settings popover is open; nothing to toggle
     return;
   }
 
@@ -179,14 +175,31 @@ export const effectiveVolumeAtom = atom((get) => {
 
 export const setVolumeAtom = atom(null, (get, set, volume: number) => {
   const element = get(videoElementAtom);
+  const clamped = Math.max(0, Math.min(1, volume));
 
-  set(volumeAtom, volume);
-  setStoredVolume(volume); // Persist to localStorage
+  set(volumeAtom, clamped);
 
   // Apply the effective volume to the element
   if (element) {
     const isMuted = get(isMutedAtom);
-    element.volume = isMuted ? 0 : volume;
+    element.volume = isMuted ? 0 : clamped;
+  }
+});
+
+export const setPlaybackRateAtom = atom(null, (get, set, rate: number) => {
+  const element = get(videoElementAtom);
+  const clamped = Math.max(0.25, Math.min(4, rate));
+  set(playbackRateAtom, clamped);
+  if (element) {
+    element.playbackRate = clamped;
+  }
+});
+
+export const setLoopAtom = atom(null, (get, set, loop: boolean) => {
+  const element = get(videoElementAtom);
+  set(loopAtom, loop);
+  if (element) {
+    element.loop = loop;
   }
 });
 
@@ -194,7 +207,6 @@ export const setMuteAtom = atom(null, (get, set, muted: boolean) => {
   const element = get(videoElementAtom);
 
   set(isMutedAtom, muted);
-  setStoredMuted(muted); // Persist to localStorage
 
   // Apply the effective volume to the element
   if (element) {
@@ -209,9 +221,13 @@ export const toggleMuteAtom = atom(null, (get, set) => {
   set(setMuteAtom, !isMuted);
 });
 
+export const toggleLoopAtom = atom(null, (get, set) => {
+  const loop = get(loopAtom);
+  set(setLoopAtom, !loop);
+});
+
 // EFFECT ATOMS
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const videoUrlCleanupEffect = atomEffect((get: Getter, _set: Setter) => {
+export const videoUrlCleanupEffect = atomEffect((get) => {
   const url = get(videoUrlAtom);
   return () => {
     if (url) URL.revokeObjectURL(url);
@@ -236,26 +252,27 @@ export const updatePlayStateAtom = atom(null, (_get, set, playing: boolean) => {
 export const updateVolumeStateAtom = atom(
   null,
   (_get, set, { volume, muted }: { volume: number; muted: boolean }) => {
-    set(volumeAtom, volume);
+    const clamped = Math.max(0, Math.min(1, volume));
+    set(volumeAtom, clamped);
     set(isMutedAtom, muted);
-
-    // Persist to localStorage when volume/mute state changes
-    setStoredVolume(volume);
-    setStoredMuted(muted);
   },
 );
 
 // Keep the effect for URL cleanup only
-export const videoElementSyncEffect = atomEffect((get: Getter, set: Setter) => {
+export const videoElementSyncEffect = atomEffect((get, set) => {
   const element = get(videoElementAtom);
   if (!element) return;
 
   // Sync stored volume/mute state with video element when element is registered
   const storedVolume = get(volumeAtom);
   const storedMuted = get(isMutedAtom);
+  const storedPlaybackRate = get(playbackRateAtom);
+  const storedLoop = get(loopAtom);
 
   element.volume = storedVolume;
   element.muted = storedMuted;
+  element.playbackRate = storedPlaybackRate;
+  element.loop = storedLoop;
 
   const handleLoadedMetadata = () => {
     set(updateDurationAtom, element.duration);
@@ -311,12 +328,20 @@ export const videoElementSyncEffect = atomEffect((get: Getter, set: Setter) => {
     }
   };
 
+  const handleRateChange = () => {
+    const currentRate = get(playbackRateAtom);
+    if (element.playbackRate !== currentRate) {
+      set(setPlaybackRateAtom, element.playbackRate);
+    }
+  };
+
   element.addEventListener("loadedmetadata", handleLoadedMetadata);
   element.addEventListener("timeupdate", handleTimeUpdate);
   element.addEventListener("play", handlePlay);
   element.addEventListener("pause", handlePause);
   element.addEventListener("ended", handleEnded);
   element.addEventListener("volumechange", handleVolumeChange);
+  element.addEventListener("ratechange", handleRateChange);
 
   return () => {
     element.removeEventListener("loadedmetadata", handleLoadedMetadata);
@@ -325,5 +350,6 @@ export const videoElementSyncEffect = atomEffect((get: Getter, set: Setter) => {
     element.removeEventListener("pause", handlePause);
     element.removeEventListener("ended", handleEnded);
     element.removeEventListener("volumechange", handleVolumeChange);
+    element.removeEventListener("ratechange", handleRateChange);
   };
 });

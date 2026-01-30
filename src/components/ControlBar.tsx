@@ -1,5 +1,4 @@
-import { useState } from "react";
-import type { ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import { useLingui } from "@lingui/react/macro";
 import {
   HiPlay,
@@ -12,6 +11,7 @@ import {
   HiInformationCircle,
   HiArrowPath,
 } from "react-icons/hi2";
+
 import {
   useVideoActions,
   useVideoUrl,
@@ -19,6 +19,7 @@ import {
   useUIControls,
 } from "../hooks";
 import { formatTime } from "../utils/format";
+import { SettingsPopover } from "./Settings/SettingsPopover";
 
 interface ControlBarProps {
   onOpenFile: () => void;
@@ -66,7 +67,7 @@ export default function ControlBar(props: ControlBarProps) {
 
   return (
     <div
-      className={`absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 via-black/60 to-transparent px-4 py-0 text-blue-100 transition-all duration-300 ${
+      className={`absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/80 via-black/60 to-transparent px-4 py-0 text-blue-100 transition-all duration-300 ${
         uiControls.showControls
           ? "translate-y-0 opacity-100"
           : "translate-y-full opacity-0"
@@ -78,7 +79,7 @@ export default function ControlBar(props: ControlBarProps) {
     >
       {/* Progress Bar */}
       <div className="flex items-center space-x-3">
-        <span className="min-w-[40px] font-mono text-sm">
+        <span className="min-w-10 font-mono text-sm">
           {formatTime(videoState.currentTime)}
         </span>
         <input
@@ -109,7 +110,7 @@ export default function ControlBar(props: ControlBarProps) {
           disabled={!videoUrl}
           aria-label="Seek"
         />
-        <span className="min-w-[40px] font-mono text-sm">
+        <span className="min-w-10 font-mono text-sm">
           {formatTime(videoState.duration)}
         </span>
       </div>
@@ -208,6 +209,7 @@ export default function ControlBar(props: ControlBarProps) {
               <HiArrowsPointingOut className="h-5 w-5" />
             )}
           </button>
+          <SettingsPopover />
           <button
             onClick={props.onOpenFile}
             className="button-styled h-12 w-12"

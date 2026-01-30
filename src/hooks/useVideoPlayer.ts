@@ -1,11 +1,7 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import type { ChangeEvent } from "react";
-import {
-  getStoredVolume,
-  getStoredMuteState,
-  storeVolume,
-  storeMuteState,
-} from "../utils";
+import { useAtom } from "jotai";
+import { volumeAtom, isMutedAtom } from "../store/video";
 import type { MediaInfoMetadata } from "../utils/mediaInfo";
 import { formatTime } from "../utils/format";
 
@@ -39,9 +35,9 @@ interface VideoPlayerHook extends VideoState {
 export const useVideoPlayer = (): VideoPlayerHook => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  // Initialize volume and mute state from localStorage
-  const [volume, setVolume] = useState(() => getStoredVolume());
-  const [isMuted, setIsMuted] = useState(() => getStoredMuteState());
+  // Use atoms for volume and mute state
+  const [volume, setVolume] = useAtom(volumeAtom);
+  const [isMuted, setIsMuted] = useAtom(isMutedAtom);
 
   // Keep track of the last non-zero volume for unmuting
   const lastVolumeRef = useRef(volume > 0 ? volume : 1);
@@ -141,10 +137,6 @@ export const useVideoPlayer = (): VideoPlayerHook => {
         setVolume(newVolume);
         setIsMuted(newMuted);
 
-        // Store the changes
-        storeVolume(newVolume);
-        storeMuteState(newMuted);
-
         // Update last non-zero volume
         if (newVolume > 0) {
           lastVolumeRef.current = newVolume;
@@ -178,7 +170,15 @@ export const useVideoPlayer = (): VideoPlayerHook => {
         cancelAnimationFrame(animationFrameId);
       }
     };
-  }, [videoSrc, isSeeking, volume, isMuted, currentFile]);
+  }, [
+    videoSrc,
+    isSeeking,
+    volume,
+    isMuted,
+    currentFile,
+    setIsMuted,
+    setVolume,
+  ]);
 
   // Control methods
   const togglePlayPause = useCallback(() => {
@@ -211,7 +211,6 @@ export const useVideoPlayer = (): VideoPlayerHook => {
     (e: ChangeEvent<HTMLInputElement>) => {
       const newVolume = parseFloat(e.target.value);
       setVolume(newVolume);
-      storeVolume(newVolume);
 
       // Update last non-zero volume
       if (newVolume > 0) {
@@ -223,14 +222,12 @@ export const useVideoPlayer = (): VideoPlayerHook => {
 
         if (newVolume === 0 && !isMuted) {
           setIsMuted(true);
-          storeMuteState(true);
         } else if (newVolume > 0 && isMuted) {
           setIsMuted(false);
-          storeMuteState(false);
         }
       }
     },
-    [isMuted],
+    [isMuted, setIsMuted, setVolume],
   );
 
   const toggleMute = useCallback(() => {
@@ -238,7 +235,6 @@ export const useVideoPlayer = (): VideoPlayerHook => {
 
     const newMutedState = !isMuted;
     setIsMuted(newMutedState);
-    storeMuteState(newMutedState);
 
     if (newMutedState) {
       // Muting: set volume to 0
@@ -251,10 +247,9 @@ export const useVideoPlayer = (): VideoPlayerHook => {
       // Update the volume state if we're using the lastVolumeRef value
       if (volume === 0) {
         setVolume(volumeToRestore);
-        storeVolume(volumeToRestore);
       }
     }
-  }, [isMuted, volume]);
+  }, [isMuted, volume, setIsMuted, setVolume]);
 
   const loadVideo = useCallback((src: string, file?: File) => {
     setVideoSrc(src);

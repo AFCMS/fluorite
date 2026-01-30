@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useAtomValue, useSetAtom } from "jotai";
 import { HiFilm } from "react-icons/hi2";
 
 import { useRegisterSW } from "virtual:pwa-register/react";
@@ -14,12 +15,12 @@ import {
 import { useMediaInfoMetadata } from "../hooks";
 import type { MediaInfoMetadata } from "../utils/mediaInfo";
 import { isVideoFile } from "../utils";
-import { useSetAtom } from "jotai";
 import {
   updateDurationAtom,
   updateCurrentTimeAtom,
   updatePlayStateAtom,
   updateVolumeStateAtom,
+  settingsPopoverOpenAtom,
 } from "../store/video";
 import { useLingui } from "@lingui/react/macro";
 
@@ -30,6 +31,7 @@ export default function VideoPlayerApp() {
     width: 0,
     height: 0,
   });
+  const settingsPopoverOpen = useAtomValue(settingsPopoverOpenAtom);
 
   // Get video context data
   const videoActions = useVideoActions();
@@ -113,7 +115,9 @@ export default function VideoPlayerApp() {
   };
 
   const openFileDialog = () => {
-    fileInputRef.current?.click();
+    if (!settingsPopoverOpen) {
+      fileInputRef.current?.click();
+    }
   };
 
   // Build merged metadata for overlay

@@ -13,116 +13,158 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/VideoInfoOverlay.tsx:166
+#: src/components/VideoInfoOverlay.tsx:178
 msgid "Audio Details"
 msgstr "Audio Details"
 
-#: src/components/VideoInfoOverlay.tsx:151
+#: src/components/Settings/SettingsSpeedTab.tsx:22
+msgid "Back"
+msgstr "Back"
+
+#: src/components/VideoInfoOverlay.tsx:163
 msgid "Bit Depth:"
 msgstr "Bit Depth:"
 
-#: src/components/VideoInfoOverlay.tsx:121
-#: src/components/VideoInfoOverlay.tsx:180
+#: src/components/VideoInfoOverlay.tsx:133
+#: src/components/VideoInfoOverlay.tsx:194
 msgid "Bitrate:"
 msgstr "Bitrate:"
 
-#: src/components/VideoInfoOverlay.tsx:154
+#: src/components/VideoInfoOverlay.tsx:166
 msgid "bits"
 msgstr "bits"
 
-#: src/components/VideoInfoOverlay.tsx:190
+#: src/components/VideoInfoOverlay.tsx:204
 msgid "Channels:"
 msgstr "Channels:"
 
-#: src/components/VideoInfoOverlay.tsx:109
-#: src/components/VideoInfoOverlay.tsx:172
+#: src/components/VideoInfoOverlay.tsx:85
+msgid "Close"
+msgstr "Close"
+
+#: src/components/VideoInfoOverlay.tsx:121
+#: src/components/VideoInfoOverlay.tsx:184
 msgid "Codec:"
 msgstr "Codec:"
 
-#: src/components/VideoInfoOverlay.tsx:141
+#: src/components/VideoInfoOverlay.tsx:153
 msgid "Color Space:"
 msgstr "Color Space:"
 
-#: src/components/VideoInfoOverlay.tsx:36
+#: src/components/VideoInfoOverlay.tsx:42
 msgid "Container Format"
 msgstr "Container Format"
 
-#: src/components/VideoPlayer.tsx:355
+#: src/components/VideoPlayer.tsx:372
 msgid "Drop a video file anywhere or click here to open one"
 msgstr "Drop a video file anywhere or click here to open one"
 
-#: src/components/VideoPlayer.tsx:395
-#~ msgid "Drop video file here"
-#~ msgstr "Drop video file here"
+#: src/components/VideoPlayer.tsx:394
+msgid "Drop video file here"
+msgstr "Drop video file here"
 
-#: src/components/VideoInfoOverlay.tsx:27
+#: src/components/VideoInfoOverlay.tsx:33
 msgid "Duration"
 msgstr "Duration"
 
-#: src/components/ControlBar.tsx:202
+#: src/components/ControlBar.tsx:203
 msgid "Enter fullscreen"
 msgstr "Enter fullscreen"
 
-#: src/components/ControlBar.tsx:201
+#: src/components/ControlBar.tsx:202
 msgid "Exit fullscreen"
 msgstr "Exit fullscreen"
 
-#: src/components/VideoInfoOverlay.tsx:26
+#: src/components/VideoInfoOverlay.tsx:32
 msgid "File Name"
 msgstr "File Name"
 
-#: src/components/VideoInfoOverlay.tsx:40
+#: src/components/VideoInfoOverlay.tsx:46
 msgid "File Size"
 msgstr "File Size"
 
-#: src/components/VideoInfoOverlay.tsx:134
+#: src/components/VideoInfoOverlay.tsx:146
 msgid "fps"
 msgstr "fps"
 
-#: src/components/VideoInfoOverlay.tsx:131
+#: src/components/VideoInfoOverlay.tsx:143
 msgid "Frame Rate:"
 msgstr "Frame Rate:"
 
-#: src/components/ControlBar.tsx:152
+#: src/components/Settings/SettingsRootTab.tsx:25
+msgid "Loop"
+msgstr "Loop"
+
+#: src/components/ControlBar.tsx:266
+#~ msgid "Loop playback"
+#~ msgstr "Loop playback"
+
+#: src/components/ControlBar.tsx:153
 msgid "Mute"
 msgstr "Mute"
 
-#: src/components/ControlBar.tsx:214
+#: src/components/Settings/SettingsRootTab.tsx:27
+msgid "Off"
+msgstr "Off"
+
+#: src/components/Settings/SettingsRootTab.tsx:27
+msgid "On"
+msgstr "On"
+
+#: src/components/ControlBar.tsx:216
 msgid "Open File"
 msgstr "Open File"
 
-#: src/components/ControlBar.tsx:126
+#: src/components/ControlBar.tsx:127
 msgid "Pause"
 msgstr "Pause"
 
-#: src/components/ControlBar.tsx:126
+#: src/components/ControlBar.tsx:127
 msgid "Play"
 msgstr "Play"
 
-#: src/components/ControlBar.tsx:126
+#: src/components/Settings/SettingsRootTab.tsx:40
+msgid "Playback speed"
+msgstr "Playback speed"
+
+#: src/components/ControlBar.tsx:127
 msgid "Replay"
 msgstr "Replay"
 
-#: src/components/VideoInfoOverlay.tsx:29
+#: src/components/VideoInfoOverlay.tsx:35
 msgid "Resolution"
 msgstr "Resolution"
 
-#: src/components/VideoInfoOverlay.tsx:200
+#: src/components/VideoInfoOverlay.tsx:214
 msgid "Sample Rate:"
 msgstr "Sample Rate:"
 
-#: src/components/ControlBar.tsx:152
+#: src/components/Settings/SettingsSpeedTab.tsx:48
+msgid "Selected"
+msgstr "Selected"
+
+#: src/components/Settings/SettingsPopover.tsx:39
+#: src/components/Settings/SettingsSpeedTab.tsx:24
+msgid "Settings"
+msgstr "Settings"
+
+#: src/components/Settings/SettingsSpeedTab.tsx:26
+msgid "Speed"
+msgstr "Speed"
+
+#: src/components/ControlBar.tsx:153
 msgid "Unmute"
 msgstr "Unmute"
 
-#: src/components/VideoInfoOverlay.tsx:103
+#: src/components/VideoInfoOverlay.tsx:115
 msgid "Video Details"
 msgstr "Video Details"
 
-#: src/components/ControlBar.tsx:190
+#: src/components/ControlBar.tsx:191
+#: src/components/VideoInfoOverlay.tsx:79
 msgid "Video Information"
 msgstr "Video Information"
 
-#: src/components/ControlBar.tsx:179
+#: src/components/ControlBar.tsx:180
 msgid "Volume"
 msgstr "Volume"

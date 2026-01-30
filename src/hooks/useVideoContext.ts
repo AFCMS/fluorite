@@ -10,6 +10,7 @@ import {
   volumeAtom,
   isMutedAtom,
   isSeekingAtom,
+  playbackRateAtom,
   showControlsAtom,
   isFullscreenAtom,
   isDragOverAtom,
@@ -24,6 +25,9 @@ import {
   setVolumeAtom,
   setMuteAtom,
   toggleMuteAtom,
+  setPlaybackRateAtom,
+  setLoopAtom,
+  toggleLoopAtom,
 
   // Effects
   videoUrlCleanupEffect,
@@ -31,6 +35,7 @@ import {
   mediaInfoInitEffect,
   mediaInfoExtractEffect,
   mediaInfoMetadataAtom,
+  loopAtom,
 } from "../store/video";
 
 // Hook for video actions (play, pause, seek, etc.)
@@ -41,6 +46,9 @@ export function useVideoActions() {
   const setVolume = useSetAtom(setVolumeAtom);
   const toggleMute = useSetAtom(toggleMuteAtom);
   const setVideoElement = useSetAtom(videoElementAtom);
+  const setPlaybackRate = useSetAtom(setPlaybackRateAtom);
+  const setLoop = useSetAtom(setLoopAtom);
+  const toggleLoop = useSetAtom(toggleLoopAtom);
 
   // Trigger effects
   useAtom(videoUrlCleanupEffect);
@@ -62,6 +70,9 @@ export function useVideoActions() {
     setVolume,
     setMute: useSetAtom(setMuteAtom),
     toggleMute,
+    setPlaybackRate,
+    setLoop,
+    toggleLoop,
     registerVideoElement,
   };
 }
@@ -94,6 +105,8 @@ export function useVideoState() {
     effectiveVolume: useAtomValue(effectiveVolumeAtom),
     isMuted: useAtomValue(isMutedAtom),
     isSeeking: useAtomValue(isSeekingAtom),
+    playbackRate: useAtomValue(playbackRateAtom),
+    loop: useAtomValue(loopAtom),
     metadata: useAtomValue(videoMetadataAtom),
     hasMetadata: useAtomValue(hasVideoMetadataAtom),
     mediaInfo: useAtomValue(mediaInfoMetadataAtom),
