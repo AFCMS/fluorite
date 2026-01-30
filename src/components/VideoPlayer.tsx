@@ -21,6 +21,7 @@ import {
   updatePlayStateAtom,
   updateVolumeStateAtom,
   settingsPopoverOpenAtom,
+  isPictureInPictureAtom,
 } from "../store/video";
 import { useLingui } from "@lingui/react/macro";
 
@@ -60,6 +61,7 @@ export default function VideoPlayerApp() {
   const setCurrentTime = useSetAtom(updateCurrentTimeAtom);
   const setPlayState = useSetAtom(updatePlayStateAtom);
   const setVolumeState = useSetAtom(updateVolumeStateAtom);
+  const setIsPictureInPicture = useSetAtom(isPictureInPictureAtom);
 
   // Register the video element when it mounts and set up event listeners
   useEffect(() => {
@@ -98,12 +100,28 @@ export default function VideoPlayerApp() {
         setVolumeState({ volume: video.volume, muted: video.muted });
       };
 
+      const handleEnterPictureInPicture = () => {
+        setIsPictureInPicture(true);
+      };
+
+      const handleLeavePictureInPicture = () => {
+        setIsPictureInPicture(false);
+      };
+
       video.addEventListener("loadedmetadata", handleLoadedMetadata);
       video.addEventListener("timeupdate", handleTimeUpdate);
       video.addEventListener("play", handlePlay);
       video.addEventListener("pause", handlePause);
       video.addEventListener("ended", handleEnded);
       video.addEventListener("volumechange", handleVolumeChange);
+      video.addEventListener(
+        "enterpictureinpicture",
+        handleEnterPictureInPicture,
+      );
+      video.addEventListener(
+        "leavepictureinpicture",
+        handleLeavePictureInPicture,
+      );
 
       return () => {
         video.removeEventListener("loadedmetadata", handleLoadedMetadata);
@@ -112,9 +130,24 @@ export default function VideoPlayerApp() {
         video.removeEventListener("pause", handlePause);
         video.removeEventListener("ended", handleEnded);
         video.removeEventListener("volumechange", handleVolumeChange);
+        video.removeEventListener(
+          "enterpictureinpicture",
+          handleEnterPictureInPicture,
+        );
+        video.removeEventListener(
+          "leavepictureinpicture",
+          handleLeavePictureInPicture,
+        );
       };
     }
-  }, [videoActions, setDuration, setCurrentTime, setPlayState, setVolumeState]);
+  }, [
+    videoActions,
+    setDuration,
+    setCurrentTime,
+    setPlayState,
+    setVolumeState,
+    setIsPictureInPicture,
+  ]);
 
   // File handling
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -273,6 +306,16 @@ export default function VideoPlayerApp() {
         return;
       }
 
+      // Toggle Picture-in-Picture with "P" anywhere (if supported)
+      if (
+        (e.key === "p" || e.key === "P") &&
+        document.pictureInPictureEnabled
+      ) {
+        e.preventDefault();
+        void videoActions.togglePictureInPicture();
+        return;
+      }
+
       // Close info overlay with Escape (don't block browser fullscreen exit)
       if (e.key === "Escape") {
         // No preventDefault here to allow native behaviors (e.g., exit fullscreen)
@@ -393,7 +436,6 @@ export default function VideoPlayerApp() {
               <p className="text-xl text-gray-300">
                 {t`Drop a video file anywhere or click here to open one`}
               </p>
-              <p>{settingsPopoverOpen ? "Settings Open" : "Settings Closed"}</p>
             </div>
           </div>
         </div>

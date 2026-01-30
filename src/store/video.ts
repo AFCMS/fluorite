@@ -30,6 +30,7 @@ export const showControlsAtom = atom(true);
 export const isFullscreenAtom = atom(false);
 export const isDragOverAtom = atom(false);
 export const settingsPopoverOpenAtom = atom(false);
+export const isPictureInPictureAtom = atom(false);
 
 // DERIVED ATOMS
 export const videoIsLoadedAtom = atom(
@@ -222,6 +223,24 @@ export const toggleMuteAtom = atom(null, (get, set) => {
 export const toggleLoopAtom = atom(null, (get, set) => {
   const loop = get(loopAtom);
   set(setLoopAtom, !loop);
+});
+
+export const togglePictureInPictureAtom = atom(null, async (get) => {
+  const element = get(videoElementAtom);
+
+  if (!element) {
+    return;
+  }
+
+  try {
+    if (document.pictureInPictureElement) {
+      await document.exitPictureInPicture();
+    } else {
+      await element.requestPictureInPicture();
+    }
+  } catch (error) {
+    console.error("Failed to toggle Picture-in-Picture:", error);
+  }
 });
 
 // EFFECT ATOMS

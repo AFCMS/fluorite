@@ -10,6 +10,7 @@ import {
   HiArrowsPointingIn,
   HiInformationCircle,
   HiArrowPath,
+  HiArrowTopRightOnSquare,
 } from "react-icons/hi2";
 
 import {
@@ -22,8 +23,8 @@ import { formatTime } from "../utils/format";
 import { SettingsPopover } from "./Settings/SettingsPopover";
 
 interface ControlBarProps {
-  onOpenFile: () => void;
-  onToggleVideoInfo: () => void;
+  readonly onOpenFile: () => void;
+  readonly onToggleVideoInfo: () => void;
 }
 
 export default function ControlBar(props: ControlBarProps) {
@@ -192,6 +193,18 @@ export default function ControlBar(props: ControlBarProps) {
           >
             <HiInformationCircle className="h-5 w-5" />
           </button>
+          {document.pictureInPictureEnabled && (
+            <button
+              onClick={() => {
+                void videoActions.togglePictureInPicture();
+              }}
+              disabled={!videoUrl}
+              className="button-styled h-12 w-12"
+              title={t`Picture-in-Picture` + " (P)"}
+            >
+              <HiArrowTopRightOnSquare className="h-5 w-5" />
+            </button>
+          )}
           <button
             onClick={() => {
               void uiControls.toggleFullscreen();

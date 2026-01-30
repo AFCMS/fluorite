@@ -55,11 +55,11 @@ msgstr "Espace colorimétrique :"
 msgid "Container Format"
 msgstr "Format de conteneur"
 
-#: src/components/VideoPlayer.tsx:372
+#: src/components/VideoPlayer.tsx:427
 msgid "Drop a video file anywhere or click here to open one"
 msgstr "Déposez un fichier vidéo n'importe où, ou cliquez ici pour en ouvrir un"
 
-#: src/components/VideoPlayer.tsx:394
+#: src/components/VideoPlayer.tsx:449
 msgid "Drop video file here"
 msgstr "Déposez un fichier vidéo ici"
 
@@ -67,11 +67,11 @@ msgstr "Déposez un fichier vidéo ici"
 msgid "Duration"
 msgstr "Durée"
 
-#: src/components/ControlBar.tsx:203
+#: src/components/ControlBar.tsx:216
 msgid "Enter fullscreen"
 msgstr "Mettre en plein écran"
 
-#: src/components/ControlBar.tsx:202
+#: src/components/ControlBar.tsx:215
 msgid "Exit fullscreen"
 msgstr "Sortir du plein écran"
 
@@ -99,7 +99,7 @@ msgstr "Boucle"
 #~ msgid "Loop playback"
 #~ msgstr "Lecture en boucle"
 
-#: src/components/ControlBar.tsx:153
+#: src/components/ControlBar.tsx:154
 msgid "Mute"
 msgstr "Désactiver le son"
 
@@ -111,15 +111,19 @@ msgstr "Désactivée"
 msgid "On"
 msgstr "Activée"
 
-#: src/components/ControlBar.tsx:216
+#: src/components/ControlBar.tsx:229
 msgid "Open File"
 msgstr "Ouvrir un fichier"
 
-#: src/components/ControlBar.tsx:127
+#: src/components/ControlBar.tsx:128
 msgid "Pause"
 msgstr "Pause"
 
-#: src/components/ControlBar.tsx:127
+#: src/components/ControlBar.tsx:203
+msgid "Picture-in-Picture"
+msgstr "Picture-in-Picture"
+
+#: src/components/ControlBar.tsx:128
 msgid "Play"
 msgstr "Lire"
 
@@ -127,7 +131,7 @@ msgstr "Lire"
 msgid "Playback speed"
 msgstr "Vitesse de lecture"
 
-#: src/components/ControlBar.tsx:127
+#: src/components/ControlBar.tsx:128
 msgid "Replay"
 msgstr "Relancer"
 
@@ -143,7 +147,7 @@ msgstr "Fréquence d'échantillonnage :"
 msgid "Selected"
 msgstr "Sélectionnée"
 
-#: src/components/Settings/SettingsPopover.tsx:39
+#: src/components/Settings/SettingsPopover.tsx:29
 #: src/components/Settings/SettingsSpeedTab.tsx:24
 msgid "Settings"
 msgstr "Paramètres"
@@ -152,7 +156,7 @@ msgstr "Paramètres"
 msgid "Speed"
 msgstr "Vitesse"
 
-#: src/components/ControlBar.tsx:153
+#: src/components/ControlBar.tsx:154
 msgid "Unmute"
 msgstr "Activer le son"
 
@@ -160,11 +164,11 @@ msgstr "Activer le son"
 msgid "Video Details"
 msgstr "Détails vidéo"
 
-#: src/components/ControlBar.tsx:191
+#: src/components/ControlBar.tsx:192
 #: src/components/VideoInfoOverlay.tsx:79
 msgid "Video Information"
 msgstr "Informations sur la vidéo"
 
-#: src/components/ControlBar.tsx:180
+#: src/components/ControlBar.tsx:181
 msgid "Volume"
 msgstr "Volume"

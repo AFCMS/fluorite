@@ -17,6 +17,7 @@ import {
   effectiveVolumeAtom,
   videoMetadataAtom,
   hasVideoMetadataAtom,
+  isPictureInPictureAtom,
 
   // Action atoms
   videoFileSetAtom,
@@ -28,6 +29,7 @@ import {
   setPlaybackRateAtom,
   setLoopAtom,
   toggleLoopAtom,
+  togglePictureInPictureAtom,
 
   // Effects
   videoUrlCleanupEffect,
@@ -49,6 +51,7 @@ export function useVideoActions() {
   const setPlaybackRate = useSetAtom(setPlaybackRateAtom);
   const setLoop = useSetAtom(setLoopAtom);
   const toggleLoop = useSetAtom(toggleLoopAtom);
+  const togglePictureInPicture = useSetAtom(togglePictureInPictureAtom);
 
   // Trigger effects
   useAtom(videoUrlCleanupEffect);
@@ -73,6 +76,7 @@ export function useVideoActions() {
     setPlaybackRate,
     setLoop,
     toggleLoop,
+    togglePictureInPicture,
     registerVideoElement,
   };
 }
@@ -107,6 +111,7 @@ export function useVideoState() {
     isSeeking: useAtomValue(isSeekingAtom),
     playbackRate: useAtomValue(playbackRateAtom),
     loop: useAtomValue(loopAtom),
+    isPictureInPicture: useAtomValue(isPictureInPictureAtom),
     metadata: useAtomValue(videoMetadataAtom),
     hasMetadata: useAtomValue(hasVideoMetadataAtom),
     mediaInfo: useAtomValue(mediaInfoMetadataAtom),
