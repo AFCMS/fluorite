@@ -55,11 +55,11 @@ msgstr "Espace colorimétrique :"
 msgid "Container Format"
 msgstr "Format de conteneur"
 
-#: src/components/VideoPlayer.tsx:427
+#: src/components/VideoPlayer.tsx:437
 msgid "Drop a video file anywhere or click here to open one"
 msgstr "Déposez un fichier vidéo n'importe où, ou cliquez ici pour en ouvrir un"
 
-#: src/components/VideoPlayer.tsx:449
+#: src/components/VideoPlayer.tsx:459
 msgid "Drop video file here"
 msgstr "Déposez un fichier vidéo ici"
 
