@@ -27,11 +27,11 @@ importers:
         specifier: ^1.6.1
         version: 1.6.1(react@19.2.4)
       jotai:
-        specifier: ^2.16.2
-        version: 2.16.2(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.10)(react@19.2.4)
+        specifier: ^2.17.0
+        version: 2.17.0(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.10)(react@19.2.4)
       jotai-effect:
         specifier: ^2.2.3
-        version: 2.2.3(jotai@2.16.2(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.10)(react@19.2.4))
+        version: 2.2.3(jotai@2.17.0(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.10)(react@19.2.4))
       mediainfo.js:
         specifier: ^0.3.7
         version: 0.3.7
@@ -124,8 +124,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0(@vite-pwa/assets-generator@1.0.2)(rolldown-vite@7.1.5(@types/node@24.10.1)(esbuild@0.25.9)(jiti@2.6.1)(terser@5.43.1))(workbox-build@7.3.0(@types/babel__core@7.20.5))(workbox-window@7.4.0)
       vite-plugin-sri-gen:
-        specifier: ^1.3.0
-        version: 1.3.0(rolldown-vite@7.1.5(@types/node@24.10.1)(esbuild@0.25.9)(jiti@2.6.1)(terser@5.43.1))
+        specifier: ^1.3.1
+        version: 1.3.1(rolldown-vite@7.1.5(@types/node@24.10.1)(esbuild@0.25.9)(jiti@2.6.1)(terser@5.43.1))
       vitest:
         specifier: ^4.0.18
         version: 4.0.18(@types/node@24.10.1)(@vitest/ui@4.0.18)(jiti@2.6.1)(jsdom@27.4.0)(lightningcss@1.30.2)(terser@5.43.1)
@@ -3221,8 +3221,8 @@ packages:
     peerDependencies:
       jotai: '>=2.16.0'
 
-  jotai@2.16.2:
-    resolution: {integrity: sha512-DH0lBiTXvewsxtqqwjDW6Hg9JPTDnq9LcOsXSFWCAUEt+qj5ohl9iRVX9zQXPPHKLXCdH+5mGvM28fsXMl17/g==}
+  jotai@2.17.0:
+    resolution: {integrity: sha512-DBPT7Vx7E7R/ZJL7Uq7yUA9+LLR0IRiRM+Bw5ugVwv8L8++RjlXVXZ2//ccucypc5lcyuHOW09rYcW77RurduQ==}
     engines: {node: '>=12.20.0'}
     peerDependencies:
       '@babel/core': '>=7.0.0'
@@ -4678,8 +4678,8 @@ packages:
       '@vite-pwa/assets-generator':
         optional: true
 
-  vite-plugin-sri-gen@1.3.0:
-    resolution: {integrity: sha512-rKmfFRxD0cuk8h7VUPYPFaL/fVseDrRq++WYj93EAOARtDQz88Am9apQB8xuhfS4Te5sf/Q/iIde112ZKSPgrA==}
+  vite-plugin-sri-gen@1.3.1:
+    resolution: {integrity: sha512-u8GT8fWrBLv1Fp6C8Zzbscg/xXOf1nzsVF/d3smM6Kxfi5RpqlcuidrKea910648josCmuLzonojvAJXAbpsfA==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       vite: '>=4.0.0'
@@ -8374,11 +8374,11 @@ snapshots:
 
   jiti@2.6.1: {}
 
-  jotai-effect@2.2.3(jotai@2.16.2(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.10)(react@19.2.4)):
+  jotai-effect@2.2.3(jotai@2.17.0(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.10)(react@19.2.4)):
     dependencies:
-      jotai: 2.16.2(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.10)(react@19.2.4)
+      jotai: 2.17.0(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.10)(react@19.2.4)
 
-  jotai@2.16.2(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.10)(react@19.2.4):
+  jotai@2.17.0(@babel/core@7.28.5)(@babel/template@7.27.2)(@types/react@19.2.10)(react@19.2.4):
     optionalDependencies:
       '@babel/core': 7.28.5
       '@babel/template': 7.27.2
@@ -9833,7 +9833,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-sri-gen@1.3.0(rolldown-vite@7.1.5(@types/node@24.10.1)(esbuild@0.25.9)(jiti@2.6.1)(terser@5.43.1)):
+  vite-plugin-sri-gen@1.3.1(rolldown-vite@7.1.5(@types/node@24.10.1)(esbuild@0.25.9)(jiti@2.6.1)(terser@5.43.1)):
     dependencies:
       parse5: 8.0.0
       vite: rolldown-vite@7.1.5(@types/node@24.10.1)(esbuild@0.25.9)(jiti@2.6.1)(terser@5.43.1)
