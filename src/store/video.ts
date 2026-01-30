@@ -19,11 +19,11 @@ export const videoElementAtom = atom<HTMLVideoElement | null>(null);
 export const isPlayingAtom = atom(false);
 export const currentTimeAtom = atom(0);
 export const durationAtom = atom(0);
-export const volumeAtom = atomWithStorage("oktomusic:volume", 1);
-export const isMutedAtom = atomWithStorage("oktomusic:muted", false);
+export const volumeAtom = atomWithStorage("fluorite:volume", 1);
+export const isMutedAtom = atomWithStorage("fluorite:muted", false);
 export const isSeekingAtom = atom(false);
-export const playbackRateAtom = atomWithStorage("oktomusic:playbackRate", 1);
-export const loopAtom = atomWithStorage("oktomusic:loop", false);
+export const playbackRateAtom = atomWithStorage("fluorite:playbackRate", 1);
+export const loopAtom = atomWithStorage("fluorite:loop", false);
 
 // UI STATE ATOMS
 export const showControlsAtom = atom(true);
