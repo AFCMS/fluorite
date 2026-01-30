@@ -1,5 +1,10 @@
 import { HiXMark } from "react-icons/hi2";
-import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
+import {
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 import type { MediaInfoMetadata } from "../utils/mediaInfo";
 import {
   formatFileSize,
@@ -178,7 +183,9 @@ export default function VideoInfoOverlay({
                         <span className="shrink-0 whitespace-nowrap text-gray-400">
                           {t`Codec:`}
                         </span>
-                        <span className="text-right">{metadata.audioCodec}</span>
+                        <span className="text-right">
+                          {metadata.audioCodec}
+                        </span>
                       </div>
                     )}
                     {metadata.audioBitrate && (

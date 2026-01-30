@@ -25,6 +25,7 @@
         "vite.config.ts",
         "vitest.config.ts",
         "lingui.config.ts",
-        "prettier.config.ts"
+        "prettier.config.ts",
+        "eslint.config.ts"
     ],
 }
