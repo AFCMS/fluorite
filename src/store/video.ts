@@ -140,10 +140,8 @@ export const videoFileSetAtom = atom(null, (_get, set, file: File) => {
 
 export const togglePlayPauseAtom = atom(null, (get) => {
   const element = get(videoElementAtom);
-  const isSettingsPopoverOpen = get(settingsPopoverOpenAtom);
 
-  if (!element || isSettingsPopoverOpen) {
-    // No element registered or settings popover is open; nothing to toggle
+  if (!element) {
     return;
   }
 

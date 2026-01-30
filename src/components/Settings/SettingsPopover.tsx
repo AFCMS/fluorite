@@ -1,36 +1,26 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import { useLingui } from "@lingui/react/macro";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { HiCog6Tooth } from "react-icons/hi2";
 
+import { SettingsPopoverStateProvider } from "./SettingsPopoverStateProvider";
 import { SettingsSpeedTab } from "./SettingsSpeedTab";
 import { SettingsRootTab } from "./SettingsRootTab";
 import { useVideoActions, useVideoState } from "../../hooks";
-import { useSetAtom } from "jotai";
-import { settingsPopoverOpenAtom } from "../../store/video";
 
 export function SettingsPopover() {
   const { t } = useLingui();
   const [settingsTab, setSettingsTab] = useState<"root" | "speed">("root");
-  const popoverOpenRef = useRef(false);
-  const setSettingsPopoverOpen = useSetAtom(settingsPopoverOpenAtom);
 
   const videoActions = useVideoActions();
   const videoState = useVideoState();
 
-  // Update the global popover state when ref changes
-  useEffect(() => {
-    setSettingsPopoverOpen(popoverOpenRef.current);
-  });
-
   return (
     <Popover>
       {({ open }) => {
-        // Update ref when popover state changes
-        popoverOpenRef.current = open;
-
         return (
           <>
+            <SettingsPopoverStateProvider open={open} />
             <PopoverButton
               onClick={() => {
                 setSettingsTab("root");

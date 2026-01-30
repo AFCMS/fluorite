@@ -32,6 +32,20 @@ export default function VideoPlayerApp() {
     height: 0,
   });
   const settingsPopoverOpen = useAtomValue(settingsPopoverOpenAtom);
+  const justClosedPopoverRef = useRef(false);
+
+  // Detect when popover closes and set flag to prevent immediate actions
+  useEffect(() => {
+    if (!settingsPopoverOpen) {
+      justClosedPopoverRef.current = true;
+      const timer = setTimeout(() => {
+        justClosedPopoverRef.current = false;
+      }, 100);
+      return () => {
+        clearTimeout(timer);
+      };
+    }
+  }, [settingsPopoverOpen]);
 
   // Get video context data
   const videoActions = useVideoActions();
@@ -115,7 +129,7 @@ export default function VideoPlayerApp() {
   };
 
   const openFileDialog = () => {
-    if (!settingsPopoverOpen) {
+    if (!settingsPopoverOpen && !justClosedPopoverRef.current) {
       fileInputRef.current?.click();
     }
   };
@@ -357,7 +371,11 @@ export default function VideoPlayerApp() {
           ref={videoRef}
           src={videoUrl}
           className="h-full w-full object-contain"
-          onClick={videoActions.togglePlayPause}
+          onClick={() => {
+            if (!settingsPopoverOpen && !justClosedPopoverRef.current) {
+              videoActions.togglePlayPause();
+            }
+          }}
         />
       ) : (
         <div className="flex h-full w-full flex-col items-center justify-center text-white">
@@ -375,6 +393,7 @@ export default function VideoPlayerApp() {
               <p className="text-xl text-gray-300">
                 {t`Drop a video file anywhere or click here to open one`}
               </p>
+              <p>{settingsPopoverOpen ? "Settings Open" : "Settings Closed"}</p>
             </div>
           </div>
         </div>
