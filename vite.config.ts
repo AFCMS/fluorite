@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import babel from "@rolldown/plugin-babel";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa";
@@ -76,11 +77,8 @@ const pwaConfig: Partial<VitePWAOptions> = {
 
 export default defineConfig({
   plugins: [
-    react({
-      babel: {
-        plugins: ["@lingui/babel-plugin-lingui-macro"],
-      },
-    }),
+    react(),
+    babel({ plugins: ["@lingui/babel-plugin-lingui-macro"] }),
     lingui(),
     tailwindcss(),
     VitePWA(pwaConfig),
