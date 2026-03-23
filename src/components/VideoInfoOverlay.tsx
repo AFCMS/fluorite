@@ -16,9 +16,9 @@ import {
 import { t } from "@lingui/core/macro";
 
 interface VideoInfoOverlayProps {
-  isVisible: boolean;
-  metadata: MediaInfoMetadata | null;
-  onClose: () => void;
+  readonly isVisible: boolean;
+  readonly metadata: MediaInfoMetadata | null;
+  readonly onClose: () => void;
 }
 
 export default function VideoInfoOverlay({

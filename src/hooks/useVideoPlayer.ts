@@ -6,30 +6,30 @@ import type { MediaInfoMetadata } from "../utils/mediaInfo";
 import { formatTime } from "../utils/format";
 
 interface VideoState {
-  isPlaying: boolean;
-  currentTime: number;
-  duration: number;
-  volume: number;
-  isMuted: boolean;
-  isSeeking: boolean;
-  videoSrc: string;
-  videoMetadata: MediaInfoMetadata | null;
-  currentFile: File | null;
+  readonly isPlaying: boolean;
+  readonly currentTime: number;
+  readonly duration: number;
+  readonly volume: number;
+  readonly isMuted: boolean;
+  readonly isSeeking: boolean;
+  readonly videoSrc: string;
+  readonly videoMetadata: MediaInfoMetadata | null;
+  readonly currentFile: File | null;
 }
 
 interface VideoPlayerHook extends VideoState {
-  videoRef: React.RefObject<HTMLVideoElement | null>;
+  readonly videoRef: React.RefObject<HTMLVideoElement | null>;
   // Control methods
-  togglePlayPause: () => void;
-  handleSeek: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleSeekStart: () => void;
-  handleSeekEnd: () => void;
-  handleVolumeChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  toggleMute: () => void;
-  loadVideo: (src: string, file?: File) => void;
-  seekBy: (deltaSeconds: number) => void;
+  readonly togglePlayPause: () => void;
+  readonly handleSeek: (e: ChangeEvent<HTMLInputElement>) => void;
+  readonly handleSeekStart: () => void;
+  readonly handleSeekEnd: () => void;
+  readonly handleVolumeChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  readonly toggleMute: () => void;
+  readonly loadVideo: (src: string, file?: File) => void;
+  readonly seekBy: (deltaSeconds: number) => void;
   // Utility methods
-  formatTime: (time: number) => string;
+  readonly formatTime: (time: number) => string;
 }
 
 export const useVideoPlayer = (): VideoPlayerHook => {
@@ -47,7 +47,7 @@ export const useVideoPlayer = (): VideoPlayerHook => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isSeeking, setIsSeeking] = useState(false);
-  const [videoSrc, setVideoSrc] = useState<string>("");
+  const [videoSrc, setVideoSrc] = useState("");
   const [videoMetadata, setVideoMetadata] = useState<MediaInfoMetadata | null>(
     null,
   );

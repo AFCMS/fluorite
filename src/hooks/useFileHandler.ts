@@ -3,19 +3,19 @@ import type { ChangeEvent, DragEvent } from "react";
 import { isVideoFile } from "../utils";
 
 interface FileHandlerHook {
-  fileInputRef: React.RefObject<HTMLInputElement | null>;
-  urlRef: React.RefObject<string>;
-  handleFileInput: (event: ChangeEvent<HTMLInputElement>) => void;
-  handleDragOver: (event: DragEvent) => void;
-  handleDragLeave: (event: DragEvent) => void;
-  handleDrop: (event: DragEvent) => void;
-  openFileDialog: () => void;
-  processFile: (file: File) => void;
+  readonly fileInputRef: React.RefObject<HTMLInputElement | null>;
+  readonly urlRef: React.RefObject<string>;
+  readonly handleFileInput: (event: ChangeEvent<HTMLInputElement>) => void;
+  readonly handleDragOver: (event: DragEvent) => void;
+  readonly handleDragLeave: (event: DragEvent) => void;
+  readonly handleDrop: (event: DragEvent) => void;
+  readonly openFileDialog: () => void;
+  readonly processFile: (file: File) => void;
 }
 
 interface FileHandlerOptions {
-  onVideoFile: (file: File) => void;
-  onDragStateChange: (isDragOver: boolean) => void;
+  readonly onVideoFile: (file: File) => void;
+  readonly onDragStateChange: (isDragOver: boolean) => void;
 }
 
 export const useFileHandler = ({
@@ -23,7 +23,7 @@ export const useFileHandler = ({
   onDragStateChange,
 }: FileHandlerOptions): FileHandlerHook => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const urlRef = useRef<string>("");
+  const urlRef = useRef("");
 
   const handleVideoFile = useCallback(
     (file: File) => {

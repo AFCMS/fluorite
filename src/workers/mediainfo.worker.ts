@@ -4,33 +4,37 @@ import mediaInfoWasmUrl from "mediainfo.js/MediaInfoModule.wasm?url";
 
 // Keep types in sync with app
 export interface MediaInfoMetadata {
-  title?: string;
-  videoCodec?: string;
-  videoHeight?: number;
-  videoWidth?: number;
-  videoFrameRate?: number;
-  videoBitrate?: number;
-  videoColorSpace?: string;
-  videoProfile?: string;
-  videoBitDepth?: number;
-  audioCodec?: string;
-  audioBitrate?: number;
-  audioSampleRate?: number;
-  audioChannels?: number;
-  containerFormat?: string;
-  fileSize?: number;
-  fileName?: string;
-  duration?: number;
+  readonly title?: string;
+  readonly videoCodec?: string;
+  readonly videoHeight?: number;
+  readonly videoWidth?: number;
+  readonly videoFrameRate?: number;
+  readonly videoBitrate?: number;
+  readonly videoColorSpace?: string;
+  readonly videoProfile?: string;
+  readonly videoBitDepth?: number;
+  readonly audioCodec?: string;
+  readonly audioBitrate?: number;
+  readonly audioSampleRate?: number;
+  readonly audioChannels?: number;
+  readonly containerFormat?: string;
+  readonly fileSize?: number;
+  readonly fileName?: string;
+  readonly duration?: number;
 }
 
 type WorkerRequest =
-  | { id: number; type: "warmup" }
-  | { id: number; type: "analyze"; file: File };
+  | { readonly id: number; readonly type: "warmup" }
+  | { readonly id: number; readonly type: "analyze"; readonly file: File };
 
 type WorkerResponse =
-  | { id: number; type: "ready" }
-  | { id: number; type: "metadata"; metadata: MediaInfoMetadata | null }
-  | { id: number; type: "error"; message: string };
+  | { readonly id: number; readonly type: "ready" }
+  | {
+      readonly id: number;
+      readonly type: "metadata";
+      readonly metadata: MediaInfoMetadata | null;
+    }
+  | { readonly id: number; readonly type: "error"; readonly message: string };
 
 let miInstance: MediaInfo | null = null;
 
@@ -55,16 +59,16 @@ async function ensureMediaInfo(): Promise<MediaInfo> {
 }
 
 interface WorkerTrackShape {
-  "@type"?: string;
-  Title?: string;
-  Format?: string;
-  CodecID?: string;
-  Height?: string | number;
-  Width?: string | number;
-  FrameRate?: string | number;
-  BitRate?: string | number;
-  ColorSpace?: string;
-  SamplingRate?: string | number;
+  readonly "@type"?: string;
+  readonly Title?: string;
+  readonly Format?: string;
+  readonly CodecID?: string;
+  readonly Height?: string | number;
+  readonly Width?: string | number;
+  readonly FrameRate?: string | number;
+  readonly BitRate?: string | number;
+  readonly ColorSpace?: string;
+  readonly SamplingRate?: string | number;
 }
 
 self.onmessage = async (evt: MessageEvent<WorkerRequest>) => {

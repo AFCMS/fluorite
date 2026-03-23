@@ -1,30 +1,30 @@
 export interface MediaInfoMetadata {
-  title?: string;
+  readonly title?: string;
   /**
    * Codec format (e.g., AV1, H.264) of the first video track.
    */
-  videoCodec?: string;
-  videoHeight?: number;
-  videoWidth?: number;
+  readonly videoCodec?: string;
+  readonly videoHeight?: number;
+  readonly videoWidth?: number;
   /**
    * Frame rate (in frames per second) of the first video track.
    */
-  videoFrameRate?: number;
-  videoBitrate?: number;
-  videoColorSpace?: string;
-  videoProfile?: string;
-  videoBitDepth?: number;
+  readonly videoFrameRate?: number;
+  readonly videoBitrate?: number;
+  readonly videoColorSpace?: string;
+  readonly videoProfile?: string;
+  readonly videoBitDepth?: number;
   /**
    * Codec format (e.g., AAC, Opus) of the first audio track.
    */
-  audioCodec?: string;
-  audioBitrate?: number;
-  audioSampleRate?: number;
-  audioChannels?: number;
+  readonly audioCodec?: string;
+  readonly audioBitrate?: number;
+  readonly audioSampleRate?: number;
+  readonly audioChannels?: number;
 
   // File/container level
-  containerFormat?: string;
-  fileSize?: number;
-  fileName?: string;
-  duration?: number; // seconds
+  readonly containerFormat?: string;
+  readonly fileSize?: number;
+  readonly fileName?: string;
+  readonly duration?: number; // seconds
 }
