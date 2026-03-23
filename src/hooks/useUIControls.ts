@@ -1,16 +1,16 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
 interface UIControlsHook {
-  showControls: boolean;
-  isFullscreen: boolean;
-  isDragOver: boolean;
-  showVideoInfo: boolean;
-  toggleFullscreen: () => Promise<void>;
-  setShowControls: (show: boolean) => void;
-  setIsDragOver: (isDragOver: boolean) => void;
-  toggleVideoInfo: () => void;
-  onMouseEnterControls: () => void;
-  onMouseLeaveControls: () => void;
+  readonly showControls: boolean;
+  readonly isFullscreen: boolean;
+  readonly isDragOver: boolean;
+  readonly showVideoInfo: boolean;
+  readonly toggleFullscreen: () => Promise<void>;
+  readonly setShowControls: (show: boolean) => void;
+  readonly setIsDragOver: (isDragOver: boolean) => void;
+  readonly toggleVideoInfo: () => void;
+  readonly onMouseEnterControls: () => void;
+  readonly onMouseLeaveControls: () => void;
 }
 
 export const useUIControls = (
