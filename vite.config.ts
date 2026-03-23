@@ -101,4 +101,7 @@ export default defineConfig({
   worker: {
     format: "es",
   },
+  devtools: {
+    enabled: false,
+  },
 });
