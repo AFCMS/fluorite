@@ -83,8 +83,21 @@ jobs:
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
-  docker:
+  caddyconfig:
+    runs-on: ubuntu-latest
+    container: caddy:2-alpine
     needs: build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Build Caddy configuration
+        run: caddy validate Caddyfile
+
+  docker:
+    needs:
+      - caddyconfig
+      - build
     uses: docker/github-builder/.github/workflows/build.yml@v1
     permissions:
       contents: read
@@ -139,7 +152,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
   helm:
     runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
