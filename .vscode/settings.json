@@ -21,5 +21,8 @@
         "pnpm run lint": true,
         "pnpm run test": true,
         "pnpm run dev": true
+    },
+    "files.associations": {
+        ".helmignore": "ignore",
     }
 }
