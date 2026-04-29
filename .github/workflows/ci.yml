@@ -149,3 +149,9 @@ jobs:
         with:
           version: "4.1.1"
         id: helm-install
+
+      - name: Login to GHCR
+        run: helm registry login -u ${{ github.actor }} ghcr.io -p ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Package Helm chart
+        run: helm package ./helm
