@@ -27,7 +27,5 @@
 	respond @disallowed_methods 405
 
 	file_server
-	try_files {
-		path
-	}	/index.html
+	try_files {path} /index.html
 }
