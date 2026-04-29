@@ -151,7 +151,13 @@ jobs:
         id: helm-install
 
       - name: Login to GHCR
-        run: helm registry login -u ${{ github.actor }} ghcr.io -p ${{ secrets.GITHUB_TOKEN }}
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login --username ${{ github.actor }} ghcr.io --password-stdin
 
       - name: Package Helm chart
         run: helm package ./helm
+
+      - name: Upload Helm chart as artifact
+        uses: actions/upload-artifact@v7
+        with:
+          path: fluorite-*.tgz
+          archive: false
