@@ -147,5 +147,5 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v5
         with:
-          version: "4"
+          version: "4.1.1"
         id: helm-install
