@@ -174,9 +174,11 @@ jobs:
       - name: Upload Helm chart as artifact
         uses: actions/upload-artifact@v7
         with:
-          path: fluorite-*.tgz
+          path: fluorite-chart-*.tgz
           archive: false
 
       - name: Publish Helm chart to GHCR
         if: github.event_name != 'pull_request'
-        run: helm push fluorite-*.tgz oci://ghcr.io/${{ github.repository }}-chart
+        run: |
+          $REPO_OWNER_LOWERCASE=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          helm push fluorite-chart-*.tgz oci://ghcr.io/${REPO_OWNER_LOWERCASE}

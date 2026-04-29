@@ -1,6 +1,6 @@
 ---
 apiVersion: v2
-name: fluorite
+name: fluorite-chart
 description: A Helm chart for running Fluorite, a web-based video player
 icon: https://raw.githubusercontent.com/AFCMS/fluorite/refs/heads/master/public/fluorite.svg
 
