@@ -1,1 +1,253 @@
-{}
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "properties": {
+        "replicaCount": {
+            "type": "integer",
+            "default": 1,
+            "minimum": 1,
+            "description": "ReplicaSet count: https://kubernetes.io/docs/concepts/workloads/controllers/replicaset"
+        },
+        "image": {
+            "type": "object",
+            "properties": {
+                "repository": {
+                    "type": "string",
+                    "default": "ghcr.io/afcms/fluorite",
+                    "description": "Container image repository: https://kubernetes.io/docs/concepts/containers/images"
+                },
+                "pullPolicy": {
+                    "type": "string",
+                    "default": "IfNotPresent",
+                    "enum": [
+                        "Always",
+                        "IfNotPresent",
+                        "Never"
+                    ],
+                    "description": "Container image pull policy: https://kubernetes.io/docs/concepts/containers/images#updating-images"
+                },
+                "tag": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Container image tag, default is appVersion"
+                }
+            },
+            "additionalProperties": false
+        },
+        "imagePullSecrets": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "name"
+                ],
+                "additionalProperties": false
+            },
+            "description": "List of image pull secrets: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry"
+        },
+        "nameOverride": {
+            "type": "string",
+            "default": ""
+        },
+        "fullnameOverride": {
+            "type": "string",
+            "default": ""
+        },
+        "serviceAccount": {
+            "type": "object",
+            "properties": {
+                "create": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Create a ServiceAccount for the release: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account"
+                },
+                "automount": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Whether to automount the service account token: https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account"
+                },
+                "annotations": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
+        "podAnnotations": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "description": "Pod annotations: https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations"
+        },
+        "podLabels": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "description": "Pod labels: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels"
+        },
+        "podSecurityContext": {
+            "type": "object",
+            "description": "Pod-level security context: https://kubernetes.io/docs/tasks/configure-pod-container/security-context"
+        },
+        "securityContext": {
+            "type": "object",
+            "description": "Container-level security context: https://kubernetes.io/docs/tasks/configure-pod-container/security-context"
+        },
+        "service": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "ClusterIP",
+                        "NodePort",
+                        "LoadBalancer",
+                        "ExternalName"
+                    ],
+                    "default": "ClusterIP",
+                    "description": "Kubernetes Service type: https://kubernetes.io/docs/concepts/services-networking/service"
+                },
+                "port": {
+                    "type": "integer",
+                    "default": 80
+                }
+            },
+            "additionalProperties": false
+        },
+        "ingress": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "className": {
+                    "type": "string"
+                },
+                "annotations": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                },
+                "hosts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "host": {
+                                "type": "string"
+                            },
+                            "paths": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "path": {
+                                            "type": "string"
+                                        },
+                                        "pathType": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "tls": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "secretName": {
+                                "type": "string"
+                            },
+                            "hosts": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "additionalProperties": false,
+            "description": "Ingress settings (Kubernetes Ingress): https://kubernetes.io/docs/concepts/services-networking/ingress"
+        },
+        "httpRoute": {
+            "type": "object",
+            "description": "Gateway API HTTPRoute configuration: https://gateway-api.sigs.k8s.io"
+        },
+        "resources": {
+            "type": "object",
+            "description": "Resource requests and limits: https://kubernetes.io/docs/concepts/configuration/manage-resources-containers"
+        },
+        "livenessProbe": {
+            "type": "object",
+            "description": "Liveness probe configuration: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes"
+        },
+        "readinessProbe": {
+            "type": "object",
+            "description": "Readiness probe configuration: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes"
+        },
+        "autoscaling": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "minReplicas": {
+                    "type": "integer",
+                    "default": 1
+                },
+                "maxReplicas": {
+                    "type": "integer",
+                    "default": 100
+                },
+                "targetCPUUtilizationPercentage": {
+                    "type": "integer",
+                    "default": 80
+                }
+            },
+            "additionalProperties": false
+        },
+        "volumes": {
+            "type": "array",
+            "description": "Pod volumes: https://kubernetes.io/docs/concepts/storage/volumes"
+        },
+        "volumeMounts": {
+            "type": "array",
+            "description": "Container volume mounts: https://kubernetes.io/docs/concepts/storage/volumes"
+        },
+        "nodeSelector": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            },
+            "description": "Node selector for pod scheduling: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node"
+        },
+        "tolerations": {
+            "type": "array",
+            "description": "Tolerations for taints: https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration"
+        },
+        "affinity": {
+            "type": "object",
+            "description": "Affinity and anti-affinity rules: https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#affinity-and-anti-affinity"
+        }
+    },
+    "additionalProperties": false
+}
