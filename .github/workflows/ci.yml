@@ -91,7 +91,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
 
-      - name: Build Caddy configuration
+      - name: Validate Caddy configuration
         run: caddy validate Caddyfile
 
   docker:
@@ -165,6 +165,9 @@ jobs:
       - name: Login to GHCR
         run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login --username ${{ github.actor }} ghcr.io --password-stdin
 
+      - name: Lint Helm chart
+        run: helm lint ./helm
+
       - name: Package Helm chart
         run: helm package ./helm
 
@@ -173,3 +176,7 @@ jobs:
         with:
           path: fluorite-*.tgz
           archive: false
+
+      - name: Publish Helm chart to GHCR
+        if: github.event_name != 'pull_request'
+        run: helm push fluorite-*.tgz oci://ghcr.io/${{ github.repository }}-chart
