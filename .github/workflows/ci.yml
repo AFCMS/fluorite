@@ -180,5 +180,5 @@ jobs:
       - name: Publish Helm chart to GHCR
         if: github.event_name != 'pull_request'
         run: |
-          $REPO_OWNER_LOWERCASE=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          REPO_OWNER_LOWERCASE=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           helm push fluorite-chart-*.tgz oci://ghcr.io/${REPO_OWNER_LOWERCASE}
