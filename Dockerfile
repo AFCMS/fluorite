@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # check=error=true
 
-FROM --platform=$BUILDPLATFORM node:22-alpine AS builder
+FROM --platform=$BUILDPLATFORM node:24-alpine AS builder
 
 LABEL org.opencontainers.image.title="Fluorite"
 LABEL org.opencontainers.image.description="An elegant PWA video player"
@@ -17,7 +17,7 @@ LABEL io.artifacthub.package.maintainers='[{"name":"AFCMS","email":"afcm.contact
 
 ENV VITE_DISABLE_VERCEL_ANALYTICS="true"
 
-RUN corepack enable pnpm
+RUN npm install --global pnpm@10
 
 WORKDIR /app
 
