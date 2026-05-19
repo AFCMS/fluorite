@@ -1,7 +1,14 @@
 # syntax=docker/dockerfile:1
 # check=error=true
 
-FROM --platform=$BUILDPLATFORM node:24-alpine AS builder
+# Support DHI and normal images
+# - node:24-alpine
+# - caddy:2-alpine
+
+ARG IMAGE_BUILD=dhi.io/node:24-alpine3.23-dev
+ARG IMAGE_RUNTIME=dhi.io/caddy:2
+
+FROM --platform=$BUILDPLATFORM ${IMAGE_BUILD} AS builder
 
 LABEL org.opencontainers.image.title="Fluorite"
 LABEL org.opencontainers.image.description="An elegant PWA video player"
@@ -29,12 +36,10 @@ COPY . .
 
 RUN pnpm build
 
-FROM caddy:2-alpine
+FROM ${IMAGE_RUNTIME} AS runtime
 
 COPY --from=builder /app/dist /srv
 
 COPY Caddyfile /etc/caddy/Caddyfile
 
 EXPOSE 80
-
-CMD ["caddy", "run", "--config", "/etc/caddy/Caddyfile"]

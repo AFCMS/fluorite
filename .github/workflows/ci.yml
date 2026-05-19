@@ -106,7 +106,7 @@ jobs:
       attestations: write
     with:
       output: image
-      platforms: linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7,linux/ppc64le,linux/riscv64,linux/s390x
+      platforms: linux/amd64,linux/arm64
       push: ${{ github.event_name != 'pull_request' }}
       cache: ${{ github.event_name != 'workflow_dispatch' || inputs.use_cache }}
       sign: auto
@@ -150,6 +150,8 @@ jobs:
         - registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+        ${{ secrets.DHI_REGISTRY_USERNAME && format('- registry: dhi.io\n  username: {0}\n  password: {1}', secrets.DHI_REGISTRY_USERNAME, secrets.DHI_REGISTRY_PASSWORD) || '' }}
+
   helm:
     runs-on: ubuntu-latest
     permissions:
