@@ -2,18 +2,38 @@
     "editor.formatOnPaste": true,
     "editor.formatOnType": true,
     "editor.formatOnSave": true,
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "oxc.fmt.configPath": "oxfmt.config.ts",
     "[typescript]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode",
         "editor.tabSize": 2
     },
     "[typescriptreact]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode",
         "editor.tabSize": 2
     },
     "[javascript]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode",
         "editor.tabSize": 2
     },
     "[tailwindcss]": {
         "editor.tabSize": 2
+    },
+    "[json]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode",
+        "editor.tabSize": 4,
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "oxc.oxc-vscode",
+        "editor.tabSize": 4,
+        "editor.quickSuggestions": {
+            "strings": true
+        },
+        "editor.suggest.insertMode": "replace"
     },
     "chat.tools.terminal.autoApprove": {
         "pnpm run preview": true,
@@ -23,6 +43,6 @@
         "pnpm run dev": true
     },
     "files.associations": {
-        ".helmignore": "ignore",
+        ".helmignore": "ignore"
     }
 }

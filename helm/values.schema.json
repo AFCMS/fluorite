@@ -18,11 +18,7 @@
                 "pullPolicy": {
                     "type": "string",
                     "default": "IfNotPresent",
-                    "enum": [
-                        "Always",
-                        "IfNotPresent",
-                        "Never"
-                    ],
+                    "enum": ["Always", "IfNotPresent", "Never"],
                     "description": "Container image pull policy: https://kubernetes.io/docs/concepts/containers/images#updating-images"
                 },
                 "tag": {
@@ -42,9 +38,7 @@
                         "type": "string"
                     }
                 },
-                "required": [
-                    "name"
-                ],
+                "required": ["name"],
                 "additionalProperties": false
             },
             "description": "List of image pull secrets: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry"
