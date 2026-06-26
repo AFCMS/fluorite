@@ -5,6 +5,8 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
+import { useLingui } from "@lingui/react/macro";
+
 import type { MediaInfoMetadata } from "../utils/mediaInfo";
 import {
   formatFileSize,
@@ -13,7 +15,6 @@ import {
   formatSampleRate,
   formatTime,
 } from "../utils/format";
-import { t } from "@lingui/core/macro";
 
 interface VideoInfoOverlayProps {
   readonly isVisible: boolean;
@@ -26,6 +27,8 @@ export default function VideoInfoOverlay({
   metadata,
   onClose,
 }: VideoInfoOverlayProps) {
+  const { t } = useLingui();
+
   if (!isVisible || !metadata) return null;
 
   const infoItems = [
