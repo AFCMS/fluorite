@@ -2,3 +2,13 @@ allowBuilds:
   '@tailwindcss/oxide': true
   esbuild: true
   sharp: true
+
+blockExoticSubdeps: true
+
+minimumReleaseAge: 1440
+
+trustPolicy: no-downgrade
+
+trustPolicyExclude:
+  - semver
+  - "@trickfilm400/rollup-plugin-off-main-thread@3.0.0-pre1"
