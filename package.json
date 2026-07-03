@@ -68,7 +68,7 @@
         "typescript-eslint": "^8.62.0",
         "vite": "^8.1.0",
         "vite-plugin-pwa": "^1.3.0",
-        "vite-plugin-sri-gen": "^1.6.1",
+        "vite-plugin-sri-gen": "^1.7.0",
         "vitest": "^4.1.9",
         "workbox-window": "^7.4.1"
     }
