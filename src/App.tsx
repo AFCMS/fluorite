@@ -1,4 +1,5 @@
 import { Provider } from "jotai";
+
 import VideoPlayer from "./components/VideoPlayer";
 
 import "./App.css";

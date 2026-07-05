@@ -38,11 +38,13 @@ type WorkerResponse =
 
 let miInstance: MediaInfo | null = null;
 
+const NUMBER_REGEX = /^[0-9]+(?:\.[0-9]+)?/;
+
 const parseNumber = (value: unknown): number | undefined => {
   if (typeof value === "number") return value;
   if (typeof value === "string") {
     const cleaned = value.replace(/[, ]/g, "");
-    const match = /^[0-9]+(?:\.[0-9]+)?/.exec(cleaned);
+    const match = NUMBER_REGEX.exec(cleaned);
     if (match) return Number(match[0]);
   }
   return undefined;

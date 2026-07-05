@@ -1,11 +1,9 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useLingui } from "@lingui/react/macro";
 import { useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { HiFilm } from "react-icons/hi2";
-
 import { useRegisterSW } from "virtual:pwa-register/react";
 
-import ControlBar from "./ControlBar";
-import VideoInfoOverlay from "./VideoInfoOverlay";
 import {
   useVideoActions,
   useVideoUrl,
@@ -13,8 +11,6 @@ import {
   useUIControls,
 } from "../hooks";
 import { useMediaInfoMetadata } from "../hooks";
-import type { MediaInfoMetadata } from "../utils/mediaInfo";
-import { isVideoFile } from "../utils";
 import {
   updateDurationAtom,
   updateCurrentTimeAtom,
@@ -23,7 +19,12 @@ import {
   settingsPopoverOpenAtom,
   isPictureInPictureAtom,
 } from "../store/video";
-import { useLingui } from "@lingui/react/macro";
+import { isVideoFile } from "../utils";
+import type { MediaInfoMetadata } from "../utils/mediaInfo";
+import ControlBar from "./ControlBar";
+import VideoInfoOverlay from "./VideoInfoOverlay";
+
+const BASE_NAME_REGEX = /\.[^.]+$/;
 
 export default function VideoPlayerApp() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -54,7 +55,7 @@ export default function VideoPlayerApp() {
   const videoState = useVideoState();
   const uiControls = useUIControls();
   const mediaInfo = useMediaInfoMetadata();
-  const dragCounter = useRef(0);
+  const dragCounterRef = useRef(0);
 
   // Manual atom setters for video state
   const setDuration = useSetAtom(updateDurationAtom);
@@ -156,7 +157,7 @@ export default function VideoPlayerApp() {
     const file = event.target.files?.[0];
     if (file && isVideoFile(file)) {
       videoActions.setVideoFile(file);
-      const baseName = file.name.replace(/\.[^.]+$/, "");
+      const baseName = file.name.replace(BASE_NAME_REGEX, "");
       document.title = baseName;
     }
   };
@@ -215,7 +216,7 @@ export default function VideoPlayerApp() {
   // Drag and drop handling
   const handleDragEnter = (event: React.DragEvent) => {
     event.preventDefault();
-    dragCounter.current += 1;
+    dragCounterRef.current += 1;
     uiControls.setIsDragOver(true);
   };
 
@@ -226,15 +227,15 @@ export default function VideoPlayerApp() {
 
   const handleDragLeave = (event: React.DragEvent) => {
     event.preventDefault();
-    dragCounter.current = Math.max(0, dragCounter.current - 1);
-    if (dragCounter.current === 0) {
+    dragCounterRef.current = Math.max(0, dragCounterRef.current - 1);
+    if (dragCounterRef.current === 0) {
       uiControls.setIsDragOver(false);
     }
   };
 
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
-    dragCounter.current = 0;
+    dragCounterRef.current = 0;
     uiControls.setIsDragOver(false);
 
     const files = event.dataTransfer.files;
@@ -242,7 +243,7 @@ export default function VideoPlayerApp() {
       const file = files[0];
       if (isVideoFile(file)) {
         videoActions.setVideoFile(file);
-        const baseName = file.name.replace(/\.[^.]+$/, "");
+        const baseName = file.name.replace(BASE_NAME_REGEX, "");
         document.title = baseName;
       }
     }

@@ -1,9 +1,10 @@
+import { useAtom } from "jotai";
 import { useRef, useState, useCallback, useEffect } from "react";
 import type { ChangeEvent } from "react";
-import { useAtom } from "jotai";
+
 import { volumeAtom, isMutedAtom } from "../store/video";
-import type { MediaInfoMetadata } from "../utils/mediaInfo";
 import { formatTime } from "../utils/format";
+import type { MediaInfoMetadata } from "../utils/mediaInfo";
 
 interface VideoState {
   readonly isPlaying: boolean;

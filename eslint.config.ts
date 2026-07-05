@@ -1,10 +1,12 @@
+import e18e from "@e18e/eslint-plugin";
+import eslintReact from "@eslint-react/eslint-plugin";
 import js from "@eslint/js";
-import globals from "globals";
+import pluginLingui from "eslint-plugin-lingui";
 import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
-import tseslint from "typescript-eslint";
 import { globalIgnores, defineConfig } from "eslint/config";
-import pluginLingui from "eslint-plugin-lingui";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default defineConfig([
   globalIgnores([
@@ -21,6 +23,9 @@ export default defineConfig([
       js.configs.recommended,
       tseslint.configs.strictTypeChecked,
       tseslint.configs.stylisticTypeChecked,
+      e18e.configs.recommended,
+      eslintReact.configs["recommended-typescript"],
+      eslintReact.configs["disable-conflict-eslint-plugin-react-hooks"],
       reactHooks.configs.flat["recommended-latest"],
       reactRefresh.configs.vite,
       pluginLingui.configs["flat/recommended"],

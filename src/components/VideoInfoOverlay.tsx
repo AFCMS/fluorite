@@ -1,4 +1,3 @@
-import { HiXMark } from "react-icons/hi2";
 import {
   Dialog,
   DialogBackdrop,
@@ -6,8 +5,8 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 import { useLingui } from "@lingui/react/macro";
+import { HiXMark } from "react-icons/hi2";
 
-import type { MediaInfoMetadata } from "../utils/mediaInfo";
 import {
   formatFileSize,
   formatResolution,
@@ -15,6 +14,7 @@ import {
   formatSampleRate,
   formatTime,
 } from "../utils/format";
+import type { MediaInfoMetadata } from "../utils/mediaInfo";
 
 interface VideoInfoOverlayProps {
   readonly isVisible: boolean;
@@ -32,9 +32,18 @@ export default function VideoInfoOverlay({
   if (!isVisible || !metadata) return null;
 
   const infoItems = [
-    { label: t`File Name`, value: metadata.fileName ?? "Unknown" },
-    { label: t`Duration`, value: formatTime(metadata.duration ?? 0) },
     {
+      id: "file-name",
+      label: t`File Name`,
+      value: metadata.fileName ?? "Unknown",
+    },
+    {
+      id: "duration",
+      label: t`Duration`,
+      value: formatTime(metadata.duration ?? 0),
+    },
+    {
+      id: "resolution",
       label: t`Resolution`,
       value: formatResolution(
         metadata.videoWidth ?? 0,
@@ -42,10 +51,12 @@ export default function VideoInfoOverlay({
       ),
     },
     {
+      id: "container-format",
       label: t`Container Format`,
       value: metadata.containerFormat ?? "Unknown",
     },
     {
+      id: "file-size",
       label: t`File Size`,
       value: metadata.fileSize ? formatFileSize(metadata.fileSize) : "Unknown",
     },
@@ -93,9 +104,9 @@ export default function VideoInfoOverlay({
 
           {/* Information List */}
           <div className="space-y-4">
-            {validInfoItems.map((item, index) => (
+            {validInfoItems.map((item) => (
               <div
-                key={index}
+                key={item.id}
                 className="flex items-start justify-between gap-4 border-b border-gray-700 pb-2"
               >
                 <span className="shrink-0 whitespace-nowrap text-gray-300">

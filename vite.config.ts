@@ -1,10 +1,10 @@
-import { defineConfig } from "vite";
+import { lingui } from "@lingui/vite-plugin";
 import babel from "@rolldown/plugin-babel";
-import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa";
 import sri from "vite-plugin-sri-gen";
-import { lingui } from "@lingui/vite-plugin";
 
 const pwaConfig: Partial<VitePWAOptions> = {
   registerType: "autoUpdate",

@@ -1,4 +1,5 @@
 import { i18n, type Messages } from "@lingui/core";
+
 import type { SupportedLocale } from "./supported_locales";
 
 export async function dynamicActivate(locale: SupportedLocale) {

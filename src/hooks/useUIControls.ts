@@ -24,23 +24,23 @@ export const useUIControls = (
   const [showVideoInfo, setShowVideoInfo] = useState(false);
   const hideTimeoutRef = useRef<number | null>(null);
 
+  const resetHideTimer = useCallback(() => {
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current);
+    }
+
+    setShowControls(true);
+
+    // Only hide controls if video is playing
+    if (isPlaying && videoSrc) {
+      hideTimeoutRef.current = window.setTimeout(() => {
+        setShowControls(false);
+      }, 3000); // Hide after 3 seconds
+    }
+  }, [isPlaying, videoSrc]);
+
   // Control bar auto-hide functionality
   useEffect(() => {
-    const resetHideTimer = () => {
-      if (hideTimeoutRef.current) {
-        clearTimeout(hideTimeoutRef.current);
-      }
-
-      setShowControls(true);
-
-      // Only hide controls if video is playing
-      if (isPlaying && videoSrc) {
-        hideTimeoutRef.current = window.setTimeout(() => {
-          setShowControls(false);
-        }, 3000); // Hide after 3 seconds
-      }
-    };
-
     const handleMouseMove = () => {
       resetHideTimer();
     };
@@ -58,16 +58,17 @@ export const useUIControls = (
     document.addEventListener("mouseleave", handleMouseLeave);
 
     // Initialize timer
-    resetHideTimer();
+    const initialTimer = window.setTimeout(resetHideTimer, 0);
 
     return () => {
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
+      clearTimeout(initialTimer);
       if (hideTimeoutRef.current) {
         clearTimeout(hideTimeoutRef.current);
       }
     };
-  }, [isPlaying, videoSrc]);
+  }, [isPlaying, resetHideTimer, videoSrc]);
 
   const toggleFullscreen = useCallback(async () => {
     try {

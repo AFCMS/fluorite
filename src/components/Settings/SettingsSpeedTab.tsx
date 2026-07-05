@@ -1,4 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
+
 import { useVideoActions, useVideoState } from "../../hooks";
 
 interface SettingsSpeedTabProps {

@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { useLingui } from "@lingui/react/macro";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { useLingui } from "@lingui/react/macro";
+import { useState } from "react";
 import { HiCog6Tooth } from "react-icons/hi2";
 
-import { SettingsPopoverStateProvider } from "./SettingsPopoverStateProvider";
-import { SettingsSpeedTab } from "./SettingsSpeedTab";
-import { SettingsRootTab } from "./SettingsRootTab";
 import { useVideoActions, useVideoState } from "../../hooks";
+import { SettingsPopoverStateProvider } from "./SettingsPopoverStateProvider";
+import { SettingsRootTab } from "./SettingsRootTab";
+import { SettingsSpeedTab } from "./SettingsSpeedTab";
 
 export function SettingsPopover() {
   const { t } = useLingui();

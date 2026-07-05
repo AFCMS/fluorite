@@ -1,13 +1,12 @@
 import { atom, type Getter, type Setter } from "jotai";
-import { atomWithReset, atomWithStorage } from "jotai/utils";
 import { atomEffect } from "jotai-effect";
-
-// MediaInfo is offloaded to a Web Worker to keep heavy parsing off the main thread.
-// mediainfo.js is built without dynamic eval, so CSP does not need 'unsafe-eval'.
-import MediainfoWorker from "../workers/mediainfo.worker?worker";
+import { atomWithReset, atomWithStorage } from "jotai/utils";
 
 import { isVideoFile } from "../utils";
 import type { MediaInfoMetadata } from "../utils/mediaInfo";
+// MediaInfo is offloaded to a Web Worker to keep heavy parsing off the main thread.
+// mediainfo.js is built without dynamic eval, so CSP does not need 'unsafe-eval'.
+import MediainfoWorker from "../workers/mediainfo.worker?worker";
 
 // DATA ATOMS
 export const videoFileAtom = atomWithReset<File | null>(null);

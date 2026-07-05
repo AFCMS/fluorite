@@ -1,5 +1,5 @@
-import { useState, type ChangeEvent } from "react";
 import { useLingui } from "@lingui/react/macro";
+import { useState, type ChangeEvent } from "react";
 import {
   HiPlay,
   HiPause,

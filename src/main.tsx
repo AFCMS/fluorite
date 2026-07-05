@@ -1,14 +1,14 @@
+import { i18n } from "@lingui/core";
+import { I18nProvider } from "@lingui/react";
+import { Analytics } from "@vercel/analytics/react";
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { Analytics } from "@vercel/analytics/react";
-import { I18nProvider } from "@lingui/react";
-import { i18n } from "@lingui/core";
 
 import App from "./App.tsx";
 
 import "./index.css";
-import { dynamicActivate } from "./utils/i18n_loader.ts";
 import { getLanguage } from "./utils/get_language.ts";
+import { dynamicActivate } from "./utils/i18n_loader.ts";
 
 const sanitizedBrowserLanguageIfSupportedOrEnglish = getLanguage();
 await dynamicActivate(sanitizedBrowserLanguageIfSupportedOrEnglish);

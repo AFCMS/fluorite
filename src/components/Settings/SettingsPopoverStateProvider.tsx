@@ -1,6 +1,7 @@
 import { useSetAtom } from "jotai";
-import { settingsPopoverOpenAtom } from "../../store/video";
 import { useEffect } from "react";
+
+import { settingsPopoverOpenAtom } from "../../store/video";
 
 interface SettingsPopoverStateProviderProps {
   readonly open: boolean;
