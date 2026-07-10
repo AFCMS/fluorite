@@ -20,7 +20,7 @@
     "dependencies": {
         "@headlessui/react": "^2.2.10",
         "@lingui/core": "^6.4.0",
-        "@lingui/detect-locale": "^6.4.0",
+        "@lingui/detect-locale": "^6.5.0",
         "@lingui/react": "^6.4.0",
         "@tailwindcss/vite": "^4.3.2",
         "@vercel/analytics": "^2.0.1",
