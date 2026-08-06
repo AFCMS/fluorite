@@ -15,7 +15,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
-      
+
       - name: Find latest stable tag
         id: latest
         shell: bash
@@ -30,14 +30,14 @@ jobs:
           else
             echo "No stable tag found."
           fi
-      
+
       - name: Rebuild master branch
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh workflow run ci.yml \
             --ref "master"
-      
+
       - name: Rebuild latest stable tag
         if: steps.latest.outputs.tag != ''
         env:
@@ -45,4 +45,3 @@ jobs:
         run: |
           gh workflow run ci.yml \
             --ref "${{ steps.latest.outputs.tag }}"
-      
