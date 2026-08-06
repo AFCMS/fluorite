@@ -30,7 +30,7 @@ export function SettingsSpeedTab(props: SettingsSpeedTabProps) {
         <div key={r}>
           <button
             type="button"
-            aria-checked={playbackRate === r}
+            aria-pressed={playbackRate === r}
             onMouseDown={(e) => {
               // Keep popover open while selecting a rate
               e.preventDefault();

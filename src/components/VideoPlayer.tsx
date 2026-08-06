@@ -386,6 +386,8 @@ export default function VideoPlayerApp() {
   // Lingui macro
   const { t } = useLingui();
 
+  /* oxlint-disable jsx-a11y/no-noninteractive-element-interactions -- The file input and open-file button provide an accessible alternative to drag and drop. */
+  /* oxlint-disable jsx-a11y/media-has-caption -- Local video files may contain embedded captions; the app has no separate caption source to attach. */
   return (
     <main
       className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 ${
@@ -407,7 +409,7 @@ export default function VideoPlayerApp() {
         id="videoFile"
         accept="video/*"
         onChange={handleFileInput}
-        className="hidden"
+        className="peer sr-only"
       />
 
       {videoUrl ? (
@@ -422,8 +424,8 @@ export default function VideoPlayerApp() {
           }}
         />
       ) : (
-        <div className="flex h-full w-full flex-col items-center justify-center text-white">
-          <div className="space-y-8 text-center" onClick={openFileDialog}>
+        <div className="group relative flex h-full w-full flex-col items-center justify-center text-white peer-focus-visible:ring-2 peer-focus-visible:ring-white peer-focus-visible:ring-inset">
+          <div className="pointer-events-none space-y-8 text-center">
             <div className="space-y-4">
               <div className="flex justify-center text-6xl">
                 <img
@@ -434,11 +436,16 @@ export default function VideoPlayerApp() {
                 />
               </div>
               <h1 className="text-4xl font-bold">Fluorite</h1>
-              <p className="text-xl text-gray-300">
+              <p className="text-xl text-gray-300 group-hover:text-white">
                 {t`Drop a video file anywhere or click here to open one`}
               </p>
             </div>
           </div>
+          <label
+            htmlFor="videoFile"
+            aria-label={t`Open video file`}
+            className="absolute inset-0 cursor-pointer"
+          />
         </div>
       )}
 

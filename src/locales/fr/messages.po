@@ -13,57 +13,57 @@ msgstr ""
 "Language-Team: \n"
 "Plural-Forms: \n"
 
-#: src/components/VideoInfoOverlay.tsx:178
+#: src/components/VideoInfoOverlay.tsx:192
 msgid "Audio Details"
 msgstr "Détails audio"
 
-#: src/components/Settings/SettingsSpeedTab.tsx:22
+#: src/components/Settings/SettingsSpeedTab.tsx:23
 msgid "Back"
 msgstr "Retour"
 
-#: src/components/VideoInfoOverlay.tsx:163
+#: src/components/VideoInfoOverlay.tsx:177
 msgid "Bit Depth:"
 msgstr "Profondeur de bits :"
 
-#: src/components/VideoInfoOverlay.tsx:133
-#: src/components/VideoInfoOverlay.tsx:194
+#: src/components/VideoInfoOverlay.tsx:147
+#: src/components/VideoInfoOverlay.tsx:208
 msgid "Bitrate:"
 msgstr "Débit :"
 
-#: src/components/VideoInfoOverlay.tsx:166
+#: src/components/VideoInfoOverlay.tsx:180
 msgid "bits"
 msgstr "bits"
 
-#: src/components/VideoInfoOverlay.tsx:204
+#: src/components/VideoInfoOverlay.tsx:218
 msgid "Channels:"
 msgstr "Canaux :"
 
-#: src/components/VideoInfoOverlay.tsx:85
+#: src/components/VideoInfoOverlay.tsx:99
 msgid "Close"
 msgstr "Fermer"
 
-#: src/components/VideoInfoOverlay.tsx:121
-#: src/components/VideoInfoOverlay.tsx:184
+#: src/components/VideoInfoOverlay.tsx:135
+#: src/components/VideoInfoOverlay.tsx:198
 msgid "Codec:"
 msgstr "Codec :"
 
-#: src/components/VideoInfoOverlay.tsx:153
+#: src/components/VideoInfoOverlay.tsx:167
 msgid "Color Space:"
 msgstr "Espace colorimétrique :"
 
-#: src/components/VideoInfoOverlay.tsx:42
+#: src/components/VideoInfoOverlay.tsx:55
 msgid "Container Format"
 msgstr "Format de conteneur"
 
-#: src/components/VideoPlayer.tsx:437
+#: src/components/VideoPlayer.tsx:440
 msgid "Drop a video file anywhere or click here to open one"
 msgstr "Déposez un fichier vidéo n'importe où, ou cliquez ici pour en ouvrir un"
 
-#: src/components/VideoPlayer.tsx:459
+#: src/components/VideoPlayer.tsx:467
 msgid "Drop video file here"
 msgstr "Déposez un fichier vidéo ici"
 
-#: src/components/VideoInfoOverlay.tsx:33
+#: src/components/VideoInfoOverlay.tsx:42
 msgid "Duration"
 msgstr "Durée"
 
@@ -75,19 +75,19 @@ msgstr "Mettre en plein écran"
 msgid "Exit fullscreen"
 msgstr "Sortir du plein écran"
 
-#: src/components/VideoInfoOverlay.tsx:32
+#: src/components/VideoInfoOverlay.tsx:37
 msgid "File Name"
 msgstr "Nom du fichier"
 
-#: src/components/VideoInfoOverlay.tsx:46
+#: src/components/VideoInfoOverlay.tsx:60
 msgid "File Size"
 msgstr "Taille du fichier"
 
-#: src/components/VideoInfoOverlay.tsx:146
+#: src/components/VideoInfoOverlay.tsx:160
 msgid "fps"
 msgstr "fps"
 
-#: src/components/VideoInfoOverlay.tsx:143
+#: src/components/VideoInfoOverlay.tsx:157
 msgid "Frame Rate:"
 msgstr "Fréquence d'images :"
 
@@ -115,6 +115,10 @@ msgstr "Activée"
 msgid "Open File"
 msgstr "Ouvrir un fichier"
 
+#: src/components/VideoPlayer.tsx:446
+msgid "Open video file"
+msgstr "Ouvrir un fichier vidéo"
+
 #: src/components/ControlBar.tsx:128
 msgid "Pause"
 msgstr "Pause"
@@ -135,24 +139,24 @@ msgstr "Vitesse de lecture"
 msgid "Replay"
 msgstr "Relancer"
 
-#: src/components/VideoInfoOverlay.tsx:35
+#: src/components/VideoInfoOverlay.tsx:47
 msgid "Resolution"
 msgstr "Résolution"
 
-#: src/components/VideoInfoOverlay.tsx:214
+#: src/components/VideoInfoOverlay.tsx:228
 msgid "Sample Rate:"
 msgstr "Fréquence d'échantillonnage :"
 
-#: src/components/Settings/SettingsSpeedTab.tsx:48
+#: src/components/Settings/SettingsSpeedTab.tsx:49
 msgid "Selected"
 msgstr "Sélectionnée"
 
 #: src/components/Settings/SettingsPopover.tsx:29
-#: src/components/Settings/SettingsSpeedTab.tsx:24
+#: src/components/Settings/SettingsSpeedTab.tsx:25
 msgid "Settings"
 msgstr "Paramètres"
 
-#: src/components/Settings/SettingsSpeedTab.tsx:26
+#: src/components/Settings/SettingsSpeedTab.tsx:27
 msgid "Speed"
 msgstr "Vitesse"
 
@@ -160,12 +164,12 @@ msgstr "Vitesse"
 msgid "Unmute"
 msgstr "Activer le son"
 
-#: src/components/VideoInfoOverlay.tsx:115
+#: src/components/VideoInfoOverlay.tsx:129
 msgid "Video Details"
 msgstr "Détails vidéo"
 
 #: src/components/ControlBar.tsx:192
-#: src/components/VideoInfoOverlay.tsx:79
+#: src/components/VideoInfoOverlay.tsx:93
 msgid "Video Information"
 msgstr "Informations sur la vidéo"
 

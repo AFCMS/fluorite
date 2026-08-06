@@ -6,6 +6,7 @@ import { isVideoFile } from "../utils";
 import type { MediaInfoMetadata } from "../utils/mediaInfo";
 // MediaInfo is offloaded to a Web Worker to keep heavy parsing off the main thread.
 // mediainfo.js is built without dynamic eval, so CSP does not need 'unsafe-eval'.
+// oxlint-disable-next-line import/default
 import MediainfoWorker from "../workers/mediainfo.worker?worker";
 
 // DATA ATOMS

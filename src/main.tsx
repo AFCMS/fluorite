@@ -16,7 +16,6 @@ await dynamicActivate(sanitizedBrowserLanguageIfSupportedOrEnglish);
 const isAnalyticsEnabled =
   import.meta.env.VITE_DISABLE_VERCEL_ANALYTICS !== "true";
 
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     {isAnalyticsEnabled && <Analytics />}

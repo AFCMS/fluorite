@@ -25,7 +25,6 @@ An elegant, offline‑first PWA video player for your local media. Try the [offi
 This project requires pnpm.
 
 ```bash
-corepack enable pnpm
 pnpm install
 
 # Development (http://localhost:5173)
@@ -67,7 +66,7 @@ Docker details:
 Fluorite uses Lingui for i18n.
 
 ```bash
-pnpm run extract    # extract source strings
+pnpm run po:extract    # extract source strings
 # edit translations in src/locales/*/messages.po
 pnpm run build
 ```
@@ -79,5 +78,5 @@ Scripts of interest:
 - `pnpm run dev` — start dev server at http://localhost:5173
 - `pnpm run build` — typecheck and build the app
 - `pnpm run preview` — preview the production build at http://localhost:4173
-- `pnpm run lint` — run ESLint
+- `pnpm run lint` — run Oxlint with type-aware rules
 - `pnpm run test` — run unit tests (Vitest)

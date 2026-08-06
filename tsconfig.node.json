@@ -26,6 +26,6 @@
         "vitest.config.ts",
         "lingui.config.ts",
         "oxfmt.config.ts",
-        "eslint.config.ts"
+        "oxlint.config.ts"
     ]
 }

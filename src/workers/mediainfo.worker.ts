@@ -132,5 +132,3 @@ self.onmessage = async (evt: MessageEvent<WorkerRequest>) => {
     self.postMessage(res);
   }
 };
-
-export {};
