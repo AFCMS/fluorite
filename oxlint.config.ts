@@ -36,7 +36,6 @@ export default defineConfig({
     "e18e/prefer-string-fromcharcode": "error",
     "react/exhaustive-deps": "warn",
     "react/rules-of-hooks": "error",
-    "react/react-compiler": "error",
     "react/only-export-components": [
       "error",
       {
@@ -48,5 +47,8 @@ export default defineConfig({
     "lingui/no-single-variables-to-translate": "warn",
     "lingui/no-trans-inside-trans": "warn",
     "lingui/no-expression-in-message": "warn",
+  },
+  categories: {
+    correctness: "warn",
   },
 });
