@@ -49,7 +49,7 @@
         "@vitejs/devtools": "^0.5.1",
         "@vitejs/devtools-oxc": "^0.5.1",
         "@vitejs/devtools-rolldown": "^0.5.1",
-        "@vitejs/devtools-vite": "^0.5.1",
+        "@vitejs/devtools-vite": "^0.5.2",
         "@vitejs/devtools-vitest": "^0.5.1",
         "@vitejs/plugin-react": "^6.1.0",
         "@vitest/coverage-v8": "^4.1.11",
