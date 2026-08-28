@@ -24,7 +24,7 @@ LABEL io.artifacthub.package.maintainers='[{"name":"AFCMS","email":"afcm.contact
 
 ENV VITE_DISABLE_VERCEL_ANALYTICS="true"
 
-RUN npm install --global pnpm@11
+RUN npm install --global pnpm@12
 
 WORKDIR /app
 
