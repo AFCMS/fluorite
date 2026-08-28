@@ -1,6 +1,6 @@
 import { useLingui } from "@lingui/react/macro";
 import { useAtomValue, useSetAtom } from "jotai";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { HiFilm } from "react-icons/hi2";
 import { useRegisterSW } from "virtual:pwa-register/react";
 
@@ -63,12 +63,19 @@ export default function VideoPlayerApp() {
   const setPlayState = useSetAtom(updatePlayStateAtom);
   const setVolumeState = useSetAtom(updateVolumeStateAtom);
   const setIsPictureInPicture = useSetAtom(isPictureInPictureAtom);
+  const registerVideoElement = videoActions.registerVideoElement;
 
-  // Register the video element when it mounts and set up event listeners
+  const setVideoElementRef = useCallback(
+    (element: HTMLVideoElement | null) => {
+      videoRef.current = element;
+      registerVideoElement(element);
+    },
+    [registerVideoElement],
+  );
+
+  // Set up event listeners when a video URL mounts the video element.
   useEffect(() => {
     if (videoRef.current) {
-      videoActions.registerVideoElement(videoRef.current);
-
       const video = videoRef.current;
 
       // Set up event listeners manually
@@ -142,7 +149,7 @@ export default function VideoPlayerApp() {
       };
     }
   }, [
-    videoActions,
+    videoUrl,
     setDuration,
     setCurrentTime,
     setPlayState,
@@ -414,7 +421,7 @@ export default function VideoPlayerApp() {
 
       {videoUrl ? (
         <video
-          ref={videoRef}
+          ref={setVideoElementRef}
           src={videoUrl}
           className="h-full w-full object-contain"
           onClick={() => {
