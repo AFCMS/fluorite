@@ -19,6 +19,7 @@
         "prepare": "husky"
     },
     "dependencies": {
+        "@base-ui/react": "^1.7.0",
         "@headlessui/react": "^2.2.10",
         "@lingui/core": "^6.6.0",
         "@lingui/detect-locale": "^6.6.0",
