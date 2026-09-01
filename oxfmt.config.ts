@@ -11,6 +11,8 @@ export default defineConfig({
     "src/locales/**/*.ts",
     "helm/templates/**",
     "pnpm-lock.yaml",
+    ".agents/skills/**",
+    "skills-lock.json",
   ],
   overrides: [
     {
