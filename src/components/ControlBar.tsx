@@ -19,7 +19,7 @@ import {
   useVideoState,
   useUIControls,
 } from "../hooks";
-import { formatTime } from "../utils/format";
+import { ControlBarSeek } from "./ControlBarSeek";
 import { SettingsPopover } from "./Settings/SettingsPopover";
 
 interface ControlBarProps {
@@ -42,11 +42,6 @@ export default function ControlBar(props: ControlBarProps) {
     videoState.currentTime >= Math.max(0, videoState.duration - 0.2);
 
   // Local handlers
-  const handleSeek = (event: ChangeEvent<HTMLInputElement>) => {
-    const time = parseFloat(event.target.value);
-    videoActions.seekTo(time);
-  };
-
   const handleVolumeChange = (event: ChangeEvent<HTMLInputElement>) => {
     const volume = parseFloat(event.target.value);
 
@@ -79,42 +74,7 @@ export default function ControlBar(props: ControlBarProps) {
       }}
     >
       {/* Progress Bar */}
-      <div className="flex items-center space-x-3">
-        <span className="min-w-10 font-mono text-sm">
-          {formatTime(videoState.currentTime)}
-        </span>
-        <input
-          type="range"
-          min="0"
-          max={videoState.duration || 0}
-          step="0.1"
-          value={videoState.currentTime}
-          onChange={handleSeek}
-          onKeyDown={(e) => {
-            // Prevent arrow / home / end / page keys from moving the slider while focused
-            if (
-              [
-                "ArrowLeft",
-                "ArrowRight",
-                "ArrowUp",
-                "ArrowDown",
-                "Home",
-                "End",
-                "PageUp",
-                "PageDown",
-              ].includes(e.key)
-            ) {
-              e.preventDefault();
-            }
-          }}
-          className="range-styled w-full"
-          disabled={!videoUrl}
-          aria-label="Seek"
-        />
-        <span className="min-w-10 font-mono text-sm">
-          {formatTime(videoState.duration)}
-        </span>
-      </div>
+      <ControlBarSeek />
 
       {/* Control Buttons */}
       <div className="flex items-center justify-between">
