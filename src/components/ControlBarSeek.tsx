@@ -2,7 +2,7 @@ import { useLingui } from "@lingui/react/macro";
 
 import { useVideoActions, useVideoState } from "../hooks";
 import { formatTime } from "../utils/format";
-import FluoSlider from "./branded/FluoSlider";
+import { FluoSlider } from "./branded/FluoSlider";
 
 export function ControlBarSeek() {
   const { t } = useLingui();
@@ -20,7 +20,7 @@ export function ControlBarSeek() {
         value={videoState.currentTime}
         onChange={videoActions.seekTo}
         min={0}
-        max={videoState.duration || 0}
+        max={videoState.duration || 0.0001}
         step={0.1}
         onKeyDown={(e) => {
           // Prevent arrow / home / end / page keys from moving the slider while focused

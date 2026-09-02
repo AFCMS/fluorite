@@ -17,7 +17,7 @@ export interface FluoSliderProps {
   readonly "aria-label"?: string;
 }
 
-export default function FluoSlider(props: FluoSliderProps) {
+export function FluoSlider(props: FluoSliderProps) {
   const loading = props.isLoading ?? false;
 
   return (
