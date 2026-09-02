@@ -19,6 +19,7 @@ import {
   useVideoState,
   useUIControls,
 } from "../hooks";
+import { FluoButtonIcon } from "./branded/FluoButtonIcon";
 import { ControlBarSeek } from "./ControlBarSeek";
 import { SettingsPopover } from "./Settings/SettingsPopover";
 
@@ -80,10 +81,10 @@ export default function ControlBar(props: ControlBarProps) {
       <div className="flex items-center justify-between">
         <div className="flex items-center">
           {/* Play/Pause Button */}
-          <button
+          <FluoButtonIcon
             onClick={videoActions.togglePlayPause}
             disabled={!videoUrl}
-            className="button-styled h-12 w-12"
+            className="h-12 w-12 justify-center"
             title={
               videoState.isPlaying ? t`Pause` : isEnded ? t`Replay` : t`Play`
             }
@@ -95,7 +96,7 @@ export default function ControlBar(props: ControlBarProps) {
             ) : (
               <HiPlay className="h-7 w-7" />
             )}
-          </button>
+          </FluoButtonIcon>
 
           {/* Volume Controls */}
           <div
@@ -107,10 +108,10 @@ export default function ControlBar(props: ControlBarProps) {
               setIsVolumeHovered(false);
             }}
           >
-            <button
+            <FluoButtonIcon
               onClick={videoActions.toggleMute}
               disabled={!videoUrl}
-              className="button-styled h-12 w-12"
+              className="h-12 w-12 justify-center"
               title={videoState.isMuted ? t`Unmute` : t`Mute`}
             >
               {videoState.effectiveVolume === 0 ? (
@@ -118,7 +119,7 @@ export default function ControlBar(props: ControlBarProps) {
               ) : (
                 <HiSpeakerWave className="h-5 w-5" />
               )}
-            </button>
+            </FluoButtonIcon>
             <div
               className={`flex h-12 items-center justify-center overflow-hidden transition-all duration-300 ${
                 isVolumeHovered
@@ -145,31 +146,31 @@ export default function ControlBar(props: ControlBarProps) {
         </div>
 
         <div className="flex items-center">
-          <button
+          <FluoButtonIcon
             onClick={props.onToggleVideoInfo}
             disabled={!videoUrl}
-            className="button-styled h-12 w-12"
+            className="h-12 w-12 justify-center"
             title={t`Video Information` + " (I)"}
           >
             <HiInformationCircle className="h-5 w-5" />
-          </button>
+          </FluoButtonIcon>
           {document.pictureInPictureEnabled && (
-            <button
+            <FluoButtonIcon
               onClick={() => {
                 void videoActions.togglePictureInPicture();
               }}
               disabled={!videoUrl}
-              className="button-styled h-12 w-12"
+              className="h-12 w-12 justify-center"
               title={t`Picture-in-Picture` + " (P)"}
             >
               <HiArrowTopRightOnSquare className="h-5 w-5" />
-            </button>
+            </FluoButtonIcon>
           )}
-          <button
+          <FluoButtonIcon
             onClick={() => {
               void uiControls.toggleFullscreen();
             }}
-            className="button-styled h-12 w-12"
+            className="h-12 w-12 justify-center"
             title={
               uiControls.isFullscreen
                 ? t`Exit fullscreen` + " (F)"
@@ -181,15 +182,15 @@ export default function ControlBar(props: ControlBarProps) {
             ) : (
               <HiArrowsPointingOut className="h-5 w-5" />
             )}
-          </button>
+          </FluoButtonIcon>
           <SettingsPopover />
-          <button
+          <FluoButtonIcon
             onClick={props.onOpenFile}
-            className="button-styled h-12 w-12"
+            className="h-12 w-12 justify-center"
             title={t`Open File` + " (O)"}
           >
             <HiFolderOpen className="h-5 w-5" />
-          </button>
+          </FluoButtonIcon>
         </div>
       </div>
     </div>

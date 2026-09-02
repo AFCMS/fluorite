@@ -1,7 +1,6 @@
 :root {
   --color-base: var(--color-slate-200);
   --color-base-hover: var(--color-slate-100);
-  --color-base-disabled: var(--color-slate-300);
 }
 
 .range-styled {
@@ -45,18 +44,4 @@
   height: var(--thumb-height);
   border-radius: calc(infinity * 1px);
   border: none;
-}
-
-.button-styled {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-slate-300);
-  @apply transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-50;
-  &:hover {
-    color: var(--color-base-hover);
-  }
-  &:disabled {
-    color: var(--color-base-disabled);
-  }
 }

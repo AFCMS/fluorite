@@ -91,6 +91,42 @@ test("connects loaded video events and controls to the media element", async () 
   expect(seek?.max).toBe("120");
   expect(seek?.value).toBe("8");
 
+  const infoButton = container.querySelector<HTMLButtonElement>(
+    'button[title="Video Information (I)"]',
+  );
+  act(() => {
+    infoButton?.click();
+  });
+
+  const closeButton = document.body.querySelector<HTMLButtonElement>(
+    'button[aria-label="Close"]',
+  );
+  expect(closeButton?.classList.contains("fluo-button-icon")).toBe(true);
+
+  act(() => {
+    closeButton?.click();
+  });
+  expect(
+    document.body.querySelector<HTMLButtonElement>(
+      'button[aria-label="Close"]',
+    ),
+  ).toBeNull();
+
+  const settingsButton = container.querySelector<HTMLButtonElement>(
+    'button[title="Settings"]',
+  );
+  act(() => {
+    settingsButton?.click();
+  });
+
+  expect(document.body.textContent).toContain("Playback speed");
+  const unbrandedButtons = [
+    ...document.body.querySelectorAll(
+      "button:not([data-headlessui-focus-guard])",
+    ),
+  ].filter((button) => !button.classList.contains("fluo-button-icon"));
+  expect(unbrandedButtons.map((button) => button.outerHTML)).toEqual([]);
+
   play.mockClear();
   const playButton = container.querySelector<HTMLButtonElement>(
     'button[title="Play"]',

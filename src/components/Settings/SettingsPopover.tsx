@@ -4,6 +4,7 @@ import { useState } from "react";
 import { HiCog6Tooth } from "react-icons/hi2";
 
 import { useVideoActions, useVideoState } from "../../hooks";
+import { FluoButtonIcon } from "../branded/FluoButtonIcon";
 import { SettingsPopoverStateProvider } from "./SettingsPopoverStateProvider";
 import { SettingsRootTab } from "./SettingsRootTab";
 import { SettingsSpeedTab } from "./SettingsSpeedTab";
@@ -21,11 +22,12 @@ export function SettingsPopover() {
         return (
           <>
             <SettingsPopoverStateProvider open={open} />
-            <PopoverButton
+            <FluoButtonIcon
+              render={<PopoverButton />}
               onClick={() => {
                 setSettingsTab("root");
               }}
-              className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:not-data-focus:outline-none data-focus:outline data-focus:outline-white data-hover:bg-gray-900/95 data-open:bg-gray-900/95"
+              className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 data-hover:bg-gray-900/95 data-open:bg-gray-900/95"
               title={t`Settings`}
             >
               <HiCog6Tooth
@@ -33,7 +35,7 @@ export function SettingsPopover() {
                   open ? "rotate-90" : "rotate-0"
                 }`}
               />
-            </PopoverButton>
+            </FluoButtonIcon>
 
             <PopoverPanel
               transition

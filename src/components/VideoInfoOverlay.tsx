@@ -10,6 +10,7 @@ import {
   formatTime,
 } from "../utils/format";
 import type { MediaInfoMetadata } from "../utils/mediaInfo";
+import { FluoButtonIcon } from "./branded/FluoButtonIcon";
 
 interface VideoInfoOverlayProps {
   readonly isVisible: boolean;
@@ -95,13 +96,14 @@ export default function VideoInfoOverlay({
               <Dialog.Title className="text-xl font-semibold">
                 {t`Video Information`}
               </Dialog.Title>
-              <Dialog.Close
+              <FluoButtonIcon
+                render={<Dialog.Close />}
                 type="button"
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 transition-colors hover:bg-gray-700"
                 aria-label={t`Close`}
               >
                 <HiXMark className="h-5 w-5" />
-              </Dialog.Close>
+              </FluoButtonIcon>
             </div>
 
             {/* Information List */}

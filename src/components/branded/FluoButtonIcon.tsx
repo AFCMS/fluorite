@@ -1,9 +1,25 @@
 import { Button } from "@base-ui/react/button";
 
-export default function ExampleButton() {
+import "./FluoButtonIcon.css";
+
+export type FluoButtonIconProps = Button.Props;
+
+export function FluoButtonIcon({
+  className,
+  focusableWhenDisabled = true,
+  ...props
+}: FluoButtonIconProps) {
+  const mergedClassName =
+    typeof className === "function"
+      ? (state: Button.State) =>
+          ["fluo-button-icon", className(state)].filter(Boolean).join(" ")
+      : ["fluo-button-icon", className].filter(Boolean).join(" ");
+
   return (
-    <Button className="flex h-8 items-center justify-center gap-2 rounded-none border border-neutral-950 bg-white px-3 text-sm leading-none font-normal whitespace-nowrap text-neutral-950 select-none hover:not-data-disabled:bg-neutral-100 focus-visible:outline-2 focus-visible:-outline-offset-1 focus-visible:outline-neutral-950 active:not-data-disabled:bg-neutral-200 disabled:border-neutral-500 disabled:text-neutral-500 data-disabled:border-neutral-500 data-disabled:text-neutral-500 dark:border-white dark:bg-neutral-950 dark:text-white dark:hover:not-data-disabled:bg-neutral-800 dark:focus-visible:outline-white dark:active:not-data-disabled:bg-neutral-700 dark:data-disabled:border-neutral-400 dark:data-disabled:text-neutral-400">
-      Submit
-    </Button>
+    <Button
+      {...props}
+      className={mergedClassName}
+      focusableWhenDisabled={focusableWhenDisabled}
+    />
   );
 }
