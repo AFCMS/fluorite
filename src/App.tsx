@@ -1,13 +1,15 @@
+import { CSPProvider } from "@base-ui/react";
 import { Provider } from "jotai";
 
-import VideoPlayer from "./components/VideoPlayer";
-
 import "./App.css";
+import VideoPlayer from "./components/VideoPlayer";
 
 function App() {
   return (
     <Provider>
-      <VideoPlayer />
+      <CSPProvider disableStyleElements>
+        <VideoPlayer />
+      </CSPProvider>
     </Provider>
   );
 }

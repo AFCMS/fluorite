@@ -20,3 +20,14 @@ body,
 *:focus-visible {
   outline: none !important;
 }
+
+/* BaseUI styles */
+/* https://base-ui.com/react/utils/csp-provider#disable-inline-style-elements */
+
+.base-ui-disable-scrollbar {
+  scrollbar-width: none;
+}
+
+.base-ui-disable-scrollbar::-webkit-scrollbar {
+  display: none;
+}
