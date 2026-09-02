@@ -77,8 +77,8 @@ const pwaConfig: Partial<VitePWAOptions> = {
 
 export default defineConfig({
   plugins: [
-    react({ compiler: true }),
     babel({ plugins: ["@lingui/babel-plugin-lingui-macro"] }),
+    react({ compiler: true }),
     lingui(),
     tailwindcss(),
     VitePWA(pwaConfig),
