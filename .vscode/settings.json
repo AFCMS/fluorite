@@ -43,6 +43,7 @@
         "pnpm run dev": true
     },
     "files.associations": {
-        ".helmignore": "ignore"
+        ".helmignore": "ignore",
+        "llms.txt": "markdown"
     }
 }
