@@ -36,6 +36,8 @@ jobs:
 
       - name: Build project
         run: pnpm run build
+        env:
+          VITE_DISABLE_VERCEL_ANALYTICS: "true"
 
       - name: Lint project
         run: pnpm run lint
@@ -45,6 +47,13 @@ jobs:
 
       - name: Check formatting
         run: pnpm run format:check
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: fluorite-dist
+          path: dist
+          compression-level: 9
 
   lighthouse:
     runs-on: ubuntu-latest
