@@ -14,7 +14,7 @@ import {
   HiArrowTopRightOnSquare,
 } from "react-icons/hi2";
 
-import { useVideoActions, useVideoUrl, useUIControls } from "../hooks";
+import { useVideoActions, useVideoUrl } from "../hooks";
 import {
   effectiveVolumeAtom,
   isEndedAtom,
@@ -29,6 +29,10 @@ import { SettingsPopover } from "./Settings/SettingsPopover";
 interface ControlBarProps {
   readonly onOpenFile: () => void;
   readonly onToggleVideoInfo: () => void;
+  readonly onShowControls: () => void;
+  readonly onToggleFullscreen: () => void;
+  readonly showControls: boolean;
+  readonly isFullscreen: boolean;
 }
 
 export default function ControlBar(props: ControlBarProps) {
@@ -41,7 +45,6 @@ export default function ControlBar(props: ControlBarProps) {
   const isEnded = useAtomValue(isEndedAtom);
   const isMuted = useAtomValue(isMutedAtom);
   const effectiveVolume = useAtomValue(effectiveVolumeAtom);
-  const uiControls = useUIControls();
 
   // Local handlers
   const handleVolumeChange = (volume: number) => {
@@ -55,7 +58,7 @@ export default function ControlBar(props: ControlBarProps) {
   };
 
   const handleMouseEnterControls = () => {
-    uiControls.showControlsTemporarily();
+    props.onShowControls();
   };
 
   // Lingui macro
@@ -64,7 +67,7 @@ export default function ControlBar(props: ControlBarProps) {
   return (
     <div
       className={`absolute right-0 bottom-0 left-0 bg-linear-to-t from-black/80 via-black/60 to-transparent px-4 py-0 text-blue-100 transition-all duration-300 ${
-        uiControls.showControls
+        props.showControls
           ? "translate-y-0 opacity-100"
           : "translate-y-full opacity-0"
       }`}
@@ -164,16 +167,16 @@ export default function ControlBar(props: ControlBarProps) {
           )}
           <FluoButtonIcon
             onClick={() => {
-              void uiControls.toggleFullscreen();
+              props.onToggleFullscreen();
             }}
             className="h-12 w-12 justify-center"
             title={
-              uiControls.isFullscreen
+              props.isFullscreen
                 ? t`Exit fullscreen` + " (F)"
                 : t`Enter fullscreen` + " (F)"
             }
           >
-            {uiControls.isFullscreen ? (
+            {props.isFullscreen ? (
               <HiArrowsPointingIn className="h-5 w-5" />
             ) : (
               <HiArrowsPointingOut className="h-5 w-5" />
