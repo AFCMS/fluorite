@@ -79,6 +79,7 @@ export function useMediaInfoMetadata() {
 interface UIControlsOptions {
   readonly videoRef: RefObject<HTMLVideoElement | null>;
   readonly fileInputRef: RefObject<HTMLInputElement | null>;
+  readonly controlsPinned: boolean;
   readonly onToggleVideoInfo: () => void;
   readonly onCloseVideoInfo: () => void;
   readonly onTogglePlayPause: () => void;
@@ -106,14 +107,20 @@ export function useUIControls(options: UIControlsOptions) {
   const hideControlsAfter = useCallback(
     (delay: number) => {
       clearControlsTimeout();
-      if (!isPlaying || !videoUrl) return;
+      if (options.controlsPinned || !isPlaying || !videoUrl) return;
 
       controlsTimeoutRef.current = setTimeout(() => {
         controlsTimeoutRef.current = null;
         setShowControls(false);
       }, delay);
     },
-    [clearControlsTimeout, isPlaying, setShowControls, videoUrl],
+    [
+      clearControlsTimeout,
+      isPlaying,
+      options.controlsPinned,
+      setShowControls,
+      videoUrl,
+    ],
   );
 
   const showControlsTemporarily = useCallback(() => {
@@ -125,13 +132,19 @@ export function useUIControls(options: UIControlsOptions) {
     hideControlsAfter(1000);
   }, [hideControlsAfter]);
 
-  // Show controls when video is paused
+  // Keep the anchor stable while an anchored control is open.
   useEffect(() => {
-    if (!isPlaying || !videoUrl) {
+    if (options.controlsPinned || !isPlaying || !videoUrl) {
       setShowControls(true);
       clearControlsTimeout();
     }
-  }, [clearControlsTimeout, isPlaying, setShowControls, videoUrl]);
+  }, [
+    clearControlsTimeout,
+    isPlaying,
+    options.controlsPinned,
+    setShowControls,
+    videoUrl,
+  ]);
 
   useEffect(() => clearControlsTimeout, [clearControlsTimeout]);
 
@@ -225,7 +238,7 @@ export function useUIControls(options: UIControlsOptions) {
   }, []);
 
   return {
-    showControls,
+    showControls: showControls || options.controlsPinned,
     showControlsTemporarily,
     hideControlsSoon,
     isFullscreen,
