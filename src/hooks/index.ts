@@ -3,7 +3,6 @@ export { useFileHandler } from "./useFileHandler";
 export {
   useVideoUrl,
   useVideoActions,
-  useVideoState,
   useVideoMetadata,
   useMediaInfoMetadata,
   useUIControls,

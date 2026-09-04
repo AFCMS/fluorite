@@ -1,6 +1,7 @@
 import { useLingui } from "@lingui/react/macro";
+import { useAtomValue, useSetAtom } from "jotai";
 
-import { useVideoActions, useVideoState } from "../../hooks";
+import { playbackRateAtom, setPlaybackRateAtom } from "../../store/video";
 import { FluoButtonIcon } from "../branded/FluoButtonIcon";
 
 interface SettingsSpeedTabProps {
@@ -9,8 +10,8 @@ interface SettingsSpeedTabProps {
 
 export function SettingsSpeedTab(props: SettingsSpeedTabProps) {
   const { t } = useLingui();
-  const { setPlaybackRate } = useVideoActions();
-  const { playbackRate } = useVideoState();
+  const setPlaybackRate = useSetAtom(setPlaybackRateAtom);
+  const playbackRate = useAtomValue(playbackRateAtom);
 
   const rates = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2, 3, 4];
 

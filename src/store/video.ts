@@ -41,6 +41,13 @@ export const canPlayAtom = atom(
   (get) => !!(get(videoUrlAtom) && get(videoElementAtom)),
 );
 
+export const isEndedAtom = atom((get) => {
+  if (!get(videoUrlAtom) || get(isPlayingAtom)) return false;
+
+  const duration = get(durationAtom);
+  return duration > 0 && get(currentTimeAtom) >= Math.max(0, duration - 0.2);
+});
+
 // METADATA ATOMS
 export const videoMetadataAtom = atom<MediaInfoMetadata | null>(null);
 

@@ -1,26 +1,28 @@
 import { useLingui } from "@lingui/react/macro";
+import { useAtomValue, useSetAtom } from "jotai";
 
-import { useVideoActions, useVideoState } from "../hooks";
+import { currentTimeAtom, durationAtom, seekToAtom } from "../store/video";
 import { formatTime } from "../utils/format";
 import { FluoSlider } from "./branded/FluoSlider";
 
 export function ControlBarSeek() {
   const { t } = useLingui();
 
-  const videoActions = useVideoActions();
-  const videoState = useVideoState();
+  const currentTime = useAtomValue(currentTimeAtom);
+  const duration = useAtomValue(durationAtom);
+  const seekTo = useSetAtom(seekToAtom);
 
   return (
     <div className="flex items-center space-x-3">
       <span className="min-w-10 font-mono text-sm">
-        {formatTime(videoState.currentTime)}
+        {formatTime(currentTime)}
       </span>
       <FluoSlider
         aria-label={t`Seek`}
-        value={videoState.currentTime}
-        onChange={videoActions.seekTo}
+        value={currentTime}
+        onChange={seekTo}
         min={0}
-        max={videoState.duration || 0.0001}
+        max={duration || 0.0001}
         step={0.1}
         onKeyDown={(e) => {
           // Prevent arrow / home / end / page keys from moving the slider while focused
@@ -40,9 +42,7 @@ export function ControlBarSeek() {
           }
         }}
       />
-      <span className="min-w-10 font-mono text-sm">
-        {formatTime(videoState.duration)}
-      </span>
+      <span className="min-w-10 font-mono text-sm">{formatTime(duration)}</span>
     </div>
   );
 }
