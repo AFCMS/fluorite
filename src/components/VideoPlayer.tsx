@@ -4,12 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { HiFilm } from "react-icons/hi2";
 import { useRegisterSW } from "virtual:pwa-register/react";
 
-import {
-  useVideoActions,
-  useVideoUrl,
-  useVideoState,
-  useUIControls,
-} from "../hooks";
+import { useVideoActions, useVideoUrl, useUIControls } from "../hooks";
 import { useMediaInfoMetadata } from "../hooks";
 import {
   updateDurationAtom,
@@ -18,6 +13,9 @@ import {
   updateVolumeStateAtom,
   settingsPopoverOpenAtom,
   isPictureInPictureAtom,
+  isPlayingAtom,
+  durationAtom,
+  videoMetadataAtom,
 } from "../store/video";
 import { isVideoFile } from "../utils";
 import type { MediaInfoMetadata } from "../utils/mediaInfo";
@@ -52,7 +50,9 @@ export default function VideoPlayerApp() {
   // Get video context data
   const videoActions = useVideoActions();
   const videoUrl = useVideoUrl();
-  const videoState = useVideoState();
+  const isPlaying = useAtomValue(isPlayingAtom);
+  const duration = useAtomValue(durationAtom);
+  const videoMetadata = useAtomValue(videoMetadataAtom);
   const uiControls = useUIControls();
   const mediaInfo = useMediaInfoMetadata();
   const dragCounterRef = useRef(0);
@@ -179,8 +179,8 @@ export default function VideoPlayerApp() {
   const overlayMetadata: MediaInfoMetadata | null = useMemo(() => {
     if (!videoUrl) return null;
 
-    const fileName = videoState.metadata?.fileName;
-    const fileSize = videoState.metadata?.fileSize;
+    const fileName = videoMetadata?.fileName;
+    const fileSize = videoMetadata?.fileSize;
 
     // Prefer MediaInfo dimensions, fallback to actual video element dimensions
     const width = mediaInfo?.videoWidth ?? elementDimensions.width;
@@ -192,7 +192,7 @@ export default function VideoPlayerApp() {
       : undefined;
 
     const merged: MediaInfoMetadata = {
-      duration: videoState.duration || 0,
+      duration: duration || 0,
       videoWidth: width,
       videoHeight: height,
       videoFrameRate: mediaInfo?.videoFrameRate,
@@ -213,8 +213,8 @@ export default function VideoPlayerApp() {
     return merged;
   }, [
     mediaInfo,
-    videoState.duration,
-    videoState.metadata,
+    duration,
+    videoMetadata,
     videoUrl,
     elementDimensions.width,
     elementDimensions.height,
@@ -400,7 +400,7 @@ export default function VideoPlayerApp() {
       className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 ${
         uiControls.isDragOver ? "bg-blue-900/20" : "bg-black"
       } ${
-        videoUrl && videoState.isPlaying && !uiControls.showControls
+        videoUrl && isPlaying && !uiControls.showControls
           ? "cursor-none"
           : "cursor-default"
       }`}

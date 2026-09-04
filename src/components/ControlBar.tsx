@@ -1,4 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
+import { useAtomValue } from "jotai";
 import { useState } from "react";
 import {
   HiPlay,
@@ -13,12 +14,13 @@ import {
   HiArrowTopRightOnSquare,
 } from "react-icons/hi2";
 
+import { useVideoActions, useVideoUrl, useUIControls } from "../hooks";
 import {
-  useVideoActions,
-  useVideoUrl,
-  useVideoState,
-  useUIControls,
-} from "../hooks";
+  effectiveVolumeAtom,
+  isEndedAtom,
+  isMutedAtom,
+  isPlayingAtom,
+} from "../store/video";
 import { FluoButtonIcon } from "./branded/FluoButtonIcon";
 import { FluoSlider } from "./branded/FluoSlider";
 import { ControlBarSeek } from "./ControlBarSeek";
@@ -35,18 +37,16 @@ export default function ControlBar(props: ControlBarProps) {
   // Get data from atoms via hooks
   const videoActions = useVideoActions();
   const videoUrl = useVideoUrl();
-  const videoState = useVideoState();
+  const isPlaying = useAtomValue(isPlayingAtom);
+  const isEnded = useAtomValue(isEndedAtom);
+  const isMuted = useAtomValue(isMutedAtom);
+  const effectiveVolume = useAtomValue(effectiveVolumeAtom);
   const uiControls = useUIControls();
-  const isEnded =
-    !!videoUrl &&
-    !videoState.isPlaying &&
-    videoState.duration > 0 &&
-    videoState.currentTime >= Math.max(0, videoState.duration - 0.2);
 
   // Local handlers
   const handleVolumeChange = (volume: number) => {
     // If user drags slider and volume > 0, unmute first
-    if (volume > 0 && videoState.isMuted) {
+    if (volume > 0 && isMuted) {
       videoActions.setMute(false);
     }
 
@@ -84,11 +84,9 @@ export default function ControlBar(props: ControlBarProps) {
             onClick={videoActions.togglePlayPause}
             disabled={!videoUrl}
             className="h-12 w-12 justify-center"
-            title={
-              videoState.isPlaying ? t`Pause` : isEnded ? t`Replay` : t`Play`
-            }
+            title={isPlaying ? t`Pause` : isEnded ? t`Replay` : t`Play`}
           >
-            {videoState.isPlaying ? (
+            {isPlaying ? (
               <HiPause className="h-7 w-7" />
             ) : isEnded ? (
               <HiArrowPath className="h-7 w-7" />
@@ -111,9 +109,9 @@ export default function ControlBar(props: ControlBarProps) {
               onClick={videoActions.toggleMute}
               disabled={!videoUrl}
               className="h-12 w-12 justify-center"
-              title={videoState.isMuted ? t`Unmute` : t`Mute`}
+              title={isMuted ? t`Unmute` : t`Mute`}
             >
-              {videoState.effectiveVolume === 0 ? (
+              {effectiveVolume === 0 ? (
                 <HiSpeakerXMark className="h-5 w-5" />
               ) : (
                 <HiSpeakerWave className="h-5 w-5" />
@@ -130,7 +128,7 @@ export default function ControlBar(props: ControlBarProps) {
                 min={0}
                 max={1}
                 step={0.1}
-                value={videoState.effectiveVolume}
+                value={effectiveVolume}
                 onChange={handleVolumeChange}
                 onKeyDown={(e) => {
                   e.preventDefault();

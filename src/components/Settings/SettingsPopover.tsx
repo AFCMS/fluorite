@@ -1,9 +1,10 @@
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { useLingui } from "@lingui/react/macro";
+import { useAtomValue, useSetAtom } from "jotai";
 import { useState } from "react";
 import { HiCog6Tooth } from "react-icons/hi2";
 
-import { useVideoActions, useVideoState } from "../../hooks";
+import { loopAtom, toggleLoopAtom } from "../../store/video";
 import { FluoButtonIcon } from "../branded/FluoButtonIcon";
 import { SettingsPopoverStateProvider } from "./SettingsPopoverStateProvider";
 import { SettingsRootTab } from "./SettingsRootTab";
@@ -13,8 +14,8 @@ export function SettingsPopover() {
   const { t } = useLingui();
   const [settingsTab, setSettingsTab] = useState<"root" | "speed">("root");
 
-  const videoActions = useVideoActions();
-  const videoState = useVideoState();
+  const loop = useAtomValue(loopAtom);
+  const toggleLoop = useSetAtom(toggleLoopAtom);
 
   return (
     <Popover>
@@ -52,8 +53,8 @@ export function SettingsPopover() {
             >
               {settingsTab === "root" ? (
                 <SettingsRootTab
-                  toggleLoop={videoActions.toggleLoop}
-                  loop={videoState.loop}
+                  toggleLoop={toggleLoop}
+                  loop={loop}
                   onSpeedTab={() => {
                     setSettingsTab("speed");
                   }}

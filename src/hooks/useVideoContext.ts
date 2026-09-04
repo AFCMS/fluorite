@@ -6,19 +6,11 @@ import {
   videoUrlAtom,
   videoElementAtom,
   isPlayingAtom,
-  currentTimeAtom,
-  durationAtom,
-  volumeAtom,
-  isMutedAtom,
-  isSeekingAtom,
-  playbackRateAtom,
   showControlsAtom,
   isFullscreenAtom,
   isDragOverAtom,
-  effectiveVolumeAtom,
   videoMetadataAtom,
   hasVideoMetadataAtom,
-  isPictureInPictureAtom,
 
   // Action atoms
   videoFileSetAtom,
@@ -38,7 +30,6 @@ import {
   mediaInfoInitEffect,
   mediaInfoExtractEffect,
   mediaInfoMetadataAtom,
-  loopAtom,
 } from "../store/video";
 
 // Hook for video actions (play, pause, seek, etc.)
@@ -98,25 +89,6 @@ export function useVideoMetadata() {
 // Hook for MediaInfo detailed metadata
 export function useMediaInfoMetadata() {
   return useAtomValue(mediaInfoMetadataAtom);
-}
-
-// Hook for video playback state
-export function useVideoState() {
-  return {
-    isPlaying: useAtomValue(isPlayingAtom),
-    currentTime: useAtomValue(currentTimeAtom),
-    duration: useAtomValue(durationAtom),
-    volume: useAtomValue(volumeAtom),
-    effectiveVolume: useAtomValue(effectiveVolumeAtom),
-    isMuted: useAtomValue(isMutedAtom),
-    isSeeking: useAtomValue(isSeekingAtom),
-    playbackRate: useAtomValue(playbackRateAtom),
-    loop: useAtomValue(loopAtom),
-    isPictureInPicture: useAtomValue(isPictureInPictureAtom),
-    metadata: useAtomValue(videoMetadataAtom),
-    hasMetadata: useAtomValue(hasVideoMetadataAtom),
-    mediaInfo: useAtomValue(mediaInfoMetadataAtom),
-  };
 }
 
 // Hook for UI controls
