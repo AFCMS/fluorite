@@ -81,6 +81,7 @@ export default function VideoPlayerApp() {
   const uiControls = useUIControls({
     videoRef,
     fileInputRef,
+    controlsPinned: settingsPopoverOpen,
     onToggleVideoInfo: () => {
       setShowInfo((visible) => !visible);
     },

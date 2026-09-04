@@ -1,77 +1,48 @@
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { Menu } from "@base-ui/react/menu";
 import { useLingui } from "@lingui/react/macro";
-import { useAtomValue, useSetAtom } from "jotai";
-import { useState } from "react";
+import { useSetAtom } from "jotai";
 import { HiCog6Tooth } from "react-icons/hi2";
 
-import { loopAtom, toggleLoopAtom } from "../../store/video";
+import { settingsPopoverOpenAtom } from "../../store/video";
 import { FluoButtonIcon } from "../branded/FluoButtonIcon";
-import { SettingsPopoverStateProvider } from "./SettingsPopoverStateProvider";
 import { SettingsRootTab } from "./SettingsRootTab";
-import { SettingsSpeedTab } from "./SettingsSpeedTab";
 
 export function SettingsPopover() {
   const { t } = useLingui();
-  const [settingsTab, setSettingsTab] = useState<"root" | "speed">("root");
-
-  const loop = useAtomValue(loopAtom);
-  const toggleLoop = useSetAtom(toggleLoopAtom);
+  const setSettingsPopoverOpen = useSetAtom(settingsPopoverOpenAtom);
 
   return (
-    <Popover>
-      {({ open }) => {
-        return (
-          <>
-            <SettingsPopoverStateProvider open={open} />
-            <FluoButtonIcon
-              render={<PopoverButton />}
-              onClick={() => {
-                setSettingsTab("root");
-              }}
-              className="inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 data-hover:bg-gray-900/95 data-open:bg-gray-900/95"
-              title={t`Settings`}
-            >
-              <HiCog6Tooth
-                className={`h-5 w-5 transition-[rotate] duration-300 motion-reduce:rotate-0 motion-reduce:transition-none ${
-                  open ? "rotate-90" : "rotate-0"
-                }`}
-              />
-            </FluoButtonIcon>
+    <Menu.Root onOpenChange={setSettingsPopoverOpen}>
+      <Menu.Trigger
+        render={<FluoButtonIcon />}
+        className="group/settings inline-flex items-center gap-2 rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 hover:bg-gray-900/95 data-popup-open:bg-gray-900/95"
+        title={t`Settings`}
+      >
+        <HiCog6Tooth className="h-5 w-5 transition-[rotate] duration-300 group-data-popup-open/settings:rotate-90 motion-reduce:rotate-0 motion-reduce:transition-none" />
+      </Menu.Trigger>
 
-            <PopoverPanel
-              transition
-              anchor="bottom end"
-              // Prevent clicks within the panel from propagating to the underlying
-              // video container, which could interpret them as play/pause toggles.
-              onClick={(event) => {
-                event.stopPropagation();
-              }}
-              onMouseDown={(event) => {
-                event.stopPropagation();
-              }}
-              className="w-64 origin-top-right rounded-xl border border-white/5 bg-gray-900/95 p-1 text-sm/6 text-white transition-[opacity,scale] duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0 motion-reduce:scale-100 motion-reduce:transition-opacity motion-reduce:duration-75"
-            >
-              {settingsTab === "root" ? (
-                <SettingsRootTab
-                  toggleLoop={toggleLoop}
-                  loop={loop}
-                  onSpeedTab={() => {
-                    setSettingsTab("speed");
-                  }}
-                />
-              ) : null}
-
-              {settingsTab === "speed" ? (
-                <SettingsSpeedTab
-                  onBack={() => {
-                    setSettingsTab("root");
-                  }}
-                />
-              ) : null}
-            </PopoverPanel>
-          </>
-        );
-      }}
-    </Popover>
+      <Menu.Portal>
+        <Menu.Positioner
+          side="top"
+          align="end"
+          sideOffset={4}
+          className="z-50 outline-none"
+        >
+          <Menu.Popup
+            // Prevent clicks within the portal from propagating through the
+            // React tree to the player controls.
+            onClick={(event) => {
+              event.stopPropagation();
+            }}
+            onMouseDown={(event) => {
+              event.stopPropagation();
+            }}
+            className="w-64 origin-(--transform-origin) rounded-xl border border-white/5 bg-gray-900/95 p-1 text-sm/6 text-white transition-[opacity,scale] duration-100 ease-out data-ending-style:scale-95 data-ending-style:opacity-0 data-starting-style:scale-95 data-starting-style:opacity-0 motion-reduce:scale-100 motion-reduce:transition-opacity motion-reduce:duration-75"
+          >
+            <SettingsRootTab />
+          </Menu.Popup>
+        </Menu.Positioner>
+      </Menu.Portal>
+    </Menu.Root>
   );
 }
