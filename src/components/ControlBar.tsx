@@ -1,5 +1,5 @@
 import { useLingui } from "@lingui/react/macro";
-import { useState, type ChangeEvent } from "react";
+import { useState } from "react";
 import {
   HiPlay,
   HiPause,
@@ -20,6 +20,7 @@ import {
   useUIControls,
 } from "../hooks";
 import { FluoButtonIcon } from "./branded/FluoButtonIcon";
+import { FluoSlider } from "./branded/FluoSlider";
 import { ControlBarSeek } from "./ControlBarSeek";
 import { SettingsPopover } from "./Settings/SettingsPopover";
 
@@ -43,9 +44,7 @@ export default function ControlBar(props: ControlBarProps) {
     videoState.currentTime >= Math.max(0, videoState.duration - 0.2);
 
   // Local handlers
-  const handleVolumeChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const volume = parseFloat(event.target.value);
-
+  const handleVolumeChange = (volume: number) => {
     // If user drags slider and volume > 0, unmute first
     if (volume > 0 && videoState.isMuted) {
       videoActions.setMute(false);
@@ -127,18 +126,17 @@ export default function ControlBar(props: ControlBarProps) {
                   : "ml-0 max-w-0 opacity-0"
               }`}
             >
-              <input
-                type="range"
-                min="0"
-                max="1"
-                step="0.1"
+              <FluoSlider
+                min={0}
+                max={1}
+                step={0.1}
                 value={videoState.effectiveVolume}
                 onChange={handleVolumeChange}
                 onKeyDown={(e) => {
                   e.preventDefault();
                 }}
                 disabled={!videoUrl}
-                className="range-styled w-20 overflow-visible"
+                className="w-20 overflow-visible"
                 aria-label={t`Volume`}
               />
             </div>

@@ -11,6 +11,7 @@ export interface FluoSliderProps {
   readonly min: number;
   readonly max: number;
   readonly step: number;
+  readonly disabled?: boolean;
   readonly isLoading?: boolean;
   readonly "aria-describedby"?: string;
   readonly className?: string;
@@ -26,6 +27,7 @@ export function FluoSlider(props: FluoSliderProps) {
       min={props.min}
       max={props.max}
       step={props.step}
+      disabled={props.disabled}
       thumbAlignment="edge-client-only"
       onValueChange={(value) => props.onChange(value)}
       onValueCommitted={(value) => props.onCommit?.(value)}
@@ -34,7 +36,7 @@ export function FluoSlider(props: FluoSliderProps) {
     >
       <Slider.Control
         className={
-          "flex w-full cursor-pointer touch-none items-center py-3 select-none"
+          "flex w-full cursor-pointer touch-none items-center py-3 select-none data-disabled:cursor-not-allowed"
         }
       >
         <Slider.Track
