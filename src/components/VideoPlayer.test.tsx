@@ -75,6 +75,9 @@ test("connects loaded video events and controls to the media element", async () 
   const fileInput =
     container.querySelector<HTMLInputElement>('input[type="file"]');
   expect(fileInput).not.toBeNull();
+  expect(fileInput?.getAttribute("aria-label")).toBe("Open video file");
+  expect(fileInput?.labels).toHaveLength(1);
+  expect(fileInput?.labels?.[0]?.textContent).toBe("Open video file");
 
   const file = new File(["video"], "sample.mp4", { type: "video/mp4" });
   Object.defineProperty(fileInput, "files", {

@@ -99,7 +99,7 @@ export default function VideoInfoOverlay({
               <FluoButtonIcon
                 render={<Dialog.Close />}
                 type="button"
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 transition-colors hover:bg-gray-700"
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 transition-colors hover:bg-gray-700 motion-reduce:transition-none"
                 aria-label={t`Close`}
               >
                 <HiXMark className="h-5 w-5" />
