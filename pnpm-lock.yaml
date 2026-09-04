@@ -147,6 +147,9 @@ importers:
       vitest:
         specifier: ^5.0.0
         version: 5.0.0(@types/node@24.13.3)(@vitest/coverage-v8@5.0.0)(@vitest/ui@5.0.0)(jsdom@30.0.1)(vite@8.2.2)
+      webmcp-types:
+        specifier: ^0.1.6
+        version: 0.1.6
       workbox-window:
         specifier: ^7.4.1
         version: 7.4.1
@@ -5214,6 +5217,9 @@ packages:
   webidl-conversions@8.0.1:
     resolution: {integrity: sha512-BMhLD/Sw+GbJC21C/UgyaZX41nPt8bUTg+jWyDeg7e7YN4xOM05YPSIXceACnXVtqyEw/LMClUQMtMZ+PGGpqQ==}
     engines: {node: '>=20'}
+
+  webmcp-types@0.1.6:
+    resolution: {integrity: sha512-vWYNhhBXQhP4flPIk3sJuzsonPGSTdDyhWgpmPYCNdpIcLHJgjHE51lU0S7gi+UtdxO84FsCnvSJaMfLGWP+3Q==}
 
   whatwg-fetch@3.6.20:
     resolution: {integrity: sha512-EqhiFU6daOA8kpjOWTL0olhVOF3i7OrFzSYiGsEMB8GcXS+RrzauAERX65xMeNWVqxA6HXH2m69Z9LaKKdisfg==}
@@ -10510,6 +10516,8 @@ snapshots:
   webidl-conversions@3.0.1: {}
 
   webidl-conversions@8.0.1: {}
+
+  webmcp-types@0.1.6: {}
 
   whatwg-fetch@3.6.20: {}
 
