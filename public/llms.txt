@@ -1,0 +1,22 @@
+# Fluorite
+
+> An elegant, offline‑first PWA video player for your local media.
+
+Fluorite is an offline-first PWA video player, build with Vite and React.
+
+It aims to be easily self-hosted, either using the official Caddy based Docker image or by hosting the static files.
+
+Features include:
+
+- Drag & Drop, file dialog or file handlers to open a video
+- Clean controls with auto‑hide and keyboard shortcuts
+- WASM powered video info overlay (codec, bitrate, dimensions, etc.)
+- PWA: installable, offline‑ready with a service worker
+- Internationalization (English and French)
+- Privacy‑friendly: no server, no tracking; plays your local files in the browser
+
+## Links
+
+- [Official Instance](https://fluorite.afcms.dev)
+- [GitHub Repository](https://github.com/AFCMS/fluorite)
+- [Official Container Image](https://artifacthub.io/packages/container/fluorite/fluorite)

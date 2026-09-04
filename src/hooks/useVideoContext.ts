@@ -1,24 +1,16 @@
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useEffectEvent, useRef } from "react";
+import type { RefObject } from "react";
 
 import {
   // State atoms
   videoUrlAtom,
-  videoElementAtom,
   isPlayingAtom,
-  currentTimeAtom,
-  durationAtom,
-  volumeAtom,
-  isMutedAtom,
-  isSeekingAtom,
-  playbackRateAtom,
   showControlsAtom,
   isFullscreenAtom,
   isDragOverAtom,
-  effectiveVolumeAtom,
   videoMetadataAtom,
   hasVideoMetadataAtom,
-  isPictureInPictureAtom,
 
   // Action atoms
   videoFileSetAtom,
@@ -27,18 +19,14 @@ import {
   setVolumeAtom,
   setMuteAtom,
   toggleMuteAtom,
-  setPlaybackRateAtom,
-  setLoopAtom,
-  toggleLoopAtom,
   togglePictureInPictureAtom,
+  registerVideoElementAtom,
 
   // Effects
   videoUrlCleanupEffect,
-  videoElementSyncEffect,
   mediaInfoInitEffect,
   mediaInfoExtractEffect,
   mediaInfoMetadataAtom,
-  loopAtom,
 } from "../store/video";
 
 // Hook for video actions (play, pause, seek, etc.)
@@ -48,38 +36,26 @@ export function useVideoActions() {
   const seekTo = useSetAtom(seekToAtom);
   const setVolume = useSetAtom(setVolumeAtom);
   const toggleMute = useSetAtom(toggleMuteAtom);
-  const setVideoElement = useSetAtom(videoElementAtom);
-  const setPlaybackRate = useSetAtom(setPlaybackRateAtom);
-  const setLoop = useSetAtom(setLoopAtom);
-  const toggleLoop = useSetAtom(toggleLoopAtom);
+  const registerVideoElement = useSetAtom(registerVideoElementAtom);
   const togglePictureInPicture = useSetAtom(togglePictureInPictureAtom);
-
-  // Trigger effects
-  useAtom(videoUrlCleanupEffect);
-  useAtom(videoElementSyncEffect);
-  useAtom(mediaInfoInitEffect);
-  useAtom(mediaInfoExtractEffect);
-
-  const registerVideoElement = useCallback(
-    (element: HTMLVideoElement | null) => {
-      setVideoElement(element);
-    },
-    [setVideoElement],
-  );
+  const setMute = useSetAtom(setMuteAtom);
 
   return {
     setVideoFile,
     togglePlayPause,
     seekTo,
     setVolume,
-    setMute: useSetAtom(setMuteAtom),
+    setMute,
     toggleMute,
-    setPlaybackRate,
-    setLoop,
-    toggleLoop,
     togglePictureInPicture,
     registerVideoElement,
   };
+}
+
+export function useVideoLifecycleEffects() {
+  useAtomValue(videoUrlCleanupEffect);
+  useAtomValue(mediaInfoInitEffect);
+  useAtomValue(mediaInfoExtractEffect);
 }
 
 // Hook for video URL
@@ -100,27 +76,19 @@ export function useMediaInfoMetadata() {
   return useAtomValue(mediaInfoMetadataAtom);
 }
 
-// Hook for video playback state
-export function useVideoState() {
-  return {
-    isPlaying: useAtomValue(isPlayingAtom),
-    currentTime: useAtomValue(currentTimeAtom),
-    duration: useAtomValue(durationAtom),
-    volume: useAtomValue(volumeAtom),
-    effectiveVolume: useAtomValue(effectiveVolumeAtom),
-    isMuted: useAtomValue(isMutedAtom),
-    isSeeking: useAtomValue(isSeekingAtom),
-    playbackRate: useAtomValue(playbackRateAtom),
-    loop: useAtomValue(loopAtom),
-    isPictureInPicture: useAtomValue(isPictureInPictureAtom),
-    metadata: useAtomValue(videoMetadataAtom),
-    hasMetadata: useAtomValue(hasVideoMetadataAtom),
-    mediaInfo: useAtomValue(mediaInfoMetadataAtom),
-  };
+interface UIControlsOptions {
+  readonly videoRef: RefObject<HTMLVideoElement | null>;
+  readonly fileInputRef: RefObject<HTMLInputElement | null>;
+  readonly controlsPinned: boolean;
+  readonly onToggleVideoInfo: () => void;
+  readonly onCloseVideoInfo: () => void;
+  readonly onTogglePlayPause: () => void;
+  readonly onSeek: (time: number) => void;
+  readonly onTogglePictureInPicture: () => void;
 }
 
-// Hook for UI controls
-export function useUIControls() {
+// Single owner for keyboard, fullscreen, and controls visibility lifecycles.
+export function useUIControls(options: UIControlsOptions) {
   const [showControls, setShowControls] = useAtom(showControlsAtom);
   const [isFullscreen, setIsFullscreen] = useAtom(isFullscreenAtom);
   const [isDragOver, setIsDragOver] = useAtom(isDragOverAtom);
@@ -129,85 +97,68 @@ export function useUIControls() {
 
   const controlsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const clearControlsTimeout = useCallback(() => {
+    if (controlsTimeoutRef.current !== null) {
+      clearTimeout(controlsTimeoutRef.current);
+      controlsTimeoutRef.current = null;
+    }
+  }, []);
+
+  const hideControlsAfter = useCallback(
+    (delay: number) => {
+      clearControlsTimeout();
+      if (options.controlsPinned || !isPlaying || !videoUrl) return;
+
+      controlsTimeoutRef.current = setTimeout(() => {
+        controlsTimeoutRef.current = null;
+        setShowControls(false);
+      }, delay);
+    },
+    [
+      clearControlsTimeout,
+      isPlaying,
+      options.controlsPinned,
+      setShowControls,
+      videoUrl,
+    ],
+  );
+
   const showControlsTemporarily = useCallback(() => {
     setShowControls(true);
+    hideControlsAfter(3000);
+  }, [hideControlsAfter, setShowControls]);
 
-    if (controlsTimeoutRef.current) {
-      clearTimeout(controlsTimeoutRef.current);
-    }
+  const hideControlsSoon = useCallback(() => {
+    hideControlsAfter(1000);
+  }, [hideControlsAfter]);
 
-    // Only hide controls if video is playing and loaded
-    if (isPlaying && videoUrl) {
-      controlsTimeoutRef.current = setTimeout(() => {
-        setShowControls(false);
-      }, 3000);
-    }
-  }, [setShowControls, isPlaying, videoUrl]);
-
-  // Auto-show controls on mouse movement
+  // Keep the anchor stable while an anchored control is open.
   useEffect(() => {
-    const handleMouseMove = () => {
-      showControlsTemporarily();
-    };
-
-    const handleMouseLeave = () => {
-      if (isPlaying && videoUrl) {
-        controlsTimeoutRef.current = setTimeout(() => {
-          setShowControls(false);
-        }, 1000); // Hide faster when mouse leaves
-      }
-    };
-
-    // Add event listeners to document for global mouse detection
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseleave", handleMouseLeave);
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseleave", handleMouseLeave);
-      if (controlsTimeoutRef.current) {
-        clearTimeout(controlsTimeoutRef.current);
-      }
-    };
-  }, [showControlsTemporarily, isPlaying, videoUrl, setShowControls]);
-
-  // Show controls when video is paused
-  useEffect(() => {
-    if (!isPlaying) {
+    if (options.controlsPinned || !isPlaying || !videoUrl) {
       setShowControls(true);
-      if (controlsTimeoutRef.current) {
-        clearTimeout(controlsTimeoutRef.current);
-      }
+      clearControlsTimeout();
     }
-  }, [isPlaying, setShowControls]);
+  }, [
+    clearControlsTimeout,
+    isPlaying,
+    options.controlsPinned,
+    setShowControls,
+    videoUrl,
+  ]);
 
-  const enterFullscreen = useCallback(async () => {
-    try {
-      await document.documentElement.requestFullscreen();
-      setIsFullscreen(true);
-    } catch (error) {
-      console.warn("Failed to enter fullscreen:", error);
-    }
-  }, [setIsFullscreen]);
+  useEffect(() => clearControlsTimeout, [clearControlsTimeout]);
 
-  const exitFullscreen = useCallback(async () => {
+  const toggleFullscreen = useCallback(async () => {
     try {
       if (document.fullscreenElement) {
         await document.exitFullscreen();
+      } else {
+        await document.documentElement.requestFullscreen();
       }
-      setIsFullscreen(false);
     } catch (error) {
-      console.warn("Failed to exit fullscreen:", error);
+      console.warn("Failed to toggle fullscreen:", error);
     }
-  }, [setIsFullscreen]);
-
-  const toggleFullscreen = useCallback(async () => {
-    if (isFullscreen) {
-      await exitFullscreen();
-    } else {
-      await enterFullscreen();
-    }
-  }, [isFullscreen, enterFullscreen, exitFullscreen]);
+  }, []);
 
   useEffect(() => {
     const handleFullscreenChange = () => {
@@ -218,16 +169,78 @@ export function useUIControls() {
 
     return () => {
       document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      if (controlsTimeoutRef.current) {
-        clearTimeout(controlsTimeoutRef.current);
-      }
     };
   }, [setIsFullscreen]);
 
+  const handleKeyDown = useEffectEvent((event: KeyboardEvent) => {
+    if (event.key === "f" || event.key === "F") {
+      event.preventDefault();
+      void toggleFullscreen();
+      return;
+    }
+
+    if (event.key === "o" || event.key === "O") {
+      event.preventDefault();
+      options.fileInputRef.current?.click();
+      return;
+    }
+
+    if (event.key === "i" || event.key === "I") {
+      event.preventDefault();
+      options.onToggleVideoInfo();
+      return;
+    }
+
+    if (
+      (event.key === "p" || event.key === "P") &&
+      document.pictureInPictureEnabled
+    ) {
+      event.preventDefault();
+      options.onTogglePictureInPicture();
+      return;
+    }
+
+    if (event.key === "Escape") {
+      options.onCloseVideoInfo();
+      return;
+    }
+
+    if (!videoUrl) return;
+
+    const video = options.videoRef.current;
+    if (event.key === "ArrowRight" && video) {
+      event.preventDefault();
+      options.onSeek(Math.min(video.currentTime + 5, video.duration));
+    } else if (event.key === "ArrowLeft" && video) {
+      event.preventDefault();
+      options.onSeek(Math.max(video.currentTime - 5, 0));
+    } else if (
+      event.key === " " ||
+      event.key === "Space" ||
+      event.code === "Space"
+    ) {
+      const targetTag = (event.target as HTMLElement).tagName;
+      if (targetTag !== "BUTTON") {
+        event.preventDefault();
+        options.onTogglePlayPause();
+      }
+    }
+  });
+
+  useEffect(() => {
+    const listener = (event: KeyboardEvent) => {
+      handleKeyDown(event);
+    };
+    document.addEventListener("keydown", listener);
+    return () => {
+      document.removeEventListener("keydown", listener);
+    };
+  }, []);
+
   return {
-    showControls,
-    setShowControls,
+    showControls: showControls || options.controlsPinned,
     showControlsTemporarily,
+    hideControlsSoon,
     isFullscreen,
     toggleFullscreen,
     isDragOver,

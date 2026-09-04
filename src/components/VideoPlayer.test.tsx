@@ -7,23 +7,34 @@ import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
 import VideoPlayer from "./VideoPlayer";
 
+const workerMocks = vi.hoisted(() => ({
+  constructed: vi.fn(),
+  terminated: vi.fn(),
+}));
+
 vi.mock("virtual:pwa-register/react", () => ({
   useRegisterSW: () => ({ updateServiceWorker: vi.fn() }),
 }));
 
 vi.mock("../workers/mediainfo.worker?worker", () => ({
   default: class MockMediaInfoWorker {
+    constructor() {
+      workerMocks.constructed();
+    }
     addEventListener() {}
     postMessage() {}
     removeEventListener() {}
-    terminate() {}
+    terminate() {
+      workerMocks.terminated();
+    }
   },
 }));
 
 let container: HTMLDivElement;
-let root: Root;
+let root: Root | null;
 
 beforeEach(() => {
+  vi.clearAllMocks();
   i18n.loadAndActivate({ locale: "en", messages: {} });
   vi.stubGlobal("IS_REACT_ACT_ENVIRONMENT", true);
   container = document.createElement("div");
@@ -37,9 +48,12 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  act(() => {
-    root.unmount();
-  });
+  if (root) {
+    act(() => {
+      root?.unmount();
+    });
+  }
+  root = null;
   container.remove();
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
@@ -49,7 +63,7 @@ test("connects loaded video events and controls to the media element", async () 
   const play = vi.spyOn(HTMLMediaElement.prototype, "play").mockResolvedValue();
 
   await act(async () => {
-    root.render(
+    root?.render(
       <I18nProvider i18n={i18n}>
         <Provider>
           <VideoPlayer />
@@ -61,6 +75,9 @@ test("connects loaded video events and controls to the media element", async () 
   const fileInput =
     container.querySelector<HTMLInputElement>('input[type="file"]');
   expect(fileInput).not.toBeNull();
+  expect(fileInput?.getAttribute("aria-label")).toBe("Open video file");
+  expect(fileInput?.labels).toHaveLength(1);
+  expect(fileInput?.labels?.[0]?.textContent).toBe("Open video file");
 
   const file = new File(["video"], "sample.mp4", { type: "video/mp4" });
   Object.defineProperty(fileInput, "files", {
@@ -91,6 +108,69 @@ test("connects loaded video events and controls to the media element", async () 
   expect(seek?.max).toBe("120");
   expect(seek?.value).toBe("8");
 
+  const infoButton = container.querySelector<HTMLButtonElement>(
+    'button[title="Video Information (I)"]',
+  );
+  act(() => {
+    infoButton?.click();
+  });
+
+  const closeButton = document.body.querySelector<HTMLButtonElement>(
+    'button[aria-label="Close"]',
+  );
+  expect(closeButton?.classList.contains("fluo-button-icon")).toBe(true);
+
+  act(() => {
+    closeButton?.click();
+  });
+  expect(
+    document.body.querySelector<HTMLButtonElement>(
+      'button[aria-label="Close"]',
+    ),
+  ).toBeNull();
+
+  const settingsButton = container.querySelector<HTMLButtonElement>(
+    'button[title="Settings"]',
+  );
+  act(() => {
+    settingsButton?.click();
+  });
+
+  expect(settingsButton?.getAttribute("aria-haspopup")).toBe("menu");
+  expect(settingsButton?.getAttribute("aria-expanded")).toBe("true");
+  const settingsMenu = document.body.querySelector('[role="menu"]');
+  expect(settingsMenu).not.toBeNull();
+  expect(
+    settingsMenu?.querySelector('[role="menuitemcheckbox"]'),
+  ).not.toBeNull();
+  expect(document.body.textContent).toContain("Playback speed");
+  const playbackSpeedItem = [
+    ...(settingsMenu?.querySelectorAll<HTMLElement>('[role="menuitem"]') ?? []),
+  ].find((item) => item.textContent?.includes("Playback speed"));
+  expect(playbackSpeedItem).not.toBeUndefined();
+
+  act(() => {
+    playbackSpeedItem?.click();
+  });
+
+  expect(playbackSpeedItem?.getAttribute("aria-haspopup")).toBe("menu");
+  expect(playbackSpeedItem?.getAttribute("aria-expanded")).toBe("true");
+  const menus = document.body.querySelectorAll('[role="menu"]');
+  expect(menus).toHaveLength(2);
+  const speedMenu = [...menus].find((menu) =>
+    menu.textContent?.includes("0.25×"),
+  );
+  const playbackRateGroup = speedMenu?.querySelector('[role="group"]');
+  expect(playbackRateGroup).not.toBeNull();
+  expect(speedMenu?.querySelectorAll('[role="menuitemradio"]')).toHaveLength(
+    10,
+  );
+  expect(speedMenu?.textContent).not.toContain("← Settings");
+  const unbrandedButtons = [...document.body.querySelectorAll("button")].filter(
+    (button) => !button.classList.contains("fluo-button-icon"),
+  );
+  expect(unbrandedButtons.map((button) => button.outerHTML)).toEqual([]);
+
   play.mockClear();
   const playButton = container.querySelector<HTMLButtonElement>(
     'button[title="Play"]',
@@ -99,4 +179,151 @@ test("connects loaded video events and controls to the media element", async () 
     playButton?.click();
   });
   expect(play).toHaveBeenCalledOnce();
+});
+
+test("owns global listeners and lifecycle effects once", async () => {
+  const addEventListener = vi.spyOn(document, "addEventListener");
+  const removeEventListener = vi.spyOn(document, "removeEventListener");
+
+  await act(async () => {
+    root?.render(
+      <I18nProvider i18n={i18n}>
+        <Provider>
+          <VideoPlayer />
+        </Provider>
+      </I18nProvider>,
+    );
+  });
+
+  const addedEvents = addEventListener.mock.calls.map(([event]) => event);
+  expect(addedEvents.filter((event) => event === "keydown")).toHaveLength(1);
+  expect(
+    addedEvents.filter((event) => event === "fullscreenchange"),
+  ).toHaveLength(1);
+  expect(addedEvents).not.toContain("mousemove");
+  expect(addedEvents).not.toContain("mouseleave");
+  expect(workerMocks.constructed).toHaveBeenCalledOnce();
+
+  act(() => {
+    root?.unmount();
+  });
+  root = null;
+
+  const removedEvents = removeEventListener.mock.calls.map(([event]) => event);
+  expect(removedEvents.filter((event) => event === "keydown")).toHaveLength(1);
+  expect(
+    removedEvents.filter((event) => event === "fullscreenchange"),
+  ).toHaveLength(1);
+  expect(workerMocks.terminated).toHaveBeenCalledOnce();
+});
+
+test("cleans the controls visibility timer on unmount", async () => {
+  vi.useFakeTimers();
+
+  try {
+    await act(async () => {
+      root?.render(
+        <I18nProvider i18n={i18n}>
+          <Provider>
+            <VideoPlayer />
+          </Provider>
+        </I18nProvider>,
+      );
+    });
+
+    act(() => {
+      vi.runOnlyPendingTimers();
+    });
+
+    const fileInput =
+      container.querySelector<HTMLInputElement>('input[type="file"]');
+    const file = new File(["video"], "sample.mp4", { type: "video/mp4" });
+    Object.defineProperty(fileInput, "files", {
+      configurable: true,
+      value: [file],
+    });
+
+    await act(async () => {
+      fileInput?.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    const video = container.querySelector("video");
+    const player = container.querySelector("main");
+    act(() => {
+      video?.dispatchEvent(new Event("play", { bubbles: true }));
+    });
+    act(() => {
+      player?.dispatchEvent(new Event("pointermove", { bubbles: true }));
+    });
+
+    expect(vi.getTimerCount()).toBeGreaterThan(0);
+
+    act(() => {
+      root?.unmount();
+    });
+    root = null;
+
+    expect(vi.getTimerCount()).toBe(0);
+  } finally {
+    vi.useRealTimers();
+  }
+});
+
+test("keeps the control bar visible while the settings menu is open", async () => {
+  vi.useFakeTimers();
+
+  try {
+    await act(async () => {
+      root?.render(
+        <I18nProvider i18n={i18n}>
+          <Provider>
+            <VideoPlayer />
+          </Provider>
+        </I18nProvider>,
+      );
+    });
+
+    const fileInput =
+      container.querySelector<HTMLInputElement>('input[type="file"]');
+    const file = new File(["video"], "sample.mp4", { type: "video/mp4" });
+    Object.defineProperty(fileInput, "files", {
+      configurable: true,
+      value: [file],
+    });
+
+    await act(async () => {
+      fileInput?.dispatchEvent(new Event("change", { bubbles: true }));
+    });
+
+    const video = container.querySelector("video");
+    const player = container.querySelector("main");
+    const controlBar = container.querySelector<HTMLDivElement>(
+      "main > div.absolute",
+    );
+    act(() => {
+      video?.dispatchEvent(new Event("play", { bubbles: true }));
+      player?.dispatchEvent(new Event("pointermove", { bubbles: true }));
+    });
+
+    const settingsButton = container.querySelector<HTMLButtonElement>(
+      'button[title="Settings"]',
+    );
+    act(() => {
+      settingsButton?.click();
+    });
+    act(() => {
+      vi.advanceTimersByTime(5000);
+    });
+
+    expect(controlBar?.classList.contains("translate-y-0")).toBe(true);
+    expect(controlBar?.classList.contains("translate-y-full")).toBe(false);
+
+    act(() => {
+      root?.unmount();
+    });
+    root = null;
+  } finally {
+    vi.clearAllTimers();
+    vi.useRealTimers();
+  }
 });

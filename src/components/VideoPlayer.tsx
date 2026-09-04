@@ -5,19 +5,22 @@ import { HiFilm } from "react-icons/hi2";
 import { useRegisterSW } from "virtual:pwa-register/react";
 
 import {
-  useVideoActions,
-  useVideoUrl,
-  useVideoState,
   useUIControls,
+  useVideoActions,
+  useVideoLifecycleEffects,
+  useVideoUrl,
 } from "../hooks";
 import { useMediaInfoMetadata } from "../hooks";
 import {
-  updateDurationAtom,
   updateCurrentTimeAtom,
+  updateLoadedMetadataAtom,
+  updatePlaybackRateStateAtom,
   updatePlayStateAtom,
   updateVolumeStateAtom,
   settingsPopoverOpenAtom,
-  isPictureInPictureAtom,
+  isPlayingAtom,
+  durationAtom,
+  videoMetadataAtom,
 } from "../store/video";
 import { isVideoFile } from "../utils";
 import type { MediaInfoMetadata } from "../utils/mediaInfo";
@@ -28,11 +31,11 @@ const BASE_NAME_REGEX = /\.[^.]+$/;
 
 export default function VideoPlayerApp() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const serviceWorkerUpdateIntervalRef = useRef<ReturnType<
+    typeof setInterval
+  > | null>(null);
   const [showInfo, setShowInfo] = useState(false);
-  const [elementDimensions, setElementDimensions] = useState({
-    width: 0,
-    height: 0,
-  });
   const settingsPopoverOpen = useAtomValue(settingsPopoverOpenAtom);
   const justClosedPopoverRef = useRef(false);
 
@@ -50,19 +53,21 @@ export default function VideoPlayerApp() {
   }, [settingsPopoverOpen]);
 
   // Get video context data
+  useVideoLifecycleEffects();
   const videoActions = useVideoActions();
   const videoUrl = useVideoUrl();
-  const videoState = useVideoState();
-  const uiControls = useUIControls();
+  const isPlaying = useAtomValue(isPlayingAtom);
+  const duration = useAtomValue(durationAtom);
+  const videoMetadata = useAtomValue(videoMetadataAtom);
   const mediaInfo = useMediaInfoMetadata();
   const dragCounterRef = useRef(0);
 
   // Manual atom setters for video state
-  const setDuration = useSetAtom(updateDurationAtom);
+  const setLoadedMetadata = useSetAtom(updateLoadedMetadataAtom);
   const setCurrentTime = useSetAtom(updateCurrentTimeAtom);
   const setPlayState = useSetAtom(updatePlayStateAtom);
   const setVolumeState = useSetAtom(updateVolumeStateAtom);
-  const setIsPictureInPicture = useSetAtom(isPictureInPictureAtom);
+  const setPlaybackRateState = useSetAtom(updatePlaybackRateStateAtom);
   const registerVideoElement = videoActions.registerVideoElement;
 
   const setVideoElementRef = useCallback(
@@ -73,92 +78,24 @@ export default function VideoPlayerApp() {
     [registerVideoElement],
   );
 
-  // Set up event listeners when a video URL mounts the video element.
-  useEffect(() => {
-    if (videoRef.current) {
-      const video = videoRef.current;
-
-      // Set up event listeners manually
-      const handleLoadedMetadata = () => {
-        setDuration(video.duration);
-        // Capture intrinsic video dimensions when metadata is available
-        setElementDimensions({
-          width: video.videoWidth,
-          height: video.videoHeight,
-        });
-      };
-
-      const handleTimeUpdate = () => {
-        setCurrentTime(video.currentTime);
-      };
-
-      const handlePlay = () => {
-        setPlayState(true);
-      };
-
-      const handlePause = () => {
-        setPlayState(false);
-      };
-
-      const handleEnded = () => {
-        setPlayState(false);
-      };
-
-      const handleVolumeChange = () => {
-        setVolumeState({ volume: video.volume, muted: video.muted });
-      };
-
-      const handleEnterPictureInPicture = () => {
-        setIsPictureInPicture(true);
-      };
-
-      const handleLeavePictureInPicture = () => {
-        setIsPictureInPicture(false);
-      };
-
-      video.addEventListener("loadedmetadata", handleLoadedMetadata);
-      video.addEventListener("timeupdate", handleTimeUpdate);
-      video.addEventListener("play", handlePlay);
-      video.addEventListener("pause", handlePause);
-      video.addEventListener("ended", handleEnded);
-      video.addEventListener("volumechange", handleVolumeChange);
-      video.addEventListener(
-        "enterpictureinpicture",
-        handleEnterPictureInPicture,
-      );
-      video.addEventListener(
-        "leavepictureinpicture",
-        handleLeavePictureInPicture,
-      );
-
-      return () => {
-        video.removeEventListener("loadedmetadata", handleLoadedMetadata);
-        video.removeEventListener("timeupdate", handleTimeUpdate);
-        video.removeEventListener("play", handlePlay);
-        video.removeEventListener("pause", handlePause);
-        video.removeEventListener("ended", handleEnded);
-        video.removeEventListener("volumechange", handleVolumeChange);
-        video.removeEventListener(
-          "enterpictureinpicture",
-          handleEnterPictureInPicture,
-        );
-        video.removeEventListener(
-          "leavepictureinpicture",
-          handleLeavePictureInPicture,
-        );
-      };
-    }
-  }, [
-    videoUrl,
-    setDuration,
-    setCurrentTime,
-    setPlayState,
-    setVolumeState,
-    setIsPictureInPicture,
-  ]);
+  const uiControls = useUIControls({
+    videoRef,
+    fileInputRef,
+    controlsPinned: settingsPopoverOpen,
+    onToggleVideoInfo: () => {
+      setShowInfo((visible) => !visible);
+    },
+    onCloseVideoInfo: () => {
+      setShowInfo(false);
+    },
+    onTogglePlayPause: videoActions.togglePlayPause,
+    onSeek: videoActions.seekTo,
+    onTogglePictureInPicture: () => {
+      void videoActions.togglePictureInPicture();
+    },
+  });
 
   // File handling
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -179,12 +116,12 @@ export default function VideoPlayerApp() {
   const overlayMetadata: MediaInfoMetadata | null = useMemo(() => {
     if (!videoUrl) return null;
 
-    const fileName = videoState.metadata?.fileName;
-    const fileSize = videoState.metadata?.fileSize;
+    const fileName = videoMetadata?.fileName;
+    const fileSize = videoMetadata?.fileSize;
 
     // Prefer MediaInfo dimensions, fallback to actual video element dimensions
-    const width = mediaInfo?.videoWidth ?? elementDimensions.width;
-    const height = mediaInfo?.videoHeight ?? elementDimensions.height;
+    const width = mediaInfo?.videoWidth ?? videoMetadata?.videoWidth;
+    const height = mediaInfo?.videoHeight ?? videoMetadata?.videoHeight;
 
     // Derive a simple container format from file name if available
     const containerFormat = fileName
@@ -192,7 +129,7 @@ export default function VideoPlayerApp() {
       : undefined;
 
     const merged: MediaInfoMetadata = {
-      duration: videoState.duration || 0,
+      duration: duration || 0,
       videoWidth: width,
       videoHeight: height,
       videoFrameRate: mediaInfo?.videoFrameRate,
@@ -211,14 +148,7 @@ export default function VideoPlayerApp() {
     };
 
     return merged;
-  }, [
-    mediaInfo,
-    videoState.duration,
-    videoState.metadata,
-    videoUrl,
-    elementDimensions.width,
-    elementDimensions.height,
-  ]);
+  }, [mediaInfo, duration, videoMetadata, videoUrl]);
 
   // Drag and drop handling
   const handleDragEnter = (event: React.DragEvent) => {
@@ -276,94 +206,6 @@ export default function VideoPlayerApp() {
     }
   }, [videoActions]);
 
-  // Auto-play when video loads
-  useEffect(() => {
-    if (videoUrl && videoRef.current) {
-      const video = videoRef.current;
-      video.autoplay = true;
-      video
-        .play()
-        .then(() => {
-          // Video started playing automatically
-        })
-        .catch(console.error);
-    }
-  }, [videoUrl]);
-
-  // Keyboard shortcuts: Left/Right arrow seek 5s
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      // Toggle fullscreen with "F" anywhere
-      if (e.key === "f" || e.key === "F") {
-        e.preventDefault();
-        void uiControls.toggleFullscreen();
-        return;
-      }
-
-      // Open file dialog with "O" anywhere
-      if (e.key === "o" || e.key === "O") {
-        e.preventDefault();
-        fileInputRef.current?.click();
-        return;
-      }
-
-      // Toggle info overlay with "I" anywhere
-      if (e.key === "i" || e.key === "I") {
-        e.preventDefault();
-        setShowInfo((prev) => !prev);
-        return;
-      }
-
-      // Toggle Picture-in-Picture with "P" anywhere (if supported)
-      if (
-        (e.key === "p" || e.key === "P") &&
-        document.pictureInPictureEnabled
-      ) {
-        e.preventDefault();
-        void videoActions.togglePictureInPicture();
-        return;
-      }
-
-      // Close info overlay with Escape (don't block browser fullscreen exit)
-      if (e.key === "Escape") {
-        // No preventDefault here to allow native behaviors (e.g., exit fullscreen)
-        setShowInfo(false);
-        return;
-      }
-
-      if (!videoUrl) return;
-
-      if (e.key === "ArrowRight") {
-        e.preventDefault();
-        const video = videoRef.current;
-        if (video) {
-          const newTime = Math.min(video.currentTime + 5, video.duration);
-          videoActions.seekTo(newTime);
-        }
-      } else if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        const video = videoRef.current;
-        if (video) {
-          const newTime = Math.max(video.currentTime - 5, 0);
-          videoActions.seekTo(newTime);
-        }
-      } else if (e.key === " " || e.key === "Space" || e.code === "Space") {
-        // Avoid double toggle if focused on an actual button (space triggers click)
-        const targetTag = (e.target as HTMLElement).tagName;
-        if (targetTag !== "BUTTON") {
-          e.preventDefault();
-          videoActions.togglePlayPause();
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleKey);
-
-    return () => {
-      document.removeEventListener("keydown", handleKey);
-    };
-  }, [videoActions, videoUrl, uiControls, setShowInfo]);
-
   // Service Worker registration and update handling
   const { updateServiceWorker } = useRegisterSW({
     immediate: true,
@@ -377,18 +219,29 @@ export default function VideoPlayerApp() {
         });
     },
     onRegisteredSW(_swUrl, r) {
-      setInterval(
+      if (!r) return;
+      if (serviceWorkerUpdateIntervalRef.current !== null) {
+        clearInterval(serviceWorkerUpdateIntervalRef.current);
+      }
+      serviceWorkerUpdateIntervalRef.current = setInterval(
         () => {
-          if (r && typeof r.update === "function") {
-            r.update().catch((err: unknown) => {
-              console.warn("SW periodic update check failed", err);
-            });
-          }
+          r.update().catch((err: unknown) => {
+            console.warn("SW periodic update check failed", err);
+          });
         },
         60 * 60 * 1000,
       );
     },
   });
+
+  useEffect(() => {
+    return () => {
+      if (serviceWorkerUpdateIntervalRef.current !== null) {
+        clearInterval(serviceWorkerUpdateIntervalRef.current);
+        serviceWorkerUpdateIntervalRef.current = null;
+      }
+    };
+  }, []);
 
   // Lingui macro
   const { t } = useLingui();
@@ -397,10 +250,10 @@ export default function VideoPlayerApp() {
   /* oxlint-disable jsx-a11y/media-has-caption -- Local video files may contain embedded captions; the app has no separate caption source to attach. */
   return (
     <main
-      className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 ${
+      className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 motion-reduce:transition-none ${
         uiControls.isDragOver ? "bg-blue-900/20" : "bg-black"
       } ${
-        videoUrl && videoState.isPlaying && !uiControls.showControls
+        videoUrl && isPlaying && !uiControls.showControls
           ? "cursor-none"
           : "cursor-default"
       }`}
@@ -408,6 +261,8 @@ export default function VideoPlayerApp() {
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
+      onPointerMove={uiControls.showControlsTemporarily}
+      onPointerLeave={uiControls.hideControlsSoon}
     >
       <input
         ref={fileInputRef}
@@ -415,6 +270,7 @@ export default function VideoPlayerApp() {
         name="videoFile"
         id="videoFile"
         accept="video/*"
+        aria-label={t`Open video file`}
         onChange={handleFileInput}
         className="peer sr-only"
       />
@@ -423,7 +279,32 @@ export default function VideoPlayerApp() {
         <video
           ref={setVideoElementRef}
           src={videoUrl}
+          autoPlay
           className="h-full w-full object-contain"
+          onLoadedMetadata={(event) => {
+            setLoadedMetadata(event.currentTarget);
+          }}
+          onTimeUpdate={(event) => {
+            setCurrentTime(event.currentTarget.currentTime);
+          }}
+          onPlay={() => {
+            setPlayState(true);
+          }}
+          onPause={() => {
+            setPlayState(false);
+          }}
+          onEnded={() => {
+            setPlayState(false);
+          }}
+          onVolumeChange={(event) => {
+            setVolumeState({
+              volume: event.currentTarget.volume,
+              muted: event.currentTarget.muted,
+            });
+          }}
+          onRateChange={(event) => {
+            setPlaybackRateState(event.currentTarget.playbackRate);
+          }}
           onClick={() => {
             if (!settingsPopoverOpen && !justClosedPopoverRef.current) {
               videoActions.togglePlayPause();
@@ -450,9 +331,10 @@ export default function VideoPlayerApp() {
           </div>
           <label
             htmlFor="videoFile"
-            aria-label={t`Open video file`}
             className="absolute inset-0 cursor-pointer"
-          />
+          >
+            <span className="sr-only">{t`Open video file`}</span>
+          </label>
         </div>
       )}
 
@@ -461,6 +343,12 @@ export default function VideoPlayerApp() {
           setShowInfo(true);
         }}
         onOpenFile={openFileDialog}
+        onShowControls={uiControls.showControlsTemporarily}
+        onToggleFullscreen={() => {
+          void uiControls.toggleFullscreen();
+        }}
+        showControls={uiControls.showControls}
+        isFullscreen={uiControls.isFullscreen}
       />
 
       {/* Drag Overlay */}

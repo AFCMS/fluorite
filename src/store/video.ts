@@ -30,7 +30,6 @@ export const showControlsAtom = atom(true);
 export const isFullscreenAtom = atom(false);
 export const isDragOverAtom = atom(false);
 export const settingsPopoverOpenAtom = atom(false);
-export const isPictureInPictureAtom = atom(false);
 
 // DERIVED ATOMS
 export const videoIsLoadedAtom = atom(
@@ -40,6 +39,13 @@ export const videoIsLoadedAtom = atom(
 export const canPlayAtom = atom(
   (get) => !!(get(videoUrlAtom) && get(videoElementAtom)),
 );
+
+export const isEndedAtom = atom((get) => {
+  if (!get(videoUrlAtom) || get(isPlayingAtom)) return false;
+
+  const duration = get(durationAtom);
+  return duration > 0 && get(currentTimeAtom) >= Math.max(0, duration - 0.2);
+});
 
 // METADATA ATOMS
 export const videoMetadataAtom = atom<MediaInfoMetadata | null>(null);
@@ -243,6 +249,19 @@ export const togglePictureInPictureAtom = atom(null, async (get) => {
   }
 });
 
+export const registerVideoElementAtom = atom(
+  null,
+  (get, set, element: HTMLVideoElement | null) => {
+    set(videoElementAtom, element);
+    if (!element) return;
+
+    element.volume = get(volumeAtom);
+    element.muted = get(isMutedAtom);
+    element.playbackRate = get(playbackRateAtom);
+    element.loop = get(loopAtom);
+  },
+);
+
 // EFFECT ATOMS
 export const videoUrlCleanupEffect = atomEffect((get) => {
   const url = get(videoUrlAtom);
@@ -251,10 +270,28 @@ export const videoUrlCleanupEffect = atomEffect((get) => {
   };
 });
 
-// Direct atom setters for manual video state updates
-export const updateDurationAtom = atom(null, (_get, set, duration: number) => {
-  set(durationAtom, duration);
-});
+// Direct atom setters for video element events
+export const updateLoadedMetadataAtom = atom(
+  null,
+  (get, set, element: HTMLVideoElement) => {
+    set(durationAtom, element.duration);
+
+    const file = get(videoFileAtom);
+    if (!file) return;
+
+    const ext = file.name.split(".").pop()?.toUpperCase();
+    set(videoMetadataAtom, {
+      duration: element.duration || 0,
+      fileName: file.name,
+      fileSize: file.size,
+      containerFormat: file.type
+        ? file.type.replace("video/", "").toUpperCase()
+        : ext,
+      videoWidth: element.videoWidth || undefined,
+      videoHeight: element.videoHeight || undefined,
+    });
+  },
+);
 
 export const updateCurrentTimeAtom = atom(null, (get, set, time: number) => {
   if (!get(isSeekingAtom)) {
@@ -275,98 +312,9 @@ export const updateVolumeStateAtom = atom(
   },
 );
 
-// Keep the effect for URL cleanup only
-export const videoElementSyncEffect = atomEffect((get, set) => {
-  const element = get(videoElementAtom);
-  if (!element) return;
-
-  // Sync stored volume/mute state with video element when element is registered
-  const storedVolume = get(volumeAtom);
-  const storedMuted = get(isMutedAtom);
-  const storedPlaybackRate = get(playbackRateAtom);
-  const storedLoop = get(loopAtom);
-
-  element.volume = storedVolume;
-  element.muted = storedMuted;
-  element.playbackRate = storedPlaybackRate;
-  element.loop = storedLoop;
-
-  const handleLoadedMetadata = () => {
-    set(updateDurationAtom, element.duration);
-
-    // Extract video metadata when metadata is loaded
-    const file = get(videoFileAtom);
-    if (file) {
-      const ext = file.name.split(".").pop()?.toUpperCase();
-      const metadata: MediaInfoMetadata = {
-        duration: element.duration || 0,
-        fileName: file.name,
-        fileSize: file.size,
-        containerFormat: file.type
-          ? file.type.replace("video/", "").toUpperCase()
-          : ext,
-        // width/height from element if available
-        videoWidth: element.videoWidth || undefined,
-        videoHeight: element.videoHeight || undefined,
-      };
-      set(videoMetadataAtom, metadata);
-    }
-  };
-
-  const handleTimeUpdate = () => {
-    set(updateCurrentTimeAtom, element.currentTime);
-  };
-
-  const handlePlay = () => {
-    set(updatePlayStateAtom, true);
-  };
-
-  const handlePause = () => {
-    set(updatePlayStateAtom, false);
-  };
-
-  const handleEnded = () => {
-    set(updatePlayStateAtom, false);
-  };
-
-  const handleVolumeChange = () => {
-    // Only sync volume changes from external sources (not our programmatic changes)
-    const currentVolume = get(volumeAtom);
-    const currentMuted = get(isMutedAtom);
-
-    // If element volume changed and doesn't match our current volume, update atoms
-    if (element.volume !== currentVolume && element.volume > 0) {
-      set(setVolumeAtom, element.volume);
-    }
-
-    // Update mute state if it changed
-    if (element.muted !== currentMuted) {
-      set(setMuteAtom, element.muted);
-    }
-  };
-
-  const handleRateChange = () => {
-    const currentRate = get(playbackRateAtom);
-    if (element.playbackRate !== currentRate) {
-      set(setPlaybackRateAtom, element.playbackRate);
-    }
-  };
-
-  element.addEventListener("loadedmetadata", handleLoadedMetadata);
-  element.addEventListener("timeupdate", handleTimeUpdate);
-  element.addEventListener("play", handlePlay);
-  element.addEventListener("pause", handlePause);
-  element.addEventListener("ended", handleEnded);
-  element.addEventListener("volumechange", handleVolumeChange);
-  element.addEventListener("ratechange", handleRateChange);
-
-  return () => {
-    element.removeEventListener("loadedmetadata", handleLoadedMetadata);
-    element.removeEventListener("timeupdate", handleTimeUpdate);
-    element.removeEventListener("play", handlePlay);
-    element.removeEventListener("pause", handlePause);
-    element.removeEventListener("ended", handleEnded);
-    element.removeEventListener("volumechange", handleVolumeChange);
-    element.removeEventListener("ratechange", handleRateChange);
-  };
-});
+export const updatePlaybackRateStateAtom = atom(
+  null,
+  (_get, set, rate: number) => {
+    set(playbackRateAtom, Math.max(0.25, Math.min(4, rate)));
+  },
+);

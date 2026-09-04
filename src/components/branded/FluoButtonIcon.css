@@ -1,0 +1,40 @@
+.fluo-button-icon {
+  display: flex;
+  align-items: center;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: var(--color-slate-300);
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+
+  &[data-disabled],
+  &:disabled {
+    cursor: not-allowed;
+    color: var(--color-slate-500);
+    opacity: 0.5;
+  }
+
+  &:hover:not([data-disabled]):not(:disabled) {
+    color: var(--color-base-hover);
+  }
+
+  &:focus-visible {
+    background-color: color-mix(
+      in oklab,
+      var(--color-sky-500) 18%,
+      transparent
+    );
+    box-shadow:
+      0 0 0 2px color-mix(in oklab, var(--color-gray-950) 85%, transparent),
+      0 0 0 4px var(--color-sky-400);
+    color: var(--color-white);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fluo-button-icon {
+    transition: none;
+  }
+}

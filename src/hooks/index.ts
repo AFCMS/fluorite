@@ -1,9 +1,8 @@
-export { useVideoPlayer } from "./useVideoPlayer";
 export { useFileHandler } from "./useFileHandler";
 export {
   useVideoUrl,
   useVideoActions,
-  useVideoState,
+  useVideoLifecycleEffects,
   useVideoMetadata,
   useMediaInfoMetadata,
   useUIControls,
