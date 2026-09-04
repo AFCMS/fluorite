@@ -139,8 +139,8 @@ importers:
         specifier: ^1.3.0
         version: 1.3.0(@vite-pwa/assets-generator@1.0.2)(supports-color@7.2.0)(vite@8.2.2)(workbox-build@7.4.1(@types/babel__core@7.20.5)(supports-color@7.2.0))(workbox-window@7.4.1)
       vite-plugin-sri-gen:
-        specifier: ^1.7.3
-        version: 1.7.3(vite@8.2.2)
+        specifier: ^1.7.4
+        version: 1.7.4(vite@8.2.2)
       vitest:
         specifier: ^4.1.11
         version: 4.1.11(@types/node@24.13.3)(@vitest/coverage-v8@4.1.11)(@vitest/ui@4.1.11)(jsdom@30.0.1)(vite@8.2.2)
@@ -5094,8 +5094,8 @@ packages:
       '@vite-pwa/assets-generator':
         optional: true
 
-  vite-plugin-sri-gen@1.7.3:
-    resolution: {integrity: sha512-VZb7ChG9YOsJhN0n0mXflPJrzzsYahlP8J0YDSB34fghInHqJhxrBGfWwt5+H94AxGBBgGyKMH67zSCSGzw+Dw==}
+  vite-plugin-sri-gen@1.7.4:
+    resolution: {integrity: sha512-752KQzMm2fDcGUHF3RxNYjIa+t09MQ6UdIZ2NXwNkkFMeyr5iO8vOJkEirmgNgYzQAePxy7SxK9XIT4iVjFgFg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       vite: '>=4.0.0'
@@ -10448,7 +10448,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-sri-gen@1.7.3(vite@8.2.2):
+  vite-plugin-sri-gen@1.7.4(vite@8.2.2):
     dependencies:
       parse5: 8.0.1
       vite: 8.2.2(@types/node@24.13.3)(@vitejs/devtools@0.5.2)(jiti@2.7.0)(terser@5.51.2)
