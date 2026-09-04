@@ -249,7 +249,7 @@ export default function VideoPlayerApp() {
   /* oxlint-disable jsx-a11y/media-has-caption -- Local video files may contain embedded captions; the app has no separate caption source to attach. */
   return (
     <main
-      className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 ${
+      className={`relative h-screen w-screen overflow-hidden transition-colors duration-200 motion-reduce:transition-none ${
         uiControls.isDragOver ? "bg-blue-900/20" : "bg-black"
       } ${
         videoUrl && isPlaying && !uiControls.showControls
@@ -269,6 +269,7 @@ export default function VideoPlayerApp() {
         name="videoFile"
         id="videoFile"
         accept="video/*"
+        aria-label={t`Open video file`}
         onChange={handleFileInput}
         className="peer sr-only"
       />
@@ -329,9 +330,10 @@ export default function VideoPlayerApp() {
           </div>
           <label
             htmlFor="videoFile"
-            aria-label={t`Open video file`}
             className="absolute inset-0 cursor-pointer"
-          />
+          >
+            <span className="sr-only">{t`Open video file`}</span>
+          </label>
         </div>
       )}
 

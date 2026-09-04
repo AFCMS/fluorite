@@ -32,3 +32,9 @@
     color: var(--color-white);
   }
 }
+
+@media (prefers-reduced-motion: reduce) {
+  .fluo-button-icon {
+    transition: none;
+  }
+}

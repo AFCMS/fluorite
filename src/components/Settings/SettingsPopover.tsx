@@ -32,7 +32,7 @@ export function SettingsPopover() {
               title={t`Settings`}
             >
               <HiCog6Tooth
-                className={`h-5 w-5 transition-transform duration-300 ${
+                className={`h-5 w-5 transition-[rotate] duration-300 motion-reduce:rotate-0 motion-reduce:transition-none ${
                   open ? "rotate-90" : "rotate-0"
                 }`}
               />
@@ -49,7 +49,7 @@ export function SettingsPopover() {
               onMouseDown={(event) => {
                 event.stopPropagation();
               }}
-              className="w-64 origin-top-right rounded-xl border border-white/5 bg-gray-900/95 p-1 text-sm/6 text-white transition duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0"
+              className="w-64 origin-top-right rounded-xl border border-white/5 bg-gray-900/95 p-1 text-sm/6 text-white transition-[opacity,scale] duration-100 ease-out [--anchor-gap:--spacing(1)] focus:outline-none data-closed:scale-95 data-closed:opacity-0 motion-reduce:scale-100 motion-reduce:transition-opacity motion-reduce:duration-75"
             >
               {settingsTab === "root" ? (
                 <SettingsRootTab
