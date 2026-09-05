@@ -173,3 +173,17 @@ jobs:
         run: |
           REPO_OWNER_LOWERCASE=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
           helm push fluorite-chart-*.tgz oci://ghcr.io/${REPO_OWNER_LOWERCASE}
+
+      - name: Install cosign
+        if: github.event_name != 'pull_request'
+        uses: sigstore/cosign-installer@v3
+
+      - name: Login to GHCR
+        if: github.event_name != 'pull_request'
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Sign Helm chart
+        if: github.event_name != 'pull_request'
+        run: |
+          REPO_OWNER_LOWERCASE=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          cosign sign --yes oci://ghcr.io/${REPO_OWNER_LOWERCASE}/fluorite-chart
