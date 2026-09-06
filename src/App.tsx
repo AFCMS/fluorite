@@ -1,4 +1,4 @@
-import { CSPProvider } from "@base-ui/react";
+import { CSPProvider } from "@base-ui/react/csp-provider";
 import { Provider } from "jotai";
 
 import "./App.css";
