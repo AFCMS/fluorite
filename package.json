@@ -19,7 +19,7 @@
         "prepare": "husky"
     },
     "dependencies": {
-        "@base-ui/react": "^1.7.0",
+        "@base-ui/react": "^1.8.0",
         "@lingui/core": "^6.6.0",
         "@lingui/detect-locale": "^6.6.0",
         "@lingui/react": "^6.6.0",
@@ -54,7 +54,7 @@
         "@vitejs/plugin-react": "^6.1.1",
         "@vitest/coverage-v8": "^5.0.0",
         "@vitest/ui": "^5.0.0",
-        "eslint-plugin-lingui": "^0.14.0",
+        "eslint-plugin-lingui": "^0.15.0",
         "husky": "^9.1.7",
         "jsdom": "^30.0.1",
         "oxc-transform-react": "^0.148.0",
