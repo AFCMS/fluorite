@@ -14,10 +14,13 @@ on:
   schedule:
     - cron: "26 2 * * *"
 
+permissions: {}
+
 jobs:
   zizmor:
     runs-on: ubuntu-latest
     permissions:
+      contents: read
       security-events: write
     steps:
       - name: Checkout repository
