@@ -57,7 +57,7 @@
         "eslint-plugin-lingui": "^0.15.0",
         "husky": "^9.1.7",
         "jsdom": "^30.0.1",
-        "oxc-transform-react": "^0.148.0",
+        "oxc-transform-react": "^0.149.0",
         "oxfmt": "^0.66.0",
         "oxlint": "^1.81.0",
         "oxlint-tsgolint": "^7.0.2001",
