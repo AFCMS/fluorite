@@ -27,11 +27,11 @@ importers:
         specifier: ^2.0.1
         version: 2.0.1(react@19.3.0)
       jotai:
-        specifier: ^2.20.3
-        version: 2.20.3(@babel/core@7.29.7(supports-color@7.2.0))(@babel/template@7.29.7)(@types/react@19.3.0)(react@19.3.0)
+        specifier: ^3.0.0
+        version: 3.0.0(@types/react@19.3.0)(react@19.3.0)
       jotai-effect:
         specifier: ^2.4.1
-        version: 2.4.1(jotai@2.20.3(@babel/core@7.29.7(supports-color@7.2.0))(@babel/template@7.29.7)(@types/react@19.3.0)(react@19.3.0))
+        version: 2.4.1(jotai@3.0.0(@types/react@19.3.0)(react@19.3.0))
       mediainfo.js:
         specifier: ^0.3.7
         version: 0.3.7
@@ -86,7 +86,7 @@ importers:
         version: 2.0.0(@types/node@24.13.3)
       '@vitejs/devtools':
         specifier: ^0.7.3
-        version: 0.7.3(@vitejs/devtools-oxc@0.7.3)(@vitejs/devtools-rolldown@0.7.3)(@vitejs/devtools-vite@0.7.3)(@vitejs/devtools-vitest@0.7.3)(crossws@0.4.12(srvx@1.0.3))(srvx@1.0.3)(vite@8.3.0)
+        version: 0.7.3(@devframes/json-render@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@vitejs/devtools-oxc@0.7.3)(@vitejs/devtools-rolldown@0.7.3)(@vitejs/devtools-vite@0.7.3)(@vitejs/devtools-vitest@0.7.3)(crossws@0.4.12(srvx@1.0.3))(srvx@1.0.3)(vite@8.3.0)
       '@vitejs/devtools-oxc':
         specifier: ^0.7.3
         version: 0.7.3(crossws@0.4.12(srvx@1.0.3))(srvx@1.0.3)(typescript@7.0.2)(vite@8.3.0)
@@ -3824,19 +3824,13 @@ packages:
     peerDependencies:
       jotai: '>=2.20.0 || >=3.0.0-alpha.0'
 
-  jotai@2.20.3:
-    resolution: {integrity: sha512-N8L9FUbeGDP+0qNJw1FebOxt+5hk+jTOwUA2LlRE4C081jUcY6F1T/FSETp4DT2/INMtiSRZyNm2D+yZdzrSgA==}
-    engines: {node: '>=12.20.0'}
+  jotai@3.0.0:
+    resolution: {integrity: sha512-KxhbmsJUp/tmrv6aZgO+nzB3H9K8C0xmk5i3aGkwy/EANg73DVBkggv3zVHaAi5PlNlQgTgP4uiVepo+JC+wSA==}
+    engines: {node: '>=22.12.0'}
     peerDependencies:
-      '@babel/core': '>=7.0.0'
-      '@babel/template': '>=7.0.0'
-      '@types/react': '>=17.0.0'
-      react: '>=17.0.0'
+      '@types/react': '>=18.0.0'
+      react: '>=18.0.0'
     peerDependenciesMeta:
-      '@babel/core':
-        optional: true
-      '@babel/template':
-        optional: true
       '@types/react':
         optional: true
       react:
@@ -6268,10 +6262,12 @@ snapshots:
 
   '@csstools/css-tokenizer@4.0.0': {}
 
-  '@devframes/hub-ui@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))':
+  '@devframes/hub-ui@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/json-render@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))':
     dependencies:
       '@devframes/hub': 0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))
       devframe: 0.9.18(cac@7.0.0)(srvx@1.0.3)
+    optionalDependencies:
+      '@devframes/json-render': 0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))
 
   '@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))':
     dependencies:
@@ -6318,9 +6314,9 @@ snapshots:
     optionalDependencies:
       vite: 8.3.0(@types/node@24.13.3)(@vitejs/devtools@0.7.3)(jiti@2.7.0)(terser@5.51.2)
 
-  '@devframes/plugin-terminals@0.9.18(@devframes/hub-ui@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))(vite@8.3.0)':
+  '@devframes/plugin-terminals@0.9.18(@devframes/hub-ui@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/json-render@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))(vite@8.3.0)':
     dependencies:
-      '@devframes/vite': 0.9.18(@devframes/hub-ui@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))(vite@8.3.0)
+      '@devframes/vite': 0.9.18(@devframes/hub-ui@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/json-render@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))(vite@8.3.0)
       cac: 7.0.0
       devframe: 0.9.18(cac@7.0.0)(srvx@1.0.3)
       zigpty: 0.2.1
@@ -6335,13 +6331,13 @@ snapshots:
       devframe: 0.9.18(cac@7.0.0)(srvx@1.0.3)
       pathe: 2.0.3
 
-  '@devframes/vite@0.9.18(@devframes/hub-ui@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))(vite@8.3.0)':
+  '@devframes/vite@0.9.18(@devframes/hub-ui@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/json-render@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))(vite@8.3.0)':
     dependencies:
       devframe: 0.9.18(cac@7.0.0)(srvx@1.0.3)
       pathe: 2.0.3
     optionalDependencies:
       '@devframes/hub': 0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))
-      '@devframes/hub-ui': 0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))
+      '@devframes/hub-ui': 0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/json-render@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))
       vite: 8.3.0(@types/node@24.13.3)(@vitejs/devtools@0.7.3)(jiti@2.7.0)(terser@5.51.2)
 
   '@e18e/eslint-plugin@0.8.0(eslint@10.9.1(jiti@2.7.0)(supports-color@7.2.0))(oxlint@1.82.0(oxlint-tsgolint@7.0.2001))':
@@ -7625,14 +7621,14 @@ snapshots:
       - srvx
       - vite
 
-  '@vitejs/devtools@0.7.3(@vitejs/devtools-oxc@0.7.3)(@vitejs/devtools-rolldown@0.7.3)(@vitejs/devtools-vite@0.7.3)(@vitejs/devtools-vitest@0.7.3)(crossws@0.4.12(srvx@1.0.3))(srvx@1.0.3)(vite@8.3.0)':
+  '@vitejs/devtools@0.7.3(@devframes/json-render@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@vitejs/devtools-oxc@0.7.3)(@vitejs/devtools-rolldown@0.7.3)(@vitejs/devtools-vite@0.7.3)(@vitejs/devtools-vitest@0.7.3)(crossws@0.4.12(srvx@1.0.3))(srvx@1.0.3)(vite@8.3.0)':
     dependencies:
       '@devframes/hub': 0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))
-      '@devframes/hub-ui': 0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))
+      '@devframes/hub-ui': 0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/json-render@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))
       '@devframes/json-render-ui': 0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))
       '@devframes/plugin-inspect': 0.9.18(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))(vite@8.3.0)
       '@devframes/plugin-messages': 0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))(vite@8.3.0)
-      '@devframes/plugin-terminals': 0.9.18(@devframes/hub-ui@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))(vite@8.3.0)
+      '@devframes/plugin-terminals': 0.9.18(@devframes/hub-ui@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/json-render@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3))(vite@8.3.0)
       '@vitejs/devtools-kit': 0.7.3(cac@7.0.0)(crossws@0.4.12(srvx@1.0.3))(srvx@1.0.3)(vite@8.3.0)
       cac: 7.0.0
       devframe: 0.9.18(cac@7.0.0)(srvx@1.0.3)
@@ -9051,14 +9047,12 @@ snapshots:
 
   jiti@2.7.0: {}
 
-  jotai-effect@2.4.1(jotai@2.20.3(@babel/core@7.29.7(supports-color@7.2.0))(@babel/template@7.29.7)(@types/react@19.3.0)(react@19.3.0)):
+  jotai-effect@2.4.1(jotai@3.0.0(@types/react@19.3.0)(react@19.3.0)):
     dependencies:
-      jotai: 2.20.3(@babel/core@7.29.7(supports-color@7.2.0))(@babel/template@7.29.7)(@types/react@19.3.0)(react@19.3.0)
+      jotai: 3.0.0(@types/react@19.3.0)(react@19.3.0)
 
-  jotai@2.20.3(@babel/core@7.29.7(supports-color@7.2.0))(@babel/template@7.29.7)(@types/react@19.3.0)(react@19.3.0):
+  jotai@3.0.0(@types/react@19.3.0)(react@19.3.0):
     optionalDependencies:
-      '@babel/core': 7.29.7(supports-color@7.2.0)
-      '@babel/template': 7.29.7
       '@types/react': 19.3.0
       react: 19.3.0
 
@@ -10617,7 +10611,7 @@ snapshots:
       tinyglobby: 0.2.17
     optionalDependencies:
       '@types/node': 24.13.3
-      '@vitejs/devtools': 0.7.3(@vitejs/devtools-oxc@0.7.3)(@vitejs/devtools-rolldown@0.7.3)(@vitejs/devtools-vite@0.7.3)(@vitejs/devtools-vitest@0.7.3)(crossws@0.4.12(srvx@1.0.3))(srvx@1.0.3)(vite@8.3.0)
+      '@vitejs/devtools': 0.7.3(@devframes/json-render@0.9.18(@devframes/hub@0.9.18(crossws@0.4.12(srvx@1.0.3))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(devframe@0.9.18(cac@7.0.0)(srvx@1.0.3)))(@vitejs/devtools-oxc@0.7.3)(@vitejs/devtools-rolldown@0.7.3)(@vitejs/devtools-vite@0.7.3)(@vitejs/devtools-vitest@0.7.3)(crossws@0.4.12(srvx@1.0.3))(srvx@1.0.3)(vite@8.3.0)
       fsevents: 2.3.3
       jiti: 2.7.0
       terser: 5.51.2
