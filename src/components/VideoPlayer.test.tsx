@@ -231,10 +231,6 @@ test("cleans the controls visibility timer on unmount", async () => {
       );
     });
 
-    act(() => {
-      vi.runOnlyPendingTimers();
-    });
-
     const fileInput =
       container.querySelector<HTMLInputElement>('input[type="file"]');
     const file = new File(["video"], "sample.mp4", { type: "video/mp4" });
@@ -247,6 +243,11 @@ test("cleans the controls visibility timer on unmount", async () => {
       fileInput?.dispatchEvent(new Event("change", { bubbles: true }));
     });
 
+    // Flush media initialization tasks before scheduling the controls timer.
+    act(() => {
+      vi.runOnlyPendingTimers();
+    });
+
     const video = container.querySelector("video");
     const player = container.querySelector("main");
     act(() => {
@@ -256,7 +257,7 @@ test("cleans the controls visibility timer on unmount", async () => {
       player?.dispatchEvent(new Event("pointermove", { bubbles: true }));
     });
 
-    expect(vi.getTimerCount()).toBeGreaterThan(0);
+    expect(vi.getTimerCount()).toBe(1);
 
     act(() => {
       root?.unmount();
