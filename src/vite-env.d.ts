@@ -10,6 +10,7 @@ interface ViteTypeOptions {
 }
 
 interface ImportMetaEnv {
+  readonly VITE_APP_URL: string | undefined;
   readonly VITE_DISABLE_VERCEL_ANALYTICS: string;
 }
 

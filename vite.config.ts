@@ -6,6 +6,8 @@ import { defineConfig } from "vite";
 import { VitePWA, type VitePWAOptions } from "vite-plugin-pwa";
 import sri from "vite-plugin-sri-gen";
 
+import { discordEmbed } from "./plugins/discord-embed.ts";
+
 const pwaConfig: Partial<VitePWAOptions> = {
   registerType: "autoUpdate",
   strategies: "generateSW",
@@ -82,6 +84,7 @@ export default defineConfig({
     lingui(),
     tailwindcss(),
     VitePWA(pwaConfig),
+    discordEmbed(),
     sri({
       algorithm: "sha512",
       crossorigin: "anonymous",
