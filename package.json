@@ -25,7 +25,7 @@
         "@lingui/react": "^6.7.0",
         "@tailwindcss/vite": "^4.3.3",
         "@vercel/analytics": "^2.0.1",
-        "jotai": "^2.20.3",
+        "jotai": "^3.0.0",
         "jotai-effect": "^2.4.1",
         "mediainfo.js": "^0.3.8",
         "react": "^19.3.0",
