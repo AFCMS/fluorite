@@ -29,6 +29,6 @@ jobs:
           persist-credentials: false
 
       - name: Install PNPM
-        uses: pnpm/setup@v2
+        uses: pnpm/setup@v3
         with:
           version: 12
