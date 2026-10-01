@@ -26,17 +26,18 @@ env:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - name: Install PNPM
-        uses: pnpm/setup@v2
+        uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
         with:
           version: 12
 
@@ -55,25 +56,26 @@ jobs:
         run: pnpm run format:check
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: fluorite-dist
           path: dist
           compression-level: 9
 
   lighthouse:
+    name: Lighthouse CI
     runs-on: ubuntu-latest
     permissions:
       contents: read
     needs: build
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - name: Install PNPM
-        uses: pnpm/setup@v2
+        uses: pnpm/setup@84cb39b217b10273981911c288cd62326dc7c6d2 # v2.0.2
         with:
           version: 12
 
@@ -88,14 +90,16 @@ jobs:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
   caddyconfig:
+    name: Caddy Configuration
     runs-on: ubuntu-latest
-    container: caddy:2-alpine
+    # https://github.com/dependabot/dependabot-core/issues/5819
+    container: caddy:2-alpine@sha256:6aeddd44c3078b0f9a35206472a11420648a79c184603ef95957d0a20044cb2b
     permissions:
       contents: read
     needs: build
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
@@ -103,10 +107,11 @@ jobs:
         run: caddy validate Caddyfile
 
   docker:
+    name: Docker
     needs:
       - caddyconfig
       - build
-    uses: docker/github-builder/.github/workflows/build.yml@v1
+    uses: docker/github-builder/.github/workflows/build.yml@58cb9f5b71b1836d6f690c1e95effdeb9b98cb8a # v1.17.0
     permissions:
       contents: read
       packages: write
@@ -160,6 +165,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
   helm:
+    name: Helm
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -168,12 +174,12 @@ jobs:
       attestations: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
 
       - name: Install Helm
-        uses: azure/setup-helm@v5
+        uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
         with:
           version: "4.2.3"
         id: helm-install
@@ -191,7 +197,7 @@ jobs:
         run: helm package ./helm
 
       - name: Upload Helm chart as artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           path: fluorite-chart-*.tgz
           archive: false
