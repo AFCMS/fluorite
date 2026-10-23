@@ -11,12 +11,6 @@ on:
     branches:
       - master
   workflow_dispatch:
-    inputs:
-      use_cache:
-        description: "Use build cache"
-        required: true
-        type: boolean
-        default: true
 
 permissions: {}
 
@@ -121,7 +115,7 @@ jobs:
       output: image
       platforms: linux/amd64,linux/arm64
       push: ${{ github.event_name != 'pull_request' }}
-      cache: ${{ github.event_name != 'workflow_dispatch' || inputs.use_cache }}
+      cache: false
       sign: auto
       sbom: true
       meta-images: ghcr.io/${{ github.repository }}
