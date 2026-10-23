@@ -67,19 +67,18 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+          fetch-depth: 1
 
-      - name: Install PNPM
-        uses: pnpm/setup@fbda4c85fc2e1e08721cd8763afea8f48d60f024 # v3.0.0
+      - name: Download build artifacts
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
-          version: 12
-
-      - name: Build project
-        run: pnpm run build
-        env:
-          VITE_DISABLE_VERCEL_ANALYTICS: "true"
+          name: fluorite-dist
+          path: dist
 
       - name: Run Lighthouse CI
-        run: pnpm lhci autorun
+        run: |
+          LHCI_VERSION=$(jq -er '.devDependencies["@lhci/cli"]' package.json)
+          npx --yes "@lhci/cli@${LHCI_VERSION}" autorun
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
@@ -180,9 +179,10 @@ jobs:
 
       - name: Login to GHCR
         if: github.event_name != 'pull_request'
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | helm registry login --username "${GH_ACTOR}" ghcr.io --password-stdin
+        run: echo "${GH_TOKEN}" | helm registry login --username "${GH_ACTOR}" ghcr.io --password-stdin
         env:
           GH_ACTOR: ${{ github.actor }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Lint Helm chart
         run: helm lint ./helm
@@ -199,5 +199,7 @@ jobs:
       - name: Publish Helm chart to GHCR
         if: github.event_name != 'pull_request'
         run: |
-          REPO_OWNER_LOWERCASE=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          REPO_OWNER_LOWERCASE=$(echo "${GH_REPO_OWNER}" | tr '[:upper:]' '[:lower:]')
           helm push fluorite-chart-*.tgz oci://ghcr.io/${REPO_OWNER_LOWERCASE}
+        env:
+          GH_REPO_OWNER: ${{ github.repository_owner }}
