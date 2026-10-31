@@ -1,5 +1,4 @@
 import { lingui } from "@lingui/vite-plugin";
-import babel from "@rolldown/plugin-babel";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
@@ -79,9 +78,8 @@ const pwaConfig: Partial<VitePWAOptions> = {
 
 export default defineConfig({
   plugins: [
-    babel({ plugins: ["@lingui/babel-plugin-lingui-macro"] }),
+    lingui({ macroTransform: true }),
     react({ compiler: true }),
-    lingui(),
     tailwindcss(),
     VitePWA(pwaConfig),
     discordEmbed(),
