@@ -61,8 +61,8 @@ importers:
         specifier: ^6.11.0
         version: 6.11.0(@babel/core@7.29.7(supports-color@7.2.0))(@lingui/babel-plugin-lingui-macro@6.11.0(@babel/core@7.29.7(supports-color@7.2.0)))(rolldown@1.2.16)(supports-color@7.2.0)(vite@8.3.5)
       '@types/node':
-        specifier: ^24.13.3
-        version: 24.13.3
+        specifier: ^26.6.5
+        version: 26.6.6
       '@types/react':
         specifier: ^19.3.0
         version: 19.3.0
@@ -71,7 +71,7 @@ importers:
         version: 19.3.0(@types/react@19.3.0)
       '@vite-pwa/assets-generator':
         specifier: ^2.0.0
-        version: 2.0.0(@types/node@24.13.3)
+        version: 2.0.0(@types/node@26.6.6)
       '@vitejs/devtools':
         specifier: ^0.8.0
         version: 0.8.0(@vitejs/devtools-oxc@0.8.0)(@vitejs/devtools-rolldown@0.8.0)(@vitejs/devtools-vite@0.8.0)(@vitejs/devtools-vitest@0.8.0)(crossws@0.4.17(srvx@1.0.8))(srvx@1.0.8)(vite@8.3.5)
@@ -125,16 +125,16 @@ importers:
         version: 7.0.2
       vite:
         specifier: ^8.3.5
-        version: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+        version: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
       vite-plugin-pwa:
         specifier: ^2.0.0
-        version: 2.0.0(@vite-pwa/assets-generator@2.0.0(@types/node@24.13.3))(supports-color@7.2.0)(vite@8.3.5)(workbox-build@7.4.1(@types/babel__core@7.20.5)(supports-color@7.2.0))(workbox-window@7.4.1)
+        version: 2.0.0(@vite-pwa/assets-generator@2.0.0(@types/node@26.6.6))(supports-color@7.2.0)(vite@8.3.5)(workbox-build@7.4.1(@types/babel__core@7.20.5)(supports-color@7.2.0))(workbox-window@7.4.1)
       vite-plugin-sri-gen:
         specifier: ^1.7.5
         version: 1.7.5(vite@8.3.5)
       vitest:
         specifier: ^5.0.5
-        version: 5.0.5(@types/node@24.13.3)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.5)
+        version: 5.0.5(@types/node@26.6.6)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.5)
       webmcp-types:
         specifier: ^0.1.10
         version: 0.1.10
@@ -2317,6 +2317,9 @@ packages:
 
   '@types/node@24.13.3':
     resolution: {integrity: sha512-Dh8vAsV36ig5wa9OX4pXvMc9D3Veibfw2wix0CUwYODLD8nkj9UsLjASr49nPg+2eKzxhBV+v7L8pXvT4e639Q==}
+
+  '@types/node@26.6.6':
+    resolution: {integrity: sha512-MzQj+8Kx3XI40OmUAE6Qoh58ZMNstNNMwn2nfd3qWsfe7nDNSqJNzes4njhz6AHwrSHOffSLwXU6yb474Q4aog==}
 
   '@types/react-dom@19.3.0':
     resolution: {integrity: sha512-ZI7bU42mZXXKHn/qNLEw2IrbiINU7X5+vfgdixBHkCNpYWXjKgfQ/P+uyGb5CjOLB9UcnTeg3rylQtV2hym44Q==}
@@ -5146,6 +5149,9 @@ packages:
   undici-types@7.18.2:
     resolution: {integrity: sha512-AsuCzffGHJybSaRrmr5eHr81mwJU3kjw6M+uprWvCXiNeN9SOGwQ3Jn8jb8m3Z6izVgknn1R0FTCEAP2QrLY/w==}
 
+  undici-types@8.9.0:
+    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
+
   undici@8.12.2:
     resolution: {integrity: sha512-XtuDWVdqTLr3NAxm2ly9/hU6kUsJOgGh1RASzMBbsw6aWCOaQzHdW+QQDfdERjfJ2V5vL5pRPa4RetO9UfivDg==}
     engines: {node: '>=22.19.0'}
@@ -5534,9 +5540,6 @@ packages:
 
   zod@3.25.76:
     resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
-
-  zod@4.6.5:
-    resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
 
   zod@4.6.7:
     resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
@@ -6335,7 +6338,7 @@ snapshots:
       cac: 7.1.0
       devframe: 1.3.0(@devframes/agentic@1.3.0)(cac@7.1.0)(srvx@1.0.8)
     optionalDependencies:
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
 
   '@devframes/plugin-messages@1.3.0(@devframes/hub@1.3.0(@devframes/agentic@1.3.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.0))(devframe@1.3.0)(vite@8.3.5)':
     dependencies:
@@ -6344,7 +6347,7 @@ snapshots:
       cac: 7.1.0
       devframe: 1.3.0(@devframes/agentic@1.3.0)(cac@7.1.0)(srvx@1.0.8)
     optionalDependencies:
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
 
   '@devframes/plugin-terminals@1.3.0(@devframes/hub-ui@1.3.0(@devframes/hub@1.3.0(@devframes/agentic@1.3.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.0))(@devframes/json-render@1.3.0(@devframes/hub@1.3.0(@devframes/agentic@1.3.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.0))(devframe@1.3.0))(devframe@1.3.0))(@devframes/hub@1.3.0(@devframes/agentic@1.3.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.0))(devframe@1.3.0)(vite@8.3.5)':
     dependencies:
@@ -6353,7 +6356,7 @@ snapshots:
       devframe: 1.3.0(@devframes/agentic@1.3.0)(cac@7.1.0)(srvx@1.0.8)
       zigpty: 0.2.1
     optionalDependencies:
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
     transitivePeerDependencies:
       - '@devframes/hub'
       - '@devframes/hub-ui'
@@ -6370,7 +6373,7 @@ snapshots:
     optionalDependencies:
       '@devframes/hub': 1.3.0(@devframes/agentic@1.3.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.0)
       '@devframes/hub-ui': 1.3.0(@devframes/hub@1.3.0(@devframes/agentic@1.3.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.0))(@devframes/json-render@1.3.0(@devframes/hub@1.3.0(@devframes/agentic@1.3.0)(crossws@0.4.17(srvx@1.0.8))(devframe@1.3.0))(devframe@1.3.0))(devframe@1.3.0)
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
 
   '@e18e/eslint-plugin@0.8.1(eslint@10.9.1(jiti@2.7.0)(supports-color@7.2.0))(oxlint@1.90.0(oxlint-tsgolint@7.0.2005))':
     dependencies:
@@ -6671,7 +6674,7 @@ snapshots:
       '@jest/schemas': 29.6.3
       '@types/istanbul-lib-coverage': 2.0.6
       '@types/istanbul-reports': 3.0.4
-      '@types/node': 24.13.3
+      '@types/node': 26.6.6
       '@types/yargs': 17.0.35
       chalk: 4.1.2
 
@@ -6870,7 +6873,7 @@ snapshots:
       '@lingui/cli': 6.11.0(rolldown@1.2.16)(supports-color@7.2.0)
       '@lingui/conf': 6.11.0
       '@lingui/native-tools': 0.2.0(@lingui/conf@6.11.0)
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
     optionalDependencies:
       '@babel/core': 7.29.7(supports-color@7.2.0)
       '@lingui/babel-plugin-lingui-macro': 6.11.0(@babel/core@7.29.7(supports-color@7.2.0))
@@ -6894,16 +6897,16 @@ snapshots:
       eventsource-parser: 3.1.1
       jose: 6.2.12
       pkce-challenge: 5.0.1
-      zod: 4.6.5
+      zod: 4.6.7
 
   '@modelcontextprotocol/core@2.4.0':
     dependencies:
-      zod: 4.6.5
+      zod: 4.6.7
 
   '@modelcontextprotocol/server@2.4.0':
     dependencies:
       '@modelcontextprotocol/core': 2.4.0
-      zod: 4.6.5
+      zod: 4.6.7
 
   '@napi-rs/lzma-linux-x64-gnu@1.5.1':
     optional: true
@@ -7408,7 +7411,7 @@ snapshots:
       '@tailwindcss/node': 4.3.3
       '@tailwindcss/oxide': 4.3.3
       tailwindcss: 4.3.3
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
 
   '@tootallnate/quickjs-emscripten@0.23.0': {}
 
@@ -7470,6 +7473,10 @@ snapshots:
   '@types/node@24.13.3':
     dependencies:
       undici-types: 7.18.2
+
+  '@types/node@26.6.6':
+    dependencies:
+      undici-types: 8.9.0
 
   '@types/react-dom@19.3.0(@types/react@19.3.0)':
     dependencies:
@@ -7609,12 +7616,12 @@ snapshots:
     optionalDependencies:
       react: 19.3.1
 
-  '@vite-pwa/assets-generator@2.0.0(@types/node@24.13.3)':
+  '@vite-pwa/assets-generator@2.0.0(@types/node@26.6.6)':
     dependencies:
       cac: 7.0.0
       consola: 3.4.2
       picocolors: 1.1.1
-      sharp: 0.35.4(@types/node@24.13.3)
+      sharp: 0.35.4(@types/node@26.6.6)
       sharp-ico: 0.1.5
       unconfig: 7.5.0
     transitivePeerDependencies:
@@ -7627,7 +7634,7 @@ snapshots:
       local-pkg: 1.2.1
       nostics: 1.3.0
       package-manager-detector: 1.9.0
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
     transitivePeerDependencies:
       - '@devframes/agentic'
       - cac
@@ -7675,7 +7682,7 @@ snapshots:
       nostics: 1.3.0
       pathe: 2.0.3
       perfect-debounce: 2.1.0
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
     transitivePeerDependencies:
       - '@devframes/agentic'
       - cac
@@ -7692,7 +7699,7 @@ snapshots:
       package-manager-detector: 1.9.0
       tinyglobby: 0.2.17
     optionalDependencies:
-      vitest: 5.0.5(@types/node@24.13.3)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.5)
+      vitest: 5.0.5(@types/node@26.6.6)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.5)
     transitivePeerDependencies:
       - '@devframes/agentic'
       - cac
@@ -7719,7 +7726,7 @@ snapshots:
       nostics: 1.3.0
       obug: 3.0.0
       pathe: 2.0.3
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
     optionalDependencies:
       '@vitejs/devtools-oxc': 0.8.0(@devframes/agentic@1.3.0)(crossws@0.4.17(srvx@1.0.8))(srvx@1.0.8)(vite@8.3.5)
       '@vitejs/devtools-rolldown': 0.8.0(@devframes/agentic@1.3.0)(cac@7.1.0)(crossws@0.4.17(srvx@1.0.8))(srvx@1.0.8)(vite@8.3.5)
@@ -7736,7 +7743,7 @@ snapshots:
   '@vitejs/plugin-react@6.1.2(oxc-transform-react@0.156.0)(vite@8.3.5)':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
     optionalDependencies:
       oxc-transform-react: 0.156.0
 
@@ -7750,7 +7757,7 @@ snapshots:
       obug: 3.0.0
       std-env: 4.3.0
       tinyrainbow: 3.2.0
-      vitest: 5.0.5(@types/node@24.13.3)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.5)
+      vitest: 5.0.5(@types/node@26.6.6)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.5)
 
   '@vitest/istanbul-lib-coverage@1.0.2': {}
 
@@ -7765,7 +7772,7 @@ snapshots:
       estree-walker: 3.0.3
       magic-string: 1.4.3
     optionalDependencies:
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
 
   '@vitest/pretty-format@5.0.5':
     dependencies:
@@ -7781,7 +7788,7 @@ snapshots:
       pathe: 2.0.3
       sirv: 3.0.2
       tinyrainbow: 3.2.0
-      vitest: 5.0.5(@types/node@24.13.3)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.5)
+      vitest: 5.0.5(@types/node@26.6.6)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.5)
 
   '@vitest/utils@5.0.5':
     dependencies:
@@ -10116,7 +10123,7 @@ snapshots:
       '@img/sharp-win32-ia32': 0.33.5
       '@img/sharp-win32-x64': 0.33.5
 
-  sharp@0.35.4(@types/node@24.13.3):
+  sharp@0.35.4(@types/node@26.6.6):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -10147,7 +10154,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.4
       '@img/sharp-win32-ia32': 0.35.4
       '@img/sharp-win32-x64': 0.35.4
-      '@types/node': 24.13.3
+      '@types/node': 26.6.6
 
   shebang-command@2.0.0:
     dependencies:
@@ -10577,6 +10584,8 @@ snapshots:
 
   undici-types@7.18.2: {}
 
+  undici-types@8.9.0: {}
+
   undici@8.12.2: {}
 
   unicode-canonical-property-names-ecmascript@2.0.1: {}
@@ -10622,25 +10631,25 @@ snapshots:
 
   verkit@0.4.0: {}
 
-  vite-plugin-pwa@2.0.0(@vite-pwa/assets-generator@2.0.0(@types/node@24.13.3))(supports-color@7.2.0)(vite@8.3.5)(workbox-build@7.4.1(@types/babel__core@7.20.5)(supports-color@7.2.0))(workbox-window@7.4.1):
+  vite-plugin-pwa@2.0.0(@vite-pwa/assets-generator@2.0.0(@types/node@26.6.6))(supports-color@7.2.0)(vite@8.3.5)(workbox-build@7.4.1(@types/babel__core@7.20.5)(supports-color@7.2.0))(workbox-window@7.4.1):
     dependencies:
       debug: 4.4.3(supports-color@7.2.0)
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.17
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
       workbox-build: 7.4.1(@types/babel__core@7.20.5)(supports-color@7.2.0)
       workbox-window: 7.4.1
     optionalDependencies:
-      '@vite-pwa/assets-generator': 2.0.0(@types/node@24.13.3)
+      '@vite-pwa/assets-generator': 2.0.0(@types/node@26.6.6)
     transitivePeerDependencies:
       - supports-color
 
   vite-plugin-sri-gen@1.7.5(vite@8.3.5):
     dependencies:
       parse5: 8.0.1
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
 
-  vite@8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2):
+  vite@8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -10648,13 +10657,13 @@ snapshots:
       rolldown: 1.2.16
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 24.13.3
+      '@types/node': 26.6.6
       '@vitejs/devtools': 0.8.0(@vitejs/devtools-oxc@0.8.0)(@vitejs/devtools-rolldown@0.8.0)(@vitejs/devtools-vite@0.8.0)(@vitejs/devtools-vitest@0.8.0)(crossws@0.4.17(srvx@1.0.8))(srvx@1.0.8)(vite@8.3.5)
       fsevents: 2.3.3
       jiti: 2.7.0
       terser: 5.51.2
 
-  vitest@5.0.5(@types/node@24.13.3)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.5):
+  vitest@5.0.5(@types/node@26.6.6)(@vitest/coverage-v8@5.0.5)(@vitest/ui@5.0.5)(jsdom@30.1.3(@noble/hashes@2.4.0))(vite@8.3.5):
     dependencies:
       '@types/chai': 5.2.3
       '@vitest/mocker': 5.0.5(vite@8.3.5)
@@ -10668,10 +10677,10 @@ snapshots:
       tinybench: 6.2.2
       tinyexec: 1.3.1
       tinyglobby: 0.2.17
-      vite: 8.3.5(@types/node@24.13.3)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
+      vite: 8.3.5(@types/node@26.6.6)(@vitejs/devtools@0.8.0)(jiti@2.7.0)(terser@5.51.2)
       why-is-node-running: 3.2.1
     optionalDependencies:
-      '@types/node': 24.13.3
+      '@types/node': 26.6.6
       '@vitest/coverage-v8': 5.0.5(vitest@5.0.5)
       '@vitest/ui': 5.0.5(vitest@5.0.5)
       jsdom: 30.1.3(@noble/hashes@2.4.0)
@@ -10973,7 +10982,5 @@ snapshots:
   zigpty@0.2.1: {}
 
   zod@3.25.76: {}
-
-  zod@4.6.5: {}
 
   zod@4.6.7: {}
