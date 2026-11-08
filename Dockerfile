@@ -2,10 +2,10 @@
 # check=error=true
 
 # Support DHI and normal images
-# - node:24-alpine
+# - node:26-alpine
 # - caddy:2-alpine
 
-ARG IMAGE_BUILD=dhi.io/node:24-alpine3.23-dev
+ARG IMAGE_BUILD=dhi.io/node:26-alpine3.24-dev
 ARG IMAGE_RUNTIME=dhi.io/caddy:2
 
 FROM --platform=$BUILDPLATFORM ${IMAGE_BUILD} AS builder
