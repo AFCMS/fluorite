@@ -13,17 +13,17 @@ import {
   HiArrowTopRightOnSquare,
 } from "react-icons/hi2";
 
-import { useVideoActions, useVideoUrl } from "../hooks";
+import { useVideoActions, useVideoUrl } from "../hooks/index.ts";
 import {
   effectiveVolumeAtom,
   isEndedAtom,
   isMutedAtom,
   isPlayingAtom,
-} from "../store/video";
-import { FluoButtonIcon } from "./branded/FluoButtonIcon";
-import { FluoSlider } from "./branded/FluoSlider";
-import { ControlBarSeek } from "./ControlBarSeek";
-import { SettingsPopover } from "./Settings/SettingsPopover";
+} from "../store/video.ts";
+import { FluoButtonIcon } from "./branded/FluoButtonIcon.tsx";
+import { FluoSlider } from "./branded/FluoSlider.tsx";
+import { ControlBarSeek } from "./ControlBarSeek.tsx";
+import { SettingsPopover } from "./Settings/SettingsPopover.tsx";
 
 interface ControlBarProps {
   readonly onOpenFile: () => void;

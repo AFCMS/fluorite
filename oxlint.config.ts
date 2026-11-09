@@ -47,6 +47,11 @@ export default defineConfig({
     "lingui/no-single-variables-to-translate": "warn",
     "lingui/no-trans-inside-trans": "warn",
     "lingui/no-expression-in-message": "warn",
+    "import/extensions": [
+      "error",
+      "always",
+      { checkTypeImports: true, ignorePackages: true },
+    ],
   },
   categories: {
     correctness: "warn",

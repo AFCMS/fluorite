@@ -1,6 +1,6 @@
 import { i18n, type Messages } from "@lingui/core";
 
-import type { SupportedLocale } from "./supported_locales";
+import type { SupportedLocale } from "./supported_locales.ts";
 
 export async function dynamicActivate(locale: SupportedLocale) {
   const { messages } = (await import(`./../locales/${locale}/messages.po`)) as {

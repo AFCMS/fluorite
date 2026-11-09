@@ -7,7 +7,7 @@ import {
   isEndedAtom,
   isPlayingAtom,
   videoUrlAtom,
-} from "./video";
+} from "./video.ts";
 
 test("only notifies ended subscribers when ended state changes", () => {
   const store = createStore();

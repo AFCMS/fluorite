@@ -1,6 +1,6 @@
 import { detect, fromStorage, fromNavigator } from "@lingui/detect-locale";
 
-import supportedLocales, { type SupportedLocale } from "./supported_locales";
+import supportedLocales, { type SupportedLocale } from "./supported_locales.ts";
 
 const DEFAULT_FALLBACK = "en";
 

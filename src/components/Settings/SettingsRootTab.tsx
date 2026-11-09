@@ -3,8 +3,8 @@ import { useLingui } from "@lingui/react/macro";
 import { useAtomValue, useSetAtom } from "jotai";
 import { HiArrowPath, HiChevronRight, HiPencil } from "react-icons/hi2";
 
-import { loopAtom, setLoopAtom } from "../../store/video";
-import { SettingsSpeedTab } from "./SettingsSpeedTab";
+import { loopAtom, setLoopAtom } from "../../store/video.ts";
+import { SettingsSpeedTab } from "./SettingsSpeedTab.tsx";
 
 export function SettingsRootTab() {
   const { t } = useLingui();

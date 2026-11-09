@@ -2,12 +2,12 @@ import { atom, type Getter, type Setter } from "jotai";
 import { atomEffect } from "jotai-effect";
 import { atomWithReset, atomWithStorage } from "jotai/utils";
 
-import { isVideoFile } from "../utils";
-import type { MediaInfoMetadata } from "../utils/mediaInfo";
+import { isVideoFile } from "../utils.ts";
+import type { MediaInfoMetadata } from "../utils/mediaInfo.ts";
 // MediaInfo is offloaded to a Web Worker to keep heavy parsing off the main thread.
 // mediainfo.js is built without dynamic eval, so CSP does not need 'unsafe-eval'.
 // oxlint-disable-next-line import/default
-import MediainfoWorker from "../workers/mediainfo.worker?worker";
+import MediainfoWorker from "../workers/mediainfo.worker.ts?worker";
 
 // DATA ATOMS
 export const videoFileAtom = atomWithReset<File | null>(null);

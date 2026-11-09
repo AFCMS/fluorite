@@ -3,9 +3,9 @@ import { useLingui } from "@lingui/react/macro";
 import { useSetAtom } from "jotai";
 import { HiCog6Tooth } from "react-icons/hi2";
 
-import { settingsPopoverOpenAtom } from "../../store/video";
-import { FluoButtonIcon } from "../branded/FluoButtonIcon";
-import { SettingsRootTab } from "./SettingsRootTab";
+import { settingsPopoverOpenAtom } from "../../store/video.ts";
+import { FluoButtonIcon } from "../branded/FluoButtonIcon.tsx";
+import { SettingsRootTab } from "./SettingsRootTab.tsx";
 
 export function SettingsPopover() {
   const { t } = useLingui();

@@ -9,8 +9,8 @@ import {
   useVideoActions,
   useVideoLifecycleEffects,
   useVideoUrl,
-} from "../hooks";
-import { useMediaInfoMetadata } from "../hooks";
+} from "../hooks/index.ts";
+import { useMediaInfoMetadata } from "../hooks/index.ts";
 import {
   updateCurrentTimeAtom,
   updateLoadedMetadataAtom,
@@ -21,11 +21,11 @@ import {
   isPlayingAtom,
   durationAtom,
   videoMetadataAtom,
-} from "../store/video";
-import { isVideoFile } from "../utils";
-import type { MediaInfoMetadata } from "../utils/mediaInfo";
-import ControlBar from "./ControlBar";
-import VideoInfoOverlay from "./VideoInfoOverlay";
+} from "../store/video.ts";
+import { isVideoFile } from "../utils.ts";
+import type { MediaInfoMetadata } from "../utils/mediaInfo.ts";
+import ControlBar from "./ControlBar.tsx";
+import VideoInfoOverlay from "./VideoInfoOverlay.tsx";
 
 const BASE_NAME_REGEX = /\.[^.]+$/;
 

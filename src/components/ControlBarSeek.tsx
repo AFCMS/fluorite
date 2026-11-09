@@ -1,9 +1,9 @@
 import { useLingui } from "@lingui/react/macro";
 import { useAtomValue, useSetAtom } from "jotai";
 
-import { currentTimeAtom, durationAtom, seekToAtom } from "../store/video";
-import { formatTime } from "../utils/format";
-import { FluoSlider } from "./branded/FluoSlider";
+import { currentTimeAtom, durationAtom, seekToAtom } from "../store/video.ts";
+import { formatTime } from "../utils/format.ts";
+import { FluoSlider } from "./branded/FluoSlider.tsx";
 
 export function ControlBarSeek() {
   const { t } = useLingui();

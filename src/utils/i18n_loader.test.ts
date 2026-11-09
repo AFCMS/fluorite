@@ -1,7 +1,7 @@
 import * as linguiCore from "@lingui/core";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { dynamicActivate } from "./i18n_loader";
+import { dynamicActivate } from "./i18n_loader.ts";
 
 vi.mock("@lingui/core");
 

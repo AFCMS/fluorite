@@ -1,6 +1,6 @@
 import { expect, test } from "vitest";
 
-import { formatResolution, formatTime } from "./format";
+import { formatResolution, formatTime } from "./format.ts";
 
 // formatResolution
 test("formatResolution 1080p", () => {

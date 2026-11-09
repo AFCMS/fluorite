@@ -1,7 +1,7 @@
 import * as detectModule from "@lingui/detect-locale";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
-import { isSupportedLocale, getLanguage } from "./get_language";
+import { isSupportedLocale, getLanguage } from "./get_language.ts";
 
 vi.mock("@lingui/detect-locale");
 

@@ -2,7 +2,7 @@ import { CSPProvider } from "@base-ui/react/csp-provider";
 import { Provider } from "jotai";
 
 import "./App.css";
-import VideoPlayer from "./components/VideoPlayer";
+import VideoPlayer from "./components/VideoPlayer.tsx";
 
 function App() {
   return (

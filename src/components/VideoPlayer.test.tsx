@@ -5,7 +5,7 @@ import { act } from "react";
 import { createRoot, type Root } from "react-dom/client";
 import { afterEach, beforeEach, expect, test, vi } from "vitest";
 
-import VideoPlayer from "./VideoPlayer";
+import VideoPlayer from "./VideoPlayer.tsx";
 
 const workerMocks = vi.hoisted(() => ({
   constructed: vi.fn(),

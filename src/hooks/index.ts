@@ -1,4 +1,4 @@
-export { useFileHandler } from "./useFileHandler";
+export { useFileHandler } from "./useFileHandler.ts";
 export {
   useVideoUrl,
   useVideoActions,
@@ -6,4 +6,4 @@ export {
   useVideoMetadata,
   useMediaInfoMetadata,
   useUIControls,
-} from "./useVideoContext";
+} from "./useVideoContext.ts";

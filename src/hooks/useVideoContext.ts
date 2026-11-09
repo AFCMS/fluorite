@@ -27,7 +27,7 @@ import {
   mediaInfoInitEffect,
   mediaInfoExtractEffect,
   mediaInfoMetadataAtom,
-} from "../store/video";
+} from "../store/video.ts";
 
 // Hook for video actions (play, pause, seek, etc.)
 export function useVideoActions() {

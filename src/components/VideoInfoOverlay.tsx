@@ -8,9 +8,9 @@ import {
   formatBitrate,
   formatSampleRate,
   formatTime,
-} from "../utils/format";
-import type { MediaInfoMetadata } from "../utils/mediaInfo";
-import { FluoButtonIcon } from "./branded/FluoButtonIcon";
+} from "../utils/format.ts";
+import type { MediaInfoMetadata } from "../utils/mediaInfo.ts";
+import { FluoButtonIcon } from "./branded/FluoButtonIcon.tsx";
 
 interface VideoInfoOverlayProps {
   readonly isVisible: boolean;
