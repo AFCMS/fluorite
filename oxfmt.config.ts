@@ -12,6 +12,7 @@ export default defineConfig({
     "helm/templates/**",
     "pnpm-lock.yaml",
     ".agents/skills/**",
+    ".github/workflows/actions.lock",
     "skills-lock.json",
   ],
   overrides: [
